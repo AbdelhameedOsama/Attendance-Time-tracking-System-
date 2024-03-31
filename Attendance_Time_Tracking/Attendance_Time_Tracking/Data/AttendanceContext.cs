@@ -11,6 +11,12 @@ namespace Attendance_Time_Tracking.Data
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Track> Tracks { get; set; }
+        public DbSet<Programs> Programs { get; set; }
+        public DbSet<Intake> Intakes { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<Schedue> Leaves { get; set; }
+
         public AttendanceContext()
         {
         }

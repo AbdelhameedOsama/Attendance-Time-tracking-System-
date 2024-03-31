@@ -37,7 +37,7 @@ namespace Attendance_Time_Tracking.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Permission", b =>
@@ -72,7 +72,7 @@ namespace Attendance_Time_Tracking.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.User", b =>
@@ -111,7 +111,7 @@ namespace Attendance_Time_Tracking.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.UseTpcMappingStrategy();
                 });
@@ -123,14 +123,14 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Instructor", b =>
                 {
                     b.HasBaseType("Attendance_Time_Tracking.Models.User");
 
-                    b.ToTable("Instructors");
+                    b.ToTable("Instructors", (string)null);
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Student", b =>
@@ -152,7 +152,7 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Property<string>("University")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Permission", b =>
