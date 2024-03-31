@@ -1,4 +1,6 @@
 using Attendance_Time_Tracking.Data;
+using Attendance_Time_Tracking.Repos;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 namespace Attendance_Time_Tracking
@@ -11,7 +13,21 @@ namespace Attendance_Time_Tracking
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
             builder.Services.AddDbContext<AttendanceContext>(option=>option.UseSqlServer("Server=.;Database=AttendanceDB;integrated security=true;trustservercertificate=true;"));    
+
+            builder.Services.AddScoped<IUserRepo, UserRepo>();
+            builder.Services.AddScoped<IStudentRepo, StudentRepo>();
+            builder.Services.AddScoped<IInstructorRepo, InstructorRepo>();
+			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(options =>
+				{
+					options.LoginPath = "/Account/Login";
+					//options.AccessDeniedPath = "/Account/AccessDenied";
+				});
+			builder.Services.AddSession();
+
+
 
             var app = builder.Build();
 
@@ -24,11 +40,15 @@ namespace Attendance_Time_Tracking
 
             app.UseRouting();
 
+            app.UseAuthentication();   
+
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Student}/{action=Index}/{id?}");
 
             app.Run();
         }

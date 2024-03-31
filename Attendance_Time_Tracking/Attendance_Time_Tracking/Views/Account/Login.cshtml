@@ -1,0 +1,41 @@
+﻿@model LoginViewModel
+@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>Login</title>
+	<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="background-color:#9D282F">
+	<div class="text-center mt-5 p-5 bg-opacity-75 bg-light w-50 mx-auto rounded-3">
+		<img class="mt-4 mb-3" width="230px" src="~/assets/iti-logo-text.png" />
+		<form class="text-center" method="post" action="/Account/Login">
+
+			<div class=" rounded-2 p-4 mt-3 mx-auto">
+				<div class="form-floating mb-3  ">
+					<input type="text" class="form-control" asp-for="UserEmail">
+					<label asp-for="UserEmail">UserEmail</label>
+					<span asp-validation-for="UserEmail" class="text-danger"></span>
+				</div>
+				<div class="form-floating">
+					<input type="password" class="form-control" asp-for="UserPass" placeholder="Password">
+					<label asp-for="UserPass">Password</label>
+					<span asp-validation-for="UserPass" class="text-danger"></span>
+				</div>
+			</div>
+			<div id="cont" class=" rounded-3 p-3">
+				<div asp-validation-summary="ModelOnly"></div>
+			</div>
+			<div>
+				<input style="width:160px; color:white; background-color:#A9292E" class="btn " type="submit" value="Login" />
+			</div>
+
+		</form>
+	</div>
+</body>
+</html>
