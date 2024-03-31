@@ -4,6 +4,7 @@ using Attendance_Time_Tracking.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Attendance_Time_Tracking.Migrations
 {
     [DbContext(typeof(AttendanceContext))]
-    partial class AttendanceContextModelSnapshot : ModelSnapshot
+    [Migration("20240331225002_me404")]
+    partial class me404
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,9 +217,6 @@ namespace Attendance_Time_Tracking.Migrations
 
                     b.Property<int>("ProgramId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
 
                     b.Property<int>("SupervisorId")
                         .HasColumnType("int");

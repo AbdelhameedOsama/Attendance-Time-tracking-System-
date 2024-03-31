@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Attendance_Time_Tracking.Migrations
 {
     /// <inheritdoc />
-    public partial class Create_Tables : Migration
+    public partial class me404 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,6 +25,19 @@ namespace Attendance_Time_Tracking.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Programs",
+                columns: table => new
+                {
+                    ProgramId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProgramType = table.Column<string>(type: "nvarchar(200)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Programs", x => x.ProgramId);
                 });
 
             migrationBuilder.CreateTable(
@@ -126,6 +139,32 @@ namespace Attendance_Time_Tracking.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Intakes",
+                columns: table => new
+                {
+                    IntakeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProgramId = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ProgramsProgramId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Intakes", x => x.IntakeId);
+                    table.ForeignKey(
+                        name: "FK_Intakes_Programs_ProgramId",
+                        column: x => x.ProgramId,
+                        principalTable: "Programs",
+                        principalColumn: "ProgramId");
+                    table.ForeignKey(
+                        name: "FK_Intakes_Programs_ProgramsProgramId",
+                        column: x => x.ProgramsProgramId,
+                        principalTable: "Programs",
+                        principalColumn: "ProgramId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Permissions",
                 columns: table => new
                 {
@@ -148,6 +187,119 @@ namespace Attendance_Time_Tracking.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Tracks",
+                columns: table => new
+                {
+                    TrackId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProgramId = table.Column<int>(type: "int", nullable: false),
+                    IntakeId = table.Column<int>(type: "int", nullable: false),
+                    SupervisorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tracks", x => x.TrackId);
+                    table.ForeignKey(
+                        name: "FK_Tracks_Instructors_SupervisorId",
+                        column: x => x.SupervisorId,
+                        principalTable: "Instructors",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Tracks_Intakes_IntakeId",
+                        column: x => x.IntakeId,
+                        principalTable: "Intakes",
+                        principalColumn: "IntakeId");
+                    table.ForeignKey(
+                        name: "FK_Tracks_Programs_ProgramId",
+                        column: x => x.ProgramId,
+                        principalTable: "Programs",
+                        principalColumn: "ProgramId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedue",
+                columns: table => new
+                {
+                    ScheduleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TrackId = table.Column<int>(type: "int", nullable: false),
+                    InstructorId = table.Column<int>(type: "int", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedue", x => x.ScheduleId);
+                    table.ForeignKey(
+                        name: "FK_Schedue_Instructors_InstructorId",
+                        column: x => x.InstructorId,
+                        principalTable: "Instructors",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Schedue_Tracks_TrackId",
+                        column: x => x.TrackId,
+                        principalTable: "Tracks",
+                        principalColumn: "TrackId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Attendance",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ScheduleId = table.Column<int>(type: "int", nullable: false),
+                    IsPresent = table.Column<bool>(type: "bit", nullable: false),
+                    ArrivalTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DepartureTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProgramId = table.Column<int>(type: "int", nullable: false),
+                    TrackId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attendance", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Attendance_Programs_ProgramId",
+                        column: x => x.ProgramId,
+                        principalTable: "Programs",
+                        principalColumn: "ProgramId");
+                    table.ForeignKey(
+                        name: "FK_Attendance_Schedue_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedue",
+                        principalColumn: "ScheduleId");
+                    table.ForeignKey(
+                        name: "FK_Attendance_Tracks_TrackId",
+                        column: x => x.TrackId,
+                        principalTable: "Tracks",
+                        principalColumn: "TrackId");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attendance_ProgramId",
+                table: "Attendance",
+                column: "ProgramId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attendance_ScheduleId",
+                table: "Attendance",
+                column: "ScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attendance_TrackId",
+                table: "Attendance",
+                column: "TrackId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Attendance_UserId",
+                table: "Attendance",
+                column: "UserId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_DepartmentId",
                 table: "Employees",
@@ -157,6 +309,16 @@ namespace Attendance_Time_Tracking.Migrations
                 name: "IX_Instructors_DepartmentId",
                 table: "Instructors",
                 column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Intakes_ProgramId",
+                table: "Intakes",
+                column: "ProgramId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Intakes_ProgramsProgramId",
+                table: "Intakes",
+                column: "ProgramsProgramId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permissions_StudentId",
@@ -169,9 +331,34 @@ namespace Attendance_Time_Tracking.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Schedue_InstructorId",
+                table: "Schedue",
+                column: "InstructorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Schedue_TrackId",
+                table: "Schedue",
+                column: "TrackId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Students_DepartmentId",
                 table: "Students",
                 column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tracks_IntakeId",
+                table: "Tracks",
+                column: "IntakeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tracks_ProgramId",
+                table: "Tracks",
+                column: "ProgramId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tracks_SupervisorId",
+                table: "Tracks",
+                column: "SupervisorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_DepartmentId",
@@ -183,10 +370,10 @@ namespace Attendance_Time_Tracking.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Attendance");
 
             migrationBuilder.DropTable(
-                name: "Instructors");
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Permissions");
@@ -195,10 +382,25 @@ namespace Attendance_Time_Tracking.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
+                name: "Schedue");
+
+            migrationBuilder.DropTable(
                 name: "Students");
 
             migrationBuilder.DropTable(
+                name: "Tracks");
+
+            migrationBuilder.DropTable(
+                name: "Instructors");
+
+            migrationBuilder.DropTable(
+                name: "Intakes");
+
+            migrationBuilder.DropTable(
                 name: "Departments");
+
+            migrationBuilder.DropTable(
+                name: "Programs");
 
             migrationBuilder.DropSequence(
                 name: "UserSequence");

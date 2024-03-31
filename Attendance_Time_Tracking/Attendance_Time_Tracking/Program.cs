@@ -13,6 +13,9 @@ namespace Attendance_Time_Tracking
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<AttendanceContext>(option=>option.UseSqlServer("Server=.;Database=AttendanceDB;integrated security=true;trustservercertificate=true;"));    
+
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IStudentRepo, StudentRepo>();
             builder.Services.AddScoped<IInstructorRepo, InstructorRepo>();
@@ -24,7 +27,7 @@ namespace Attendance_Time_Tracking
 				});
 			builder.Services.AddSession();
 
-			builder.Services.AddDbContext<AttendanceContext>(option=>option.UseSqlServer("Server=MYPC\\MSSQLSERVER2022;Database=AttendanceDB;integrated security=true;trustservercertificate=true;"));    
+
 
             var app = builder.Build();
 
