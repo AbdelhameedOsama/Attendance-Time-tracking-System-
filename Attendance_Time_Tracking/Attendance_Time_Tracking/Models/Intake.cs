@@ -24,6 +24,7 @@ namespace Attendance_Time_Tracking.Models
         [Display(Name = "End Date")]
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
-        public List<Track> Tracks { get; set; }
+        public ICollection<Track> Tracks { get; set; }
+
     }
 }

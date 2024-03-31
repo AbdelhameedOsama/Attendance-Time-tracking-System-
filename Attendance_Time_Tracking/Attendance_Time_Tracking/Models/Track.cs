@@ -10,21 +10,21 @@ namespace Attendance_Time_Tracking.Models
         public int TrackId { get; set; }
         public string Name { get; set; }
 
+        public Boolean Status { get; set; }
 
         [ForeignKey("ProgramId")]
         public Programs Program { get; set; }
         public int ProgramId { get; set; }
-        
-        //[ForeignKey("IntakeId")]
-        //public Intake Intake { get; set; }
-        //public int IntakeId { get; set; }
+
+        [ForeignKey("IntakeId")]
+        public Intake Intake { get; set; }
+        public int IntakeId { get; set; }
 
 
-        [ForeignKey("SupervisorId")]
         public int SupervisorId { get; set; }
+        [ForeignKey("SupervisorId")]
         public Instructor Supervisor { get; set; }
 
-        public List<Intake> Intakes { get; set; }
     }
 
 }

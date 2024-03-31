@@ -11,7 +11,7 @@ namespace Attendance_Time_Tracking
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<AttendanceContext>(option=>option.UseSqlServer("Server=MYPC\\MSSQLSERVER2022;Database=AttendanceDB;integrated security=true;trustservercertificate=true;"));    
+            builder.Services.AddDbContext<AttendanceContext>(option=>option.UseSqlServer("Server=.;Database=AttendanceDB;integrated security=true;trustservercertificate=true;"));    
 
             var app = builder.Build();
 
