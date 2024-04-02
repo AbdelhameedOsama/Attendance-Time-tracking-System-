@@ -18,12 +18,11 @@ namespace Attendance_Time_Tracking.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Permission> Permissions { get; set; }
-        public DbSet<Department> Departments { get; set; }
         public DbSet<Track> Tracks { get; set; }
         public DbSet<Programs> Programs { get; set; }
         public DbSet<Intake> Intakes { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
-        public DbSet<Schedule> Leaves { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,17 +30,17 @@ namespace Attendance_Time_Tracking.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>(user=> 
-            { 
-                user.UseTpcMappingStrategy(); 
+            modelBuilder.Entity<User>(user =>
+            {
+                user.UseTptMappingStrategy();
             });
 
-            //Attendance to User
-            modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.User)
-                .WithMany()
-                .HasForeignKey(a => a.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+            ////Attendance to User
+            //modelBuilder.Entity<Attendance>()
+            //    .HasOne(a => a.User)
+            //    .WithMany()
+            //    .HasForeignKey(a => a.UserId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
             ////Attendance to Schedule
             //modelBuilder.Entity<Attendance>()
@@ -75,7 +74,7 @@ namespace Attendance_Time_Tracking.Data
             modelBuilder.Entity<Track>()
                 .HasOne(t => t.Supervisor)
                 .WithMany()
-                .HasForeignKey(t => t.SupervisorId)
+                .HasForeignKey(t => t.SupId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             //Track to Intake
@@ -143,7 +142,7 @@ namespace Attendance_Time_Tracking.Data
                 .HasOne(p => p.Student)
                 .WithMany(s => s.Permissions)
                 .HasForeignKey(s => s.StdId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.ClientCascade);
 
             modelBuilder.Entity<Permission>()
                 .HasKey(p => new { p.StdId, p.Date });
@@ -161,7 +160,8 @@ namespace Attendance_Time_Tracking.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Schedule>()
-                .HasKey(s => new { s.ID });
+                .Property(s => s.ID)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Attendance>()
                 .HasOne(a => a.User)

@@ -8,8 +8,7 @@ namespace Attendance_Time_Tracking.Models
     public class Track
     {
         [Key]
-		[Display(Name = "ID")]
-		public int TrackId { get; set; }
+		public int ID { get; set; }
 
         [Required]
 		[Display(Name = "TrackName")]
@@ -30,11 +29,13 @@ namespace Attendance_Time_Tracking.Models
 
 
         [Required]
-        public int SupervisorId { get; set; }
-        [ForeignKey("SupervisorId")]
+        public int SupId { get; set; }
+        [ForeignKey("SupId")]
         public Instructor Supervisor { get; set; }
 
         public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
+
+        public virtual ICollection<Student> Instructors { get; set; } = new List<Student>();
 
     }
 
