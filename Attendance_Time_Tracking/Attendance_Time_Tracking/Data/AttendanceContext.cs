@@ -5,6 +5,14 @@ namespace Attendance_Time_Tracking.Data
 {
     public class AttendanceContext:DbContext
     {
+        public AttendanceContext()
+        {
+        }
+
+        public AttendanceContext(DbContextOptions<AttendanceContext> options) : base(options)
+        {
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Employee> Employees { get; set; }
@@ -17,12 +25,6 @@ namespace Attendance_Time_Tracking.Data
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Schedue> Leaves { get; set; }
 
-        public AttendanceContext()
-        {
-        }
-        public AttendanceContext(DbContextOptions<AttendanceContext> options) : base(options)
-        {
-        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

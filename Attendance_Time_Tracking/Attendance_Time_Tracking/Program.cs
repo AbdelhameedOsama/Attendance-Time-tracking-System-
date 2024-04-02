@@ -27,6 +27,9 @@ namespace Attendance_Time_Tracking
 				});
 			builder.Services.AddSession();
 
+            builder.Services.AddDbContext<AttendanceContext>(options =>
+                           options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 
             var app = builder.Build();
