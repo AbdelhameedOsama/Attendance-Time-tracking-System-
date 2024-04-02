@@ -14,7 +14,6 @@ namespace Attendance_Time_Tracking.Controllers
         }
         public IActionResult Index()
         {
-
             return View();
         }
     }

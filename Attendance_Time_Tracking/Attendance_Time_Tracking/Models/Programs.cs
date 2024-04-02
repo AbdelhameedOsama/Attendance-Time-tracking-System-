@@ -18,7 +18,7 @@ namespace Attendance_Time_Tracking.Models
 
         [Required]
         [Display(Name = "Program Name")]
-        [Column(TypeName = "nvarchar(50)")]
+        [Column(TypeName = "nvarchar(200)")]
         public ProgramType ProgramType { get; set; }
         public virtual List<Intake> ProgramIntakes { get; set; } = new List<Intake>();
     }

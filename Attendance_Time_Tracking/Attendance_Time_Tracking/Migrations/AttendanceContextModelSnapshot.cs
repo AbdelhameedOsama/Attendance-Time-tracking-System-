@@ -38,9 +38,6 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Property<DateTime>("DepartureTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("InstructorId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsPresent")
                         .HasColumnType("bit");
 
@@ -60,8 +57,6 @@ namespace Attendance_Time_Tracking.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InstructorId");
 
                     b.HasIndex("ProgramId");
 
@@ -246,9 +241,6 @@ namespace Attendance_Time_Tracking.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
@@ -295,14 +287,6 @@ namespace Attendance_Time_Tracking.Migrations
                 {
                     b.HasBaseType("Attendance_Time_Tracking.Models.User");
 
-                    b.Property<bool>("IsSupervisor")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("instructorId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("instructorId");
-
                     b.ToTable("Instructors");
                 });
 
@@ -325,20 +309,11 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Property<string>("University")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("studentId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("studentId");
-
                     b.ToTable("Students");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Attendance", b =>
                 {
-                    b.HasOne("Attendance_Time_Tracking.Models.Instructor", null)
-                        .WithMany("Attendances")
-                        .HasForeignKey("InstructorId");
-
                     b.HasOne("Attendance_Time_Tracking.Models.Programs", "Program")
                         .WithMany()
                         .HasForeignKey("ProgramId")
@@ -455,24 +430,6 @@ namespace Attendance_Time_Tracking.Migrations
                         .HasForeignKey("DepartmentId");
                 });
 
-            modelBuilder.Entity("Attendance_Time_Tracking.Models.Instructor", b =>
-                {
-                    b.HasOne("Attendance_Time_Tracking.Models.User", "instructor")
-                        .WithMany()
-                        .HasForeignKey("instructorId");
-
-                    b.Navigation("instructor");
-                });
-
-            modelBuilder.Entity("Attendance_Time_Tracking.Models.Student", b =>
-                {
-                    b.HasOne("Attendance_Time_Tracking.Models.User", "student")
-                        .WithMany()
-                        .HasForeignKey("studentId");
-
-                    b.Navigation("student");
-                });
-
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Department", b =>
                 {
                     b.Navigation("Users");
@@ -486,11 +443,6 @@ namespace Attendance_Time_Tracking.Migrations
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Programs", b =>
                 {
                     b.Navigation("ProgramIntakes");
-                });
-
-            modelBuilder.Entity("Attendance_Time_Tracking.Models.Instructor", b =>
-                {
-                    b.Navigation("Attendances");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Student", b =>

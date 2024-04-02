@@ -14,13 +14,13 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div style="background-color: #fcfcfc;" class="container-fluid d-flex flex-column min-vh-100" id="mainContainer">
+    <div style="background-color: fcfcfc;" class="container-fluid d-flex flex-column min-vh-100" id="mainContainer">
         <!-- Left Sidebar Start -->
         <div class="row flex-grow-1 mt-3 mb-3 justify-content-evenly">
-            <div style="background-color: #03045e;" class="col-2 rounded-4 d-flex flex-column" id="leftSidebar">
+            <div style="background-color: darkblue;" class="col-2 rounded-4 d-flex flex-column" id="leftSidebar">
                 <div class="row mt-4 mb-4">
-                    <div class="container-fluid col-8 p-2 bg-light  rounded-5" id="leftSidebarPicture">
-                        <img src="~/assets/iti-logo-text.png" class="col-12">
+                    <div class="container-fluid col-6 p-2 bg-black bg-opacity-25 rounded-5" id="leftSidebarPicture">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2940/2940653.png" class="col-12">
                     </div>
                 </div>
                 <div class="row h-100 ps-2">
@@ -28,32 +28,27 @@
                         <div class="row mt-4 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
                                 <i class="fa-solid fa-chalkboard-user fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Instructor" class="text-white text-decoration-none fw-bold fs-5">Profile</a>
+                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">DashBoard</a>
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
-                                <i class=" fa-solid fa-book fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Courses" class="text-white text-decoration-none fw-bold fs-5">View Attendance</a>
+                                <i class="fa-solid fa-book fs-5 m-2" style="color: #ffffff;"></i>
+                                <a href="Courses" class="text-white text-decoration-none fw-bold fs-5">Courses</a>
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
-								<i class="fa-solid fa-scroll fs-5 m-2" style="color: #ffffff;"></i>
-								<a href="Index" class="text-white text-decoration-none fw-bold fs-5">Schedules</a>
+                                <i class="fa-solid fa-money-bills fs-5 m-2" style="color: #ffffff;"></i>
+                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">Payment Info</a>
                             </div>
                         </div>
-                        @* @{
-                            if ()
-                            { *@
-                                <div class="row mt-2 mb-2">
-                                    <div class="container-fluid col" id="leftSidebarLinks">
-                                <i class=" fa-solid fa-file-pen fs-5 m-2" style="color: #ffffff;"></i>
-                                        <a asp-action="Results" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Permissions</a>
-                                    </div>
-                                </div>
-                        @* } *@
-                        
+                        <div class="row mt-2 mb-2">
+                            <div class="container-fluid col" id="leftSidebarLinks">
+                                <i class="fa-solid fa-square-poll-horizontal fs-5 m-2" style="color: #ffffff;"></i>
+                                <a asp-action="Results" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Result</a>
+                            </div>
+                        </div>
 
 
                         <div class="row mt-4 mb-4 mt-auto">
@@ -68,19 +63,19 @@
             <!-- Left Sidebar End -->
             <!-- Right Main Container Start -->
             <div class="col-9 d-flex flex-column">
-                <div class="row h-25 rounded-4 p-3 ps-5" style="background-color: #03045e;" id="leftSidebar">
+                <div class="row h-25 rounded-4 p-3 ps-5" style="background-color: darkblue;" id="leftSidebar">
                     <div class="col-9 d-flex flex-column justify-content-evenly h-100">
                         <p class="text-white fs-5" id="dateTime">Current Date and time</p>
                         <div class="container">
                             <p class="text-white fs-2 fw-bold m-0">Welcome back,@*  @User.Identity.Name *@</p>
-                            <p class="text-white fs-6">Always stay updated in your Instructor portal</p>
+                            <p class="text-white fs-6">Always stay updated in your student portal</p>
                         </div>
                     </div>
                     <div class="col-3 h-100 d-flex justify-content-end">
-                        <img src="~/assets/teacher-svgrepo-com (1).svg" class="w-75">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-75">
                     </div>
                 </div>
-                <div style="background-color: rgba(0, 0, 0, 0.08);" class="row flex-grow-1 mt-4 rounded-4 p-4 align-content-start"
+                <div style="background-color: rgba(0, 0, 0, 0.1);" class="row flex-grow-1 mt-4 rounded-4 p-4 align-content-start"
                     id="mainContent">
                     @RenderBody()
                 </div>
