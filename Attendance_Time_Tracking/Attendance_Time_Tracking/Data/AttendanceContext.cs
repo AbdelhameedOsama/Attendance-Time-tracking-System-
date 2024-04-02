@@ -93,19 +93,19 @@ namespace Attendance_Time_Tracking.Data
                 .HasForeignKey(i => i.ProgramId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            //Schedule to Track
-            modelBuilder.Entity<Schedue>()
-                .HasOne(s => s.Track)
-                .WithMany()
-                .HasForeignKey(s => s.TrackId)
-                .OnDelete(DeleteBehavior.NoAction);
+            ////Schedule to Track
+            //modelBuilder.Entity<Schedue>()
+            //    .HasOne(s => s.Track)
+            //    .WithMany()
+            //    .HasForeignKey(s => s.TrackId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            //Schedule to Instructor
-            modelBuilder.Entity<Schedue>()
-                .HasOne(s => s.Instructor)
-                .WithMany()
-                .HasForeignKey(s => s.InstructorId)
-                .OnDelete(DeleteBehavior.NoAction);
+            ////Schedule to Instructor
+            //modelBuilder.Entity<Schedue>()
+            //    .HasOne(s => s.Instructor)
+            //    .WithMany()
+            //    .HasForeignKey(s => s.InstructorId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
             //Attendance foreign keys
             modelBuilder.Entity<Attendance>()

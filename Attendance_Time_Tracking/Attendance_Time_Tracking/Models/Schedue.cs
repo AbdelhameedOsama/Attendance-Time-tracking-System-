@@ -7,20 +7,19 @@ namespace Attendance_Time_Tracking.Models
     public class Schedue
     {
         [Key]
-        public int ScheduleId { get; set; }
+        public int ID { get; set; }
 
-
-
+        [ForeignKey("Track")]
         public int TrackId { get; set; }
-        [ForeignKey("TrackId")]
         public Track Track { get; set; }
 
 
-        [ForeignKey("InstructorId")]
+        [ForeignKey("Instructor")]
+        public int SupId { get; set; }
         public Instructor Instructor { get; set; }
-        public int InstructorId { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+
+        public DateTime Start_Time { get; set; }
+        public DateTime End_Time { get; set; }
         public DateTime Date { get; set; }
     }
 }
