@@ -132,6 +132,21 @@ namespace Attendance_Time_Tracking.Data
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<Permission>()
+                .HasOne(p => p.SupNavigation)
+                .WithOne()
+                .HasForeignKey<Permission>(p => p.SupId)
+                .OnDelete(DeleteBehavior.SetNull);
+                
+
+            modelBuilder.Entity<Permission>()
+                .HasOne(s => s.StdNavigation)
+                .WithOne()
+                .HasForeignKey<Permission>(s => s.StdId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Permission>()
+                .HasKey(p => new { p.StdId, p.Date });
 
             base.OnModelCreating(modelBuilder);
         }
