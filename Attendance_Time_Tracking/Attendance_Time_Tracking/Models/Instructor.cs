@@ -12,4 +12,5 @@ namespace Attendance_Time_Tracking.Models
         public virtual User User { get; set; }
 
     }
+
 }
