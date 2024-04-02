@@ -23,7 +23,7 @@ namespace Attendance_Time_Tracking.Data
         public DbSet<Programs> Programs { get; set; }
         public DbSet<Intake> Intakes { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
-        public DbSet<Schedue> Leaves { get; set; }
+        public DbSet<Schedule> Leaves { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,33 +43,33 @@ namespace Attendance_Time_Tracking.Data
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            //Attendance to Schedule
-            modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.Schedule)
-                .WithMany()
-                .HasForeignKey(a => a.ScheduleId)
-                .OnDelete(DeleteBehavior.NoAction);
+            ////Attendance to Schedule
+            //modelBuilder.Entity<Attendance>()
+            //    .HasOne(a => a.Schedule)
+            //    .WithMany()
+            //    .HasForeignKey(a => a.ScheduleId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            //Attendance to Program
-            modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.Program)
-                .WithMany()
-                .HasForeignKey(a => a.ProgramId)
-                .OnDelete(DeleteBehavior.NoAction);
+            ////Attendance to Program
+            //modelBuilder.Entity<Attendance>()
+            //    .HasOne(a => a.Program)
+            //    .WithMany()
+            //    .HasForeignKey(a => a.ProgramId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            //Attendance to Track
-            modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.Track)
-                .WithMany()
-                .HasForeignKey(a => a.TrackId)
-                .OnDelete(DeleteBehavior.NoAction);
+            ////Attendance to Track
+            //modelBuilder.Entity<Attendance>()
+            //    .HasOne(a => a.Track)
+            //    .WithMany()
+            //    .HasForeignKey(a => a.TrackId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            //Track to Program
-            modelBuilder.Entity<Track>()
-                .HasOne(t => t.Program)
-                .WithMany()
-                .HasForeignKey(t => t.ProgramId)
-                .OnDelete(DeleteBehavior.NoAction);
+            ////Track to Program
+            //modelBuilder.Entity<Track>()
+            //    .HasOne(t => t.Program)
+            //    .WithMany()
+            //    .HasForeignKey(t => t.ProgramId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
             //Track to Instructor
             modelBuilder.Entity<Track>()
@@ -107,46 +107,70 @@ namespace Attendance_Time_Tracking.Data
             //    .HasForeignKey(s => s.InstructorId)
             //    .OnDelete(DeleteBehavior.NoAction);
 
-            //Attendance foreign keys
-            modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.Program)
-                .WithMany()
-                .HasForeignKey(a => a.ProgramId)
-                .OnDelete(DeleteBehavior.NoAction);
+            ////Attendance foreign keys
+            //modelBuilder.Entity<Attendance>()
+            //    .HasOne(a => a.Program)
+            //    .WithMany()
+            //    .HasForeignKey(a => a.ProgramId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.Schedule)
-                .WithMany()
-                .HasForeignKey(a => a.ScheduleId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<Attendance>()
+            //    .HasOne(a => a.Schedule)
+            //    .WithMany()
+            //    .HasForeignKey(a => a.ScheduleId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.Track)
-                .WithMany()
-                .HasForeignKey(a => a.TrackId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<Attendance>()
+            //    .HasOne(a => a.Track)
+            //    .WithMany()
+            //    .HasForeignKey(a => a.TrackId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Attendance>()
-                .HasOne(a => a.User)
-                .WithMany()
-                .HasForeignKey(a => a.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<Attendance>()
+            //    .HasOne(a => a.User)
+            //    .WithMany()
+            //    .HasForeignKey(a => a.UserId)
+            //    .OnDelete(DeleteBehavior.NoAction);
+
 
             modelBuilder.Entity<Permission>()
-                .HasOne(p => p.SupNavigation)
-                .WithOne()
-                .HasForeignKey<Permission>(p => p.SupId)
+                .HasOne(p => p.Supervisor)
+                .WithMany(i => i.Permissions)
+                .HasForeignKey(p => p.SupId)
                 .OnDelete(DeleteBehavior.SetNull);
-                
 
             modelBuilder.Entity<Permission>()
-                .HasOne(s => s.StdNavigation)
-                .WithOne()
-                .HasForeignKey<Permission>(s => s.StdId)
+                .HasOne(p => p.Student)
+                .WithMany(s => s.Permissions)
+                .HasForeignKey(s => s.StdId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Permission>()
                 .HasKey(p => new { p.StdId, p.Date });
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(p => p.Supervisor)
+                .WithMany(i => i.Schedules)
+                .HasForeignKey(p => p.SupId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(s => s.Track)
+                .WithMany(t => t.Schedules)
+                .HasForeignKey(s => s.TrackId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Schedule>()
+                .HasKey(s => new { s.ID });
+
+            modelBuilder.Entity<Attendance>()
+                .HasOne(a => a.User)
+                .WithMany(u => u.Attendances)
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Attendance>()
+                .HasKey(a => new { a.UserId, a.Date });
 
             base.OnModelCreating(modelBuilder);
         }

@@ -34,6 +34,8 @@ namespace Attendance_Time_Tracking.Models
         [ForeignKey("SupervisorId")]
         public Instructor Supervisor { get; set; }
 
+        public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
+
     }
 
 }

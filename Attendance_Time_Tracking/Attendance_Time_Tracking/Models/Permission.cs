@@ -9,7 +9,7 @@ namespace Attendance_Time_Tracking.Models
     {
         // composite key
         public int StdId { get; set; }
-        public Student StdNavigation { get; set; }
+        public Student Student { get; set; }
         public DateTime Date { get; set; }
 
 
@@ -18,7 +18,7 @@ namespace Attendance_Time_Tracking.Models
         public PermissionStatus Status { get; set; }
 
         public int SupId { get; set; }
-        public Instructor SupNavigation { get; set; }
+        public Instructor Supervisor { get; set; }
 
     }
 }

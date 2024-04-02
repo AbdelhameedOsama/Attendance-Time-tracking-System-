@@ -12,8 +12,7 @@ namespace Attendance_Time_Tracking.Models
 
 
         public int TrackId { get; set; }
-        // [ForeignKey("TrackId")]
-        // public Track TrackNavigation { get; set; }
+
         public List<Permission> Permissions { get; set; }=new List<Permission>();
 
 

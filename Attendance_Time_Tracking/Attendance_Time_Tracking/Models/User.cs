@@ -27,6 +27,8 @@ namespace Attendance_Time_Tracking.Models
 
 		public virtual Student? Student { get; set; } = null;
 
+        public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
+
 
 	}
 }
