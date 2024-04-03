@@ -227,6 +227,14 @@ namespace Attendance_Time_Tracking.Migrations
                 {
                     b.HasBaseType("Attendance_Time_Tracking.Models.User");
 
+                    b.Property<bool>("IsSupervisor")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("instructorId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("instructorId");
+
                     b.ToTable("Instructors");
                 });
 
