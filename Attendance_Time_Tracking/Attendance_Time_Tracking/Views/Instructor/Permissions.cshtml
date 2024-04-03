@@ -17,48 +17,69 @@
 </div>
 <hr />
 <div>
-	<table class="table table-active table-hover">
-		<tr>
-			<th>
-				<h5>Student ID</h5>
-			</th>
-			<th>
-				<h5> Student Name</h5>
-			</th>
-			<th>
-				<h5> Date </h5>
-			</th>
-			<th>
-				<h5> Reason </h5>
-			</th>
-			<th>
-				<h5> Type </h5>
-			</th>
-			<th>
-				<h5> Status </h5>
-			</th>
-		</tr>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					<h5>@item.StdId</h5>
-				</td>
-				<td>
-					<h5>@item.Student.Name</h5>
-				</td>
-				<td>
-					<h5>@item.Date</h5>
-				</td>
-				<td>
-					<h5>@item.Reason</h5>
-				</td>
-				<td>
-					<h5>@item.Type.ToString()</h5>
-				</td>
-				<td>
-					<h5>@item.Status.ToString()</h5>
-				</td>
-			</tr>
-		}
-	</table>
+			<div class="table-responsive">
+				<table class="table table-hover table-active ">
+					<thead class="fs-5">
+						<tr>
+							<th>Student Name</th>
+							<th>Date</th>
+							<th>Reason</th>
+							<th>Type</th>
+							<th>Status</th>
+							<th>Action</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+					<tbody">
+						@foreach (var item in Model)
+						{
+							<tr >
+								<td class="fs-5">@item.Student.Name</td>
+								<td class="fs-5">@item.Date.ToString("d")</td>
+								<td>@item.Reason</td>
+								<td>
+							@if (@item.Type.ToString() == "Absence")
+									{
+								<span class="text-danger fw-bold">Absence</span>
+									}
+									else
+									{
+										<span class="text-warning fw-bold">Late</span>
+									}
+
+								</td>
+						@if (@item.Status.ToString() == "Pendding")
+							{
+							<td><div class="bg-warning p-1 text-white text-center rounded-3 w-75">@item.Status.ToString() <i class="fa fa-clock text-white"></i></div></td>
+						}
+						else if (@item.Status.ToString() == "Approved")
+						{
+							<td><div class="bg-success p-1 text-white text-center rounded-3 w-75">@item.Status.ToString() <i class="fa fa-check text-white"></i></div></td>
+
+						}
+						else
+						{
+							<td><div class="bg-danger p-1 text-white text-center rounded-3 w-75">@item.Status.ToString() <i class="fa fa-times text-white"></i></div></td>
+						}
+
+								<td>
+									@if (@item.Status.ToString() == "Pendding")
+								{
+								<a asp-action="Approve" asp-route-id="@item.StdId" asp-route-date="@item.Date" class="btn btn-success">Approve</a>
+								<a asp-action="Reject" asp-route-id="@item.StdId" asp-route-date="@item.Date" class="btn btn-danger">Deny</a>
+										
+								}else{
+									<p class="text-success fw-bold">No Action Needed</p>
+								}
+									
+								</td>
+								<td>
+									<a  asp-action="Delete" asp-route-id="@item.StdId" asp-route-date="@item.Date" class="btn btn-danger">Delete</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+
+</div>
