@@ -1,4 +1,5 @@
-﻿using Attendance_Time_Tracking.Repos;
+﻿using Attendance_Time_Tracking.Models;
+using Attendance_Time_Tracking.Repos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Attendance_Time_Tracking.Controllers
@@ -12,10 +13,16 @@ namespace Attendance_Time_Tracking.Controllers
             IRepo = _instructorRepo;
             URepo = _userRepo;
         }
-        public IActionResult Index()
+        public  IActionResult Index()
         {
+            User Instructor =  IRepo.GetUserByID(URepo.GetUserId(User)).Result;
 
-            return View();
+			return View(Instructor);
+        }
+        public IActionResult Permissions()
+        {
+            var permissions = IRepo.GetPermissionsBySupevisorID(URepo.GetUserId(User)).Result;
+            return View(permissions);
         }
     }
 }

@@ -1,0 +1,64 @@
+﻿@model ICollection<Permission>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	ViewData["Title"] = "Permissions";
+	ViewData["Role"] = "Supervisor";
+
+	Layout = "~/Views/Shared/_InstructorLayout.cshtml";
+}
+<div class="text-center">
+	<h1 class="">Permissions</h1>
+	<p>Here you can view and edit your student's Permissions</p>
+</div>
+<div class="">
+	<h3>Permissions</h3>
+</div>
+<hr />
+<div>
+	<table class="table table-active table-hover">
+		<tr>
+			<th>
+				<h5>Student ID</h5>
+			</th>
+			<th>
+				<h5> Student Name</h5>
+			</th>
+			<th>
+				<h5> Date </h5>
+			</th>
+			<th>
+				<h5> Reason </h5>
+			</th>
+			<th>
+				<h5> Type </h5>
+			</th>
+			<th>
+				<h5> Status </h5>
+			</th>
+		</tr>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					<h5>@item.StdId</h5>
+				</td>
+				<td>
+					<h5>@item.Student.Name</h5>
+				</td>
+				<td>
+					<h5>@item.Date</h5>
+				</td>
+				<td>
+					<h5>@item.Reason</h5>
+				</td>
+				<td>
+					<h5>@item.Type.ToString()</h5>
+				</td>
+				<td>
+					<h5>@item.Status.ToString()</h5>
+				</td>
+			</tr>
+		}
+	</table>

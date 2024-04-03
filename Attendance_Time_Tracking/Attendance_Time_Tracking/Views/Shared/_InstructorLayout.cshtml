@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Examination_System</title>
+    <title>@ViewData["Title"] - Instructor Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+@*     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Examination_System.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+ *@    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -28,7 +28,7 @@
                         <div class="row mt-4 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
                                 <i class="fa-solid fa-chalkboard-user fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Instructor" class="text-white text-decoration-none fw-bold fs-5">Profile</a>
+                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">Profile</a>
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
@@ -43,16 +43,17 @@
 								<a href="Index" class="text-white text-decoration-none fw-bold fs-5">Schedules</a>
                             </div>
                         </div>
-                        @* @{
-                            if ()
-                            { *@
+                         @{
+                            if (ViewData["Role"].ToString() =="Supervisor")
+                            { 
                                 <div class="row mt-2 mb-2">
                                     <div class="container-fluid col" id="leftSidebarLinks">
                                 <i class=" fa-solid fa-file-pen fs-5 m-2" style="color: #ffffff;"></i>
-                                        <a asp-action="Results" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Permissions</a>
+                                <a asp-action="Permissions" asp-controller="Instructor" class="text-white text-decoration-none fw-bold fs-5">Permissions</a>
                                     </div>
                                 </div>
-                        @* } *@
+                         } 
+                         }
                         
 
 
@@ -72,7 +73,7 @@
                     <div class="col-9 d-flex flex-column justify-content-evenly h-100">
                         <p class="text-white fs-5" id="dateTime">Current Date and time</p>
                         <div class="container">
-                            <p class="text-white fs-2 fw-bold m-0">Welcome back,@*  @User.Identity.Name *@</p>
+                            <p class="text-white fs-2 fw-bold m-0">Welcome back, @User.Identity.Name</p>
                             <p class="text-white fs-6">Always stay updated in your Instructor portal</p>
                         </div>
                     </div>
