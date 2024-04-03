@@ -13,19 +13,13 @@ namespace Attendance_Time_Tracking.Models
         [Required]
         [Display(Name="IntakeName")]
         public string Name { get; set; }
-        
-        public int ProgramId { get; set; }
-        [ForeignKey("ProgramId")]
+
+        [Required]
+
+        public int ProgramID { get; set; } 
         public Programs Program { get; set; }
-/*
-        [Display(Name = "Start Date")]
-        [DataType(DataType.Date)]
-        public DateTime StartDate { get; set; }
 
 
-        [Display(Name = "End Date")]
-        [DataType(DataType.Date)]
-        public DateTime EndDate { get; set; }*/
         public ICollection<Track> Tracks { get; set; }
 
     }

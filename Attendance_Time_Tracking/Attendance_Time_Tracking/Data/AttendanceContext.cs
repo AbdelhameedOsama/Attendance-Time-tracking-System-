@@ -35,101 +35,28 @@ namespace Attendance_Time_Tracking.Data
                 user.UseTptMappingStrategy();
             });
 
-            ////Attendance to User
-            //modelBuilder.Entity<Attendance>()
-            //    .HasOne(a => a.User)
-            //    .WithMany()
-            //    .HasForeignKey(a => a.UserId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
-            ////Attendance to Schedule
-            //modelBuilder.Entity<Attendance>()
-            //    .HasOne(a => a.Schedule)
-            //    .WithMany()
-            //    .HasForeignKey(a => a.ScheduleId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
-            ////Attendance to Program
-            //modelBuilder.Entity<Attendance>()
-            //    .HasOne(a => a.Program)
-            //    .WithMany()
-            //    .HasForeignKey(a => a.ProgramId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
-            ////Attendance to Track
-            //modelBuilder.Entity<Attendance>()
-            //    .HasOne(a => a.Track)
-            //    .WithMany()
-            //    .HasForeignKey(a => a.TrackId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
-            ////Track to Program
-            //modelBuilder.Entity<Track>()
-            //    .HasOne(t => t.Program)
-            //    .WithMany()
-            //    .HasForeignKey(t => t.ProgramId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
-            //Track to Instructor
-            modelBuilder.Entity<Track>()
-                .HasOne(t => t.Supervisor)
-                .WithMany()
-                .HasForeignKey(t => t.SupId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            //Track to Intake
             modelBuilder.Entity<Track>()
                 .HasOne(t => t.Intake)
                 .WithMany(i => i.Tracks)
                 .HasForeignKey(t => t.IntakeId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            //add track to supervisor each track has one supervisor and each supervisor has one track
+            modelBuilder.Entity<Track>()
+				.HasOne(t => t.Supervisor)
+				.WithMany(s => s.Tracks)
+				.HasForeignKey(t => t.SupID)
+				.OnDelete(DeleteBehavior.NoAction);
+            
+
 
             //Intake to Program
             modelBuilder.Entity<Intake>()
                 .HasOne(i => i.Program)
-                .WithMany()
-                .HasForeignKey(i => i.ProgramId)
+                .WithMany(s=>s.ProgramIntakes)
+                .HasForeignKey(i => i.ProgramID)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            ////Schedule to Track
-            //modelBuilder.Entity<Schedue>()
-            //    .HasOne(s => s.Track)
-            //    .WithMany()
-            //    .HasForeignKey(s => s.TrackId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
-            ////Schedule to Instructor
-            //modelBuilder.Entity<Schedue>()
-            //    .HasOne(s => s.Instructor)
-            //    .WithMany()
-            //    .HasForeignKey(s => s.InstructorId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
-            ////Attendance foreign keys
-            //modelBuilder.Entity<Attendance>()
-            //    .HasOne(a => a.Program)
-            //    .WithMany()
-            //    .HasForeignKey(a => a.ProgramId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
-            //modelBuilder.Entity<Attendance>()
-            //    .HasOne(a => a.Schedule)
-            //    .WithMany()
-            //    .HasForeignKey(a => a.ScheduleId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
-            //modelBuilder.Entity<Attendance>()
-            //    .HasOne(a => a.Track)
-            //    .WithMany()
-            //    .HasForeignKey(a => a.TrackId)
-            //    .OnDelete(DeleteBehavior.NoAction);
-
-            //modelBuilder.Entity<Attendance>()
-            //    .HasOne(a => a.User)
-            //    .WithMany()
-            //    .HasForeignKey(a => a.UserId)
-            //    .OnDelete(DeleteBehavior.NoAction);
 
 
             modelBuilder.Entity<Permission>()
