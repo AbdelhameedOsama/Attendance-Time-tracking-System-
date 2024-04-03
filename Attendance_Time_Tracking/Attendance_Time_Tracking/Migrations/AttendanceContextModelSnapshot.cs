@@ -22,238 +22,172 @@ namespace Attendance_Time_Tracking.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.HasSequence("UserSequence");
-
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Attendance", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("ArrivalTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DepartureTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("InstructorId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsPresent")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProgramId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ScheduleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TrackId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("InstructorId");
+                    b.Property<DateTime>("Arrival_Time")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("ProgramId");
+                    b.Property<DateTime?>("Departure_Time")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("ScheduleId");
-
-                    b.HasIndex("TrackId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Attendance");
-                });
-
-            modelBuilder.Entity("Attendance_Time_Tracking.Models.Department", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "Date");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Attendances");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Intake", b =>
                 {
-                    b.Property<int>("IntakeId")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IntakeId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProgramId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProgramsProgramId")
+                    b.Property<int?>("ProgramsID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("IntakeId");
+                    b.HasKey("ID");
 
                     b.HasIndex("ProgramId");
 
-                    b.HasIndex("ProgramsProgramId");
+                    b.HasIndex("ProgramsID");
 
                     b.ToTable("Intakes");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Permission", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("StdId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Reason")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudentId")
+                    b.Property<int?>("SupId")
                         .HasColumnType("int");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.HasKey("StdId", "Date");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("SupId");
 
                     b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Programs", b =>
                 {
-                    b.Property<int>("ProgramId")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProgramId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("ProgramType")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ProgramId");
+                    b.HasKey("ID");
 
                     b.ToTable("Programs");
                 });
 
-            modelBuilder.Entity("Attendance_Time_Tracking.Models.Schedue", b =>
+            modelBuilder.Entity("Attendance_Time_Tracking.Models.Schedule", b =>
                 {
-                    b.Property<int>("ScheduleId")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndTime")
+                    b.Property<DateTime>("End_Time")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("InstructorId")
+                    b.Property<DateTime>("Start_Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("SupId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("TrackId")
                         .HasColumnType("int");
 
-                    b.HasKey("ScheduleId");
+                    b.HasKey("ID");
 
-                    b.HasIndex("InstructorId");
+                    b.HasIndex("SupId");
 
                     b.HasIndex("TrackId");
 
-                    b.ToTable("Schedue");
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Track", b =>
                 {
-                    b.Property<int>("TrackId")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TrackId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<int>("IntakeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProgramId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("SupervisorId")
+                    b.Property<int>("SupId")
                         .HasColumnType("int");
 
-                    b.HasKey("TrackId");
+                    b.HasKey("ID");
 
                     b.HasIndex("IntakeId");
 
-                    b.HasIndex("ProgramId");
-
-                    b.HasIndex("SupervisorId");
+                    b.HasIndex("SupId");
 
                     b.ToTable("Tracks");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR [UserSequence]");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("DepartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DeptId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -272,13 +206,11 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
+                    b.HasKey("ID");
 
                     b.ToTable("Users");
 
-                    b.UseTpcMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Employee", b =>
@@ -295,13 +227,10 @@ namespace Attendance_Time_Tracking.Migrations
                 {
                     b.HasBaseType("Attendance_Time_Tracking.Models.User");
 
-                    b.Property<bool>("IsSupervisor")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("instructorId")
+                    b.Property<int?>("TrackID")
                         .HasColumnType("int");
 
-                    b.HasIndex("instructorId");
+                    b.HasIndex("TrackID");
 
                     b.ToTable("Instructors");
                 });
@@ -325,49 +254,18 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Property<string>("University")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("studentId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("studentId");
+                    b.HasIndex("TrackId");
 
                     b.ToTable("Students");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Attendance", b =>
                 {
-                    b.HasOne("Attendance_Time_Tracking.Models.Instructor", null)
-                        .WithMany("Attendances")
-                        .HasForeignKey("InstructorId");
-
-                    b.HasOne("Attendance_Time_Tracking.Models.Programs", "Program")
-                        .WithMany()
-                        .HasForeignKey("ProgramId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Attendance_Time_Tracking.Models.Schedue", "Schedule")
-                        .WithMany()
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Attendance_Time_Tracking.Models.Track", "Track")
-                        .WithMany()
-                        .HasForeignKey("TrackId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Attendance_Time_Tracking.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Attendances")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Program");
-
-                    b.Navigation("Schedule");
-
-                    b.Navigation("Track");
 
                     b.Navigation("User");
                 });
@@ -382,41 +280,43 @@ namespace Attendance_Time_Tracking.Migrations
 
                     b.HasOne("Attendance_Time_Tracking.Models.Programs", null)
                         .WithMany("ProgramIntakes")
-                        .HasForeignKey("ProgramsProgramId");
+                        .HasForeignKey("ProgramsID");
 
                     b.Navigation("Program");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Permission", b =>
                 {
-                    b.HasOne("Attendance_Time_Tracking.Models.Student", null)
+                    b.HasOne("Attendance_Time_Tracking.Models.Student", "Student")
                         .WithMany("Permissions")
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("StdId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
 
-                    b.HasOne("Attendance_Time_Tracking.Models.User", "UserNavigation")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                    b.HasOne("Attendance_Time_Tracking.Models.Instructor", "Supervisor")
+                        .WithMany("Permissions")
+                        .HasForeignKey("SupId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Supervisor");
+                });
+
+            modelBuilder.Entity("Attendance_Time_Tracking.Models.Schedule", b =>
+                {
+                    b.HasOne("Attendance_Time_Tracking.Models.Instructor", "Supervisor")
+                        .WithMany("Schedules")
+                        .HasForeignKey("SupId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("Attendance_Time_Tracking.Models.Track", "Track")
+                        .WithMany("Schedules")
+                        .HasForeignKey("TrackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UserNavigation");
-                });
-
-            modelBuilder.Entity("Attendance_Time_Tracking.Models.Schedue", b =>
-                {
-                    b.HasOne("Attendance_Time_Tracking.Models.Instructor", "Instructor")
-                        .WithMany()
-                        .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Attendance_Time_Tracking.Models.Track", "Track")
-                        .WithMany()
-                        .HasForeignKey("TrackId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Instructor");
+                    b.Navigation("Supervisor");
 
                     b.Navigation("Track");
                 });
@@ -429,53 +329,58 @@ namespace Attendance_Time_Tracking.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Attendance_Time_Tracking.Models.Programs", "Program")
-                        .WithMany()
-                        .HasForeignKey("ProgramId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Attendance_Time_Tracking.Models.Instructor", "Supervisor")
                         .WithMany()
-                        .HasForeignKey("SupervisorId")
+                        .HasForeignKey("SupId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Intake");
 
-                    b.Navigation("Program");
-
                     b.Navigation("Supervisor");
                 });
 
-            modelBuilder.Entity("Attendance_Time_Tracking.Models.User", b =>
+            modelBuilder.Entity("Attendance_Time_Tracking.Models.Employee", b =>
                 {
-                    b.HasOne("Attendance_Time_Tracking.Models.Department", null)
-                        .WithMany("Users")
-                        .HasForeignKey("DepartmentId");
+                    b.HasOne("Attendance_Time_Tracking.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Instructor", b =>
                 {
-                    b.HasOne("Attendance_Time_Tracking.Models.User", "instructor")
-                        .WithMany()
-                        .HasForeignKey("instructorId");
+                    b.HasOne("Attendance_Time_Tracking.Models.User", null)
+                        .WithOne()
+                        .HasForeignKey("Attendance_Time_Tracking.Models.Instructor", "ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("instructor");
+                    b.HasOne("Attendance_Time_Tracking.Models.Track", "Track")
+                        .WithMany()
+                        .HasForeignKey("TrackID");
+
+                    b.Navigation("Track");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Student", b =>
                 {
-                    b.HasOne("Attendance_Time_Tracking.Models.User", "student")
-                        .WithMany()
-                        .HasForeignKey("studentId");
+                    b.HasOne("Attendance_Time_Tracking.Models.User", null)
+                        .WithOne()
+                        .HasForeignKey("Attendance_Time_Tracking.Models.Student", "ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("student");
-                });
+                    b.HasOne("Attendance_Time_Tracking.Models.Track", "Track")
+                        .WithMany("Instructors")
+                        .HasForeignKey("TrackId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("Attendance_Time_Tracking.Models.Department", b =>
-                {
-                    b.Navigation("Users");
+                    b.Navigation("Track");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Intake", b =>
@@ -488,9 +393,23 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Navigation("ProgramIntakes");
                 });
 
-            modelBuilder.Entity("Attendance_Time_Tracking.Models.Instructor", b =>
+            modelBuilder.Entity("Attendance_Time_Tracking.Models.Track", b =>
+                {
+                    b.Navigation("Instructors");
+
+                    b.Navigation("Schedules");
+                });
+
+            modelBuilder.Entity("Attendance_Time_Tracking.Models.User", b =>
                 {
                     b.Navigation("Attendances");
+                });
+
+            modelBuilder.Entity("Attendance_Time_Tracking.Models.Instructor", b =>
+                {
+                    b.Navigation("Permissions");
+
+                    b.Navigation("Schedules");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Student", b =>
