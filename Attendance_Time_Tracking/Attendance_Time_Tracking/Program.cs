@@ -50,7 +50,7 @@ namespace Attendance_Time_Tracking
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Instructor}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=Login}/{id?}");
 
             app.Run();
         }
