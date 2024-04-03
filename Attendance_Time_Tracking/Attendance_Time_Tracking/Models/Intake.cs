@@ -8,8 +8,7 @@ namespace Attendance_Time_Tracking.Models
     public class Intake
     {
         [Key]
-        [Display(Name = "ID")]
-        public int IntakeId { get; set; }
+        public int ID { get; set; }
 
         [Required]
         [Display(Name="IntakeName")]
