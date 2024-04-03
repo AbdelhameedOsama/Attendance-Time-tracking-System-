@@ -30,6 +30,7 @@ namespace Attendance_Time_Tracking.Controllers
 						ClaimsIdentity identity = new(new[]
 						{
 					new Claim(ClaimTypes.Email, user.Email),
+					new Claim(ClaimTypes.Name, user.Name),
 					new Claim(ClaimTypes.Role, user.Role.ToString()),
 					new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()) //add the user id to the claims
 				}, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -40,8 +41,15 @@ namespace Attendance_Time_Tracking.Controllers
 							return RedirectToAction("Index", "Student");
 						}
 						else if (user.Role.ToString() == "Instructor")
+						{						
+							return RedirectToAction("Index", "Instructor");
+						}
+						else if (user.Role.ToString() == "Supervisor")
+						{	
+							return RedirectToAction("Index", "Instructor");
+						}else if (user.Role.ToString() == "Employee")
 						{
-							return RedirectToAction("AddQuestion", "Instructor");
+							return RedirectToAction("Index", "Employee");
 						}
 						else
 						{

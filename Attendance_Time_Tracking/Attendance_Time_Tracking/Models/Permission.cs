@@ -5,7 +5,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace Attendance_Time_Tracking.Models
 {
     public enum PermissionTypes { Late_Arrival, Absence}
+
     public enum PermissionStatus { Pendding, Approved, Rejected}
+
 
     public class Permission
     {
