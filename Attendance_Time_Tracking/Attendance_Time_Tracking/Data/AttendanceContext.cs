@@ -42,7 +42,7 @@ namespace Attendance_Time_Tracking.Data
                 .OnDelete(DeleteBehavior.NoAction);
 
             //Attendance to Schedule
-            modelBuilder.Entity<Attendance>()
+           /* modelBuilder.Entity<Attendance>()
                 .HasOne(a => a.Schedule)
                 .WithMany()
                 .HasForeignKey(a => a.ScheduleId)
@@ -67,7 +67,7 @@ namespace Attendance_Time_Tracking.Data
                 .HasOne(t => t.Program)
                 .WithMany()
                 .HasForeignKey(t => t.ProgramId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.NoAction);*/
 
             //Track to Instructor
             modelBuilder.Entity<Track>()
@@ -106,7 +106,7 @@ namespace Attendance_Time_Tracking.Data
                 .OnDelete(DeleteBehavior.NoAction);
 
             //Attendance foreign keys
-            modelBuilder.Entity<Attendance>()
+            /*modelBuilder.Entity<Attendance>()
                 .HasOne(a => a.Program)
                 .WithMany()
                 .HasForeignKey(a => a.ProgramId)
@@ -122,7 +122,7 @@ namespace Attendance_Time_Tracking.Data
                 .HasOne(a => a.Track)
                 .WithMany()
                 .HasForeignKey(a => a.TrackId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.NoAction);*/
 
             modelBuilder.Entity<Attendance>()
                 .HasOne(a => a.User)

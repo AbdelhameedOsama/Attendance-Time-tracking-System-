@@ -14,10 +14,10 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div style="background-color: fcfcfc;" class="container-fluid d-flex flex-column min-vh-100" id="mainContainer">
+    <div style="background-color: #fcfcfc;" class="container-fluid d-flex flex-column min-vh-100" id="mainContainer">
+        <div class="row flex-grow-1 mt-3 mb-3 justify-content-evenly admin">
         <!-- Left Sidebar Start -->
-        <div class="row flex-grow-1 mt-3 mb-3 justify-content-evenly">
-            <div style="background-color: darkblue;" class="col-2 rounded-4 d-flex flex-column" id="leftSidebar">
+            <div style="background-color: #64CCC5;" class="col-2 rounded-4 d-flex flex-column" id="leftSidebar">
                 <div class="row mt-4 mb-4">
                     <div class="container-fluid col-6 p-2 bg-black bg-opacity-25 rounded-5" id="leftSidebarPicture">
                         <img src="https://cdn-icons-png.flaticon.com/512/2940/2940653.png" class="col-12">
@@ -27,26 +27,35 @@
                     <div class="col d-flex flex-column">
                         <div class="row mt-4 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
+                                
+                                <i class="fa-solid fa-chart-column fs-5 m-2" style="color: #ffffff;"></i>
+                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5 active">DashBoard</a>
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="container-fluid col" id="leftSidebarLinks">
                                 <i class="fa-solid fa-chalkboard-user fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">DashBoard</a>
+                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">Instructors</a>
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
-                                <i class="fa-solid fa-book fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Courses" class="text-white text-decoration-none fw-bold fs-5">Courses</a>
+                                <i class="fa-solid fa-users fs-5 m-2" style="color: #ffffff;"></i>
+                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">Employees</a>
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
-                                <i class="fa-solid fa-money-bills fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">Payment Info</a>
+                                @*<i class="fa-solid fa-graduation-cap fs-5 m-2" style="color: #ffffff;"></i> *@
+                                <img src="~/assets/students.png" class="m-2" />
+                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">Students</a>
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
-                                <i class="fa-solid fa-square-poll-horizontal fs-5 m-2" style="color: #ffffff;"></i>
-                                <a asp-action="Results" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Result</a>
+                                <!--<i class="fa-solid fa-square-poll-horizontal fs-5 m-2" style="color: #ffffff;"></i>-->
+                                <img src="~/assets/education.png" class="m-2" />
+                                <a  class="text-white text-decoration-none fw-bold fs-5">Tracks</a>
                             </div>
                         </div>
 
@@ -63,7 +72,7 @@
             <!-- Left Sidebar End -->
             <!-- Right Main Container Start -->
             <div class="col-9 d-flex flex-column">
-                <div class="row h-25 rounded-4 p-3 ps-5" style="background-color: darkblue;" id="leftSidebar">
+                <div class="row h-25 rounded-4 p-3 ps-5" style="background-color: #64CCC5;" id="leftSidebar">
                     <div class="col-9 d-flex flex-column justify-content-evenly h-100">
                         <p class="text-white fs-5" id="dateTime">Current Date and time</p>
                         <div class="container">
