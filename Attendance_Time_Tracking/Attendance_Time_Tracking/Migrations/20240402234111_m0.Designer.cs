@@ -4,6 +4,7 @@ using Attendance_Time_Tracking.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Attendance_Time_Tracking.Migrations
 {
     [DbContext(typeof(AttendanceContext))]
-    partial class AttendanceContextModelSnapshot : ModelSnapshot
+    [Migration("20240402234111_m0")]
+    partial class m0
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,12 +59,17 @@ namespace Attendance_Time_Tracking.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProgramID")
+                    b.Property<int>("ProgramId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProgramsID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ProgramID");
+                    b.HasIndex("ProgramId");
+
+                    b.HasIndex("ProgramsID");
 
                     b.ToTable("Intakes");
                 });
@@ -161,14 +169,14 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int>("SupID")
+                    b.Property<int>("SupId")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("IntakeId");
 
-                    b.HasIndex("SupID");
+                    b.HasIndex("SupId");
 
                     b.ToTable("Tracks");
                 });
@@ -215,17 +223,17 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasIndex("UserID");
-
                     b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Instructor", b =>
                 {
                     b.HasBaseType("Attendance_Time_Tracking.Models.User");
+
+                    b.Property<int?>("TrackID")
+                        .HasColumnType("int");
+
+                    b.HasIndex("TrackID");
 
                     b.ToTable("Instructors");
                 });
@@ -268,10 +276,14 @@ namespace Attendance_Time_Tracking.Migrations
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Intake", b =>
                 {
                     b.HasOne("Attendance_Time_Tracking.Models.Programs", "Program")
-                        .WithMany("ProgramIntakes")
-                        .HasForeignKey("ProgramID")
+                        .WithMany()
+                        .HasForeignKey("ProgramId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("Attendance_Time_Tracking.Models.Programs", null)
+                        .WithMany("ProgramIntakes")
+                        .HasForeignKey("ProgramsID");
 
                     b.Navigation("Program");
                 });
@@ -321,8 +333,8 @@ namespace Attendance_Time_Tracking.Migrations
                         .IsRequired();
 
                     b.HasOne("Attendance_Time_Tracking.Models.Instructor", "Supervisor")
-                        .WithMany("Tracks")
-                        .HasForeignKey("SupID")
+                        .WithMany()
+                        .HasForeignKey("SupId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -333,15 +345,11 @@ namespace Attendance_Time_Tracking.Migrations
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Employee", b =>
                 {
-                    b.HasOne("Attendance_Time_Tracking.Models.User", null)
-                        .WithOne()
-                        .HasForeignKey("Attendance_Time_Tracking.Models.Employee", "ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Attendance_Time_Tracking.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -353,6 +361,12 @@ namespace Attendance_Time_Tracking.Migrations
                         .HasForeignKey("Attendance_Time_Tracking.Models.Instructor", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Attendance_Time_Tracking.Models.Track", "Track")
+                        .WithMany()
+                        .HasForeignKey("TrackID");
+
+                    b.Navigation("Track");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Student", b =>
@@ -399,8 +413,6 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Navigation("Permissions");
 
                     b.Navigation("Schedules");
-
-                    b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Student", b =>

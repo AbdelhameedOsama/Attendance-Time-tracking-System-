@@ -13,13 +13,12 @@ namespace Attendance_Time_Tracking.Models
     public class Programs
     {
         [Key]
-        [Display(Name = "ID")]
-        public int ProgramId { get; set; }
+        public int ID { get; set; }
 
         [Required]
-        [Display(Name = "Program Name")]
-        [Column(TypeName = "nvarchar(200)")]
-        public ProgramType ProgramType { get; set; }
+        [Column(TypeName = "nvarchar(50)")]
+        public ProgramType Name { get; set; }
+
         public virtual List<Intake> ProgramIntakes { get; set; } = new List<Intake>();
     }
 }

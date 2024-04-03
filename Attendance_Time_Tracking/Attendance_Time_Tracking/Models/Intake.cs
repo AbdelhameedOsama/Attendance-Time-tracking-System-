@@ -8,22 +8,18 @@ namespace Attendance_Time_Tracking.Models
     public class Intake
     {
         [Key]
-        [Display(Name = "ID")]
-        public int IntakeId { get; set; }
+        public int ID { get; set; }
 
-        
-        public int ProgramId { get; set; }
-        [ForeignKey("ProgramId")]
+        [Required]
+        [Display(Name="IntakeName")]
+        public string Name { get; set; }
+
+        [Required]
+
+        public int ProgramID { get; set; } 
         public Programs Program { get; set; }
 
-        [Display(Name = "Start Date")]
-        [DataType(DataType.Date)]
-        public DateTime StartDate { get; set; }
 
-
-        [Display(Name = "End Date")]
-        [DataType(DataType.Date)]
-        public DateTime EndDate { get; set; }
         public ICollection<Track> Tracks { get; set; }
 
     }
