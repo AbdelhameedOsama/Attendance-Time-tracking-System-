@@ -50,7 +50,7 @@ namespace Attendance_Time_Tracking.Repos
 		}
         public async Task <Permission> GetPermission(int id,DateTime date)
         {
-			var permissions= await db.Permissions.Where(p => p.StdId == id).ToListAsync();
+			List<Permission> permissions = await db.Permissions.Where(p => p.StdId == id).ToListAsync();
             foreach (var permission in permissions)
             {
 				if(permission.Date.ToString("g") == date.ToString("g"))
