@@ -28,7 +28,6 @@ namespace Attendance_Time_Tracking.Models
 
         public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
 
-		public virtual Instructor? Instructor { get; set; }
 
 	}
 }
