@@ -28,10 +28,9 @@ namespace Attendance_Time_Tracking.Models
         public int IntakeId { get; set; }
 
 
-        [Required]
-        public int SupId { get; set; }
-        [ForeignKey("SupId")]
-        public Instructor Supervisor { get; set; }
+        [ForeignKey("Supervisor")]
+        public int SupID { get; set; }
+        public virtual Instructor Supervisor { get; set; }
 
         public virtual ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 

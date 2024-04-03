@@ -4,8 +4,9 @@ namespace Attendance_Time_Tracking.Models
 {
     public class Student:User
     {
-        [ForeignKey("User")]
-        public int ID { get; set; }
+        //[ForeignKey("User")]
+       // public int ID { get; set; }
+
         public string University { get; set; }
         public string Faculty { get; set; }
         public string Specialization { get; set; }
