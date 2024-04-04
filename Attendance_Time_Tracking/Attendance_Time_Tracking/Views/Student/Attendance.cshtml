@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Attendance>
+@{
+    ViewData["Title"] = "Attendance";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+<div class="text-center">
+    <h1 class="">Attendance</h1>
+    <p>Here you can view your Attendance</p>
+</div>
+<form method="post" asp-action="Attendance">
+    <table class="table table-active">
+        <tr>
+            <td>
+                <label for="Date">From Date</label>
+            </td>
+            <td>
+                <input type="date" class="form-control" id="Date" name="FromDate">
+            </td>
+            <td>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<hr />
+@if (Model != null)
+{
+    if (Model.Count() > 0)
+    {
+
+        <div class="table-responsive">
+            <table class="table table-hover table-active ">
+                <thead class="fs-5">
+                    <tr>
+                        <th>Date</th>
+                        <th>Day</th>
+                        <th>Status</th>
+                        <th>Arrival Time</th>
+                        <th>Departure Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fs-5">@item.Date.ToString("dd/MM/yyyy")</td>
+                            <td class="fs-5">@item.Date.ToString("dddd")</td>
+                            @if (item.Status == AttendanceStatus.Absent)
+                            {
+                                <td class="fs-5 text-danger">@item.Status</td>
+                            }
+                            else if (item.Status == AttendanceStatus.Present)
+                            {
+                                <td class="fs-5 text-success">@item.Status</td>
+                            }
+                            else
+                            {
+                                <td class="fs-5 text-warning">@item.Status</td>
+                            }
+                            @if (item.Arrival_Time != null)
+                            {
+                                <td class="fs-5">@item.Arrival_Time</td>
+                            }
+                            else
+                            {
+                                <td class="fs-5">-</td>
+                            }
+                            @if (item.Departure_Time != null)
+                            {
+                                <td class="fs-5">@item.Departure_Time</td>
+                            }
+                            else
+                            {
+                                <td class="fs-5">-</td>
+                            }
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h3 class="text-danger">No Attendance Found</h3>
+        </div>
+    }
+}

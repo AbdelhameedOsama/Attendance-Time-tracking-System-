@@ -1,0 +1,31 @@
+﻿@model List<Attendance_Time_Tracking.Models.Schedule>
+@{
+    ViewBag.Title = "Schedule";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h1>Your Schedule</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Track</th>
+            <th>Supervisor</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var schedule in Model)
+        {
+            <tr>
+                <td>@schedule.Date.ToString("MM/dd/yyyy")</td>
+                <td>@String.Format("{0:D2}:{1:D2}", (int)schedule.Start_Time.TotalHours, schedule.Start_Time.Minutes)</td>
+                <td>@String.Format("{0:D2}:{1:D2}", (int)schedule.End_Time.TotalHours, schedule.End_Time.Minutes)</td>
+                <td>@schedule.Track.Name</td>
+                <td>@schedule.Supervisor.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>

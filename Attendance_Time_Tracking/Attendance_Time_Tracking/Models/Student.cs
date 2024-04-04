@@ -19,6 +19,7 @@ namespace Attendance_Time_Tracking.Models
 
         public List<Permission> Permissions { get; set; }=new List<Permission>();
 
+        //public int AttendanceDegrees { get; set; } = 250;
 
 
 
