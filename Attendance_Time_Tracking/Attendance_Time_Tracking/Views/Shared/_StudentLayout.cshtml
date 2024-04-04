@@ -27,28 +27,17 @@
                     <div class="col d-flex flex-column">
                         <div class="row mt-4 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
-                                <i class="fa-solid fa-chalkboard-user fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">DashBoard</a>
+                                <i class="fa-solid fa-calendar fs-5 m-2" style="color: #ffffff;"></i>
+                                <a asp-action="Schedule" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Schedule</a>
                             </div>
                         </div>
-                        <div class="row mt-2 mb-2">
-                            <div class="container-fluid col" id="leftSidebarLinks">
-                                <i class="fa-solid fa-book fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Courses" class="text-white text-decoration-none fw-bold fs-5">Courses</a>
-                            </div>
-                        </div>
-                        <div class="row mt-2 mb-2">
-                            <div class="container-fluid col" id="leftSidebarLinks">
-                                <i class="fa-solid fa-money-bills fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">Payment Info</a>
-                            </div>
-                        </div>
+
 
 
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
                                 <i class="fa-solid fa-calendar-check fs-5 m-2" style="color: #ffffff;"></i>
-                                <a asp-action="Attendance" asp-controller="Attendance" class="text-white text-decoration-none fw-bold fs-5">Attendances</a>
+                                <a asp-action="Attendance" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Attendances</a>
                             </div>
                         </div>
 
@@ -56,7 +45,7 @@
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
                                 <i class="fa-solid fa-user-shield fs-5 m-2" style="color: #ffffff;"></i>
-                                <a asp-action="Index" asp-controller="Permissions" class="text-white text-decoration-none fw-bold fs-5">Permissions</a>
+                                <a asp-action="Index" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Permissions</a>
                             </div>
                         </div>
 
@@ -66,17 +55,10 @@
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
                                 <i class="fa-solid fa-chalkboard-user fs-5 m-2" style="color: #ffffff;"></i>
-                                <a asp-action="Details" asp-controller="Profile" class="text-white text-decoration-none fw-bold fs-5">Profile</a>
+                                <a asp-action="Details" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Profile</a>
                             </div>
                         </div>
 
-
-                        <div class="row mt-2 mb-2">
-                            <div class="container-fluid col" id="leftSidebarLinks">
-                                <i class="fa-solid fa-square-poll-horizontal fs-5 m-2" style="color: #ffffff;"></i>
-                                <a asp-action="Results" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Result</a>
-                            </div>
-                        </div>
 
 
                         <div class="row mt-4 mb-4 mt-auto">

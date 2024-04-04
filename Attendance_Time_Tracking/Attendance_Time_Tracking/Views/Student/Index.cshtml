@@ -1,4 +1,55 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@model IEnumerable<Attendance_Time_Tracking.Models.Permission>
+@{
+    ViewBag.Title = "Permissions";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
 }
+
+<h1>Permissions</h1>
+
+<p>
+    <a asp-action="Create">Create New Permission</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Reason)</th>
+            <th>@Html.DisplayNameFor(model => model.Type)</th>
+            <th>@Html.DisplayNameFor(model => model.Date)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Reason)</td>
+                <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                <td>@item.Date.ToString("d")</td>
+                <td>
+                    @if (item.Status == PermissionStatus.Pendding)
+                    {
+                        <span class="bg-warning p-1 text-white text-center rounded-3 w-75">Pending <i class="fa fa-clock text-white"></i></span>
+                    }
+                    else if (item.Status == PermissionStatus.Approved)
+                    {
+                        <span class="bg-success p-1 text-white text-center rounded-3 w-75">Approved <i class="fa fa-check text-white"></i></span>
+                    }
+                    else
+                    {
+                        <span class="bg-danger p-1 text-white text-center rounded-3 w-75">Rejected <i class="fa fa-times text-white"></i></span>
+                    }
+                </td>
+                <td>
+                    <form asp-action="DeleteConfirmed" asp-controller="Student" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="stdId" value="@item.StdId" />
+                        <input type="hidden" name="date" value="@item.Date.ToString("yyyy-MM-dd")" />
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
