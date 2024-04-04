@@ -4,6 +4,7 @@ using Attendance_Time_Tracking.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Attendance_Time_Tracking.Migrations
 {
     [DbContext(typeof(AttendanceContext))]
-    partial class AttendanceContextModelSnapshot : ModelSnapshot
+    [Migration("20240403213030_timeOnly")]
+    partial class timeOnly
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,17 +30,17 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeOnly?>("Arrival_Time")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("Arrival_Time")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeOnly?>("Departure_Time")
-                        .HasColumnType("time");
+                    b.Property<DateTime?>("Departure_Time")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "Date");
 
@@ -119,13 +122,13 @@ namespace Attendance_Time_Tracking.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("End_Time")
+                    b.Property<TimeOnly>("End_Time")
                         .HasColumnType("time");
 
-                    b.Property<TimeSpan>("Start_Time")
+                    b.Property<TimeOnly>("Start_Time")
                         .HasColumnType("time");
 
                     b.Property<int?>("SupId")

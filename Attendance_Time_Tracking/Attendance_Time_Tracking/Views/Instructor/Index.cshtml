@@ -1,6 +1,7 @@
 ﻿@model User
 @{
 	ViewData["Title"] = "Index";
+	ViewData["Name"] = Model.Name;
 	ViewData["Role"] = Model.Role.ToString(); 
     Layout = "~/Views/Shared/_InstructorLayout.cshtml";
 }
@@ -18,10 +19,10 @@
 	<table class="table table-active table-hover">
 		<tr>
 			<td>
-				<h5>Name: @Model.Name</h5>
+				<h5> ID: @Model.ID</h5>
 			</td>
 			<td>
-				<h5> ID: @Model.ID</h5>
+				<h5>Name: @Model.Name</h5>
 			</td>
 		</tr>
 		<tr>
@@ -29,7 +30,7 @@
 				<h5> Email: @Model.Email</h5>
 			</td>
 			<td>
-				<h5> Phone: @Model.Email</h5>
+				<h5> Phone: @Model.Phone</h5>
 			</td>
 		</tr>
 		<tr>
@@ -42,4 +43,9 @@
 		</tr>
 	</table>
 </div>
+
+<div>
+	<a asp-action="EditProfile" class="btn btn-lg btn-primary float-end">EditProfile</a>
+</div>
+
 

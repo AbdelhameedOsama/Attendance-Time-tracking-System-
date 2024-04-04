@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Track>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+ViewData["Title"] = "AllSchedules";
+Layout = "~/Views/Shared/_InstructorLayout.cshtml";
+var tracks= ViewBag.Tracks;
+var Schedules = ViewBag.Schedules;
+}
+<div>
+<h1 class="text-center"> Schedules</h1>
+    <form method="post" asp-action="AllSchedules">
+        <table class="table table-active">
+            <tr>
+                <td>
+                    <label for="Track">Track</label>
+                </td>
+                <td>
+                    <select class="form-control" id="Track" name="Track">
+                        @foreach (var item in tracks)
+                        {
+                            <option value="@item.ID">@item.Name</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="Date">From Date</label>
+                </td>
+                <td>
+                    <input type="date" class="form-control" id="Date" name="FromDate"> 
+                </td>
+            </tr>
+        </table>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <hr />
+    @{
+        if (Schedules!= null)
+        {
+            <div class="table-responsive">
+                <table class="table table-hover table-active ">
+                    <thead class="fs-5">
+                        <tr>
+                            <th>Date</th>
+                            <th>Day</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Schedules)
+                        {
+                            <tr>
+                                <td class="fs-5">@item.Date.ToString("dd/MM/yyyy")</td>
+                                <td class="fs-5">@item.Date.ToString("dddd")</td>
+                                <td class="fs-5">@item.Start_Time</td>
+                                <td class="fs-5">@item.End_Time</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+
+
+</div>

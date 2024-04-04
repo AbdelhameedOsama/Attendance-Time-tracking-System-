@@ -12,6 +12,12 @@ namespace Attendance_Time_Tracking.Repos
         Task<Permission> GetPermission(int id,DateTime date);
         Task<Permission> ApprovePermission(Permission p);
         Task<Permission> RejectPermission(Permission p);
+        Task<Track> GetTrackBySupervisorId(int id);
+        Task<Schedule> CreateSchedule(Schedule schedule);
+        Task<List<Schedule>> GetSchedulesBySupId(int id);
+        Task<List<Schedule>> GetSchedules();
+        Task<List<Track>> TracksInScheduels();
+        Task<List<Attendance>> GetAttendancesByInstructorID(int id);
     }
     public class InstructorRepo : IInstructorRepo
     {
@@ -59,7 +65,50 @@ namespace Attendance_Time_Tracking.Repos
 				}
 			}
             return null;
-
 		}
+        public async Task<Track> GetTrackBySupervisorId(int id)
+        {
+            var track= await db.Tracks.Where(t=>t.SupID==id).FirstOrDefaultAsync();
+            return track;
+        }
+        public async Task<Schedule> CreateSchedule(Schedule schedule)
+        {
+			db.Schedules.Add(schedule);
+			await db.SaveChangesAsync();
+			return schedule;
+		}
+        public async Task<List<Schedule>> GetSchedulesBySupId(int id)
+        {
+            return await db.Schedules.Where(s => s.SupId == id).Include(t => t.Track).ToListAsync();
+        }
+        public async Task<List<Schedule>> GetSchedules()
+        {
+            return await db.Schedules.Include(t => t.Track).ToListAsync();
+        }
+        public async Task<List<Track>> TracksInScheduels()
+        {
+            // Query to retrieve unique track IDs along with related data
+            var uniqueTrackIDs = await db.Schedules
+                .Select(schedule => schedule.TrackId)
+                .Distinct()
+                .ToListAsync();
+            List<Track> tracks = new List<Track>();
+            foreach(var trackID in uniqueTrackIDs)
+            {
+                var track = await db.Tracks
+                    .Where(t => t.ID == trackID)
+                    .FirstOrDefaultAsync();
+                tracks.Add(track);
+            }
+
+            return tracks;
+        }
+        public async Task<List<Attendance>> GetAttendancesByInstructorID(int id)
+        {
+            var attendances = await db.Attendances
+                .Where(a => a.User.ID == id)
+                .ToListAsync();
+            return attendances;
+        }
     }
 }
