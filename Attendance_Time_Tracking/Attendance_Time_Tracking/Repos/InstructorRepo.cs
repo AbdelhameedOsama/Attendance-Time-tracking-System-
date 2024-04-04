@@ -17,6 +17,7 @@ namespace Attendance_Time_Tracking.Repos
         Task<List<Schedule>> GetSchedulesBySupId(int id);
         Task<List<Schedule>> GetSchedules();
         Task<List<Track>> TracksInScheduels();
+        Task<List<Attendance>> GetAttendancesByInstructorID(int id);
     }
     public class InstructorRepo : IInstructorRepo
     {
@@ -101,6 +102,13 @@ namespace Attendance_Time_Tracking.Repos
             }
 
             return tracks;
+        }
+        public async Task<List<Attendance>> GetAttendancesByInstructorID(int id)
+        {
+            var attendances = await db.Attendances
+                .Where(a => a.User.ID == id)
+                .ToListAsync();
+            return attendances;
         }
     }
 }
