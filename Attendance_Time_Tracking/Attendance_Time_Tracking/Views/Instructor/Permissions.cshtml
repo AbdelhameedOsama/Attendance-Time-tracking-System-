@@ -74,7 +74,7 @@
                             }
                         </td>
                         <td>
-                            <button asp-controller="Instructor" asp-action="Delete" asp-route-id="@item.StdId" asp-route-date="@item.Date" class="btn btn-danger">Delete</button>
+                            <a asp-controller="Instructor" asp-action="Delete" asp-route-id="@item.StdId" asp-route-date="@item.Date" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                 }
