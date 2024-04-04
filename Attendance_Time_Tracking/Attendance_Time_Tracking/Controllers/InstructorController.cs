@@ -89,6 +89,29 @@ namespace Attendance_Time_Tracking.Controllers
 			ViewBag.TrackName = track.Name;
             return View(schedules);
         }
+		public async Task<IActionResult> AllSchedules()
+		{
+			var tracks = await IRepo.TracksInScheduels();
+			ViewData["Role"] = User.FindFirst(ClaimTypes.Role).Value;
+			ViewBag.Tracks = tracks;
+			return View();
+		}
+		[HttpPost]
+		public async Task<IActionResult> AllSchedules(int Track, DateTime FromDate)
+		{
+            var tracks = await IRepo.TracksInScheduels();
+            ViewData["Role"] = User.FindFirst(ClaimTypes.Role).Value;
+            ViewBag.Tracks = tracks;
+            var schedules = await IRepo.GetSchedules();
+			if (Track != 0)
+			{
+				schedules = schedules.Where(s => s.Track.ID == Track && s.Date>=DateOnly.FromDateTime(FromDate)).OrderBy(s=>s.Date).Take(7).ToList();
+				ViewBag.Schedules = schedules;
+                return View();
+			}
+			return View(schedules);
+
+        }
 		//edit profile data
 		public IActionResult EditProfile()
 		{
