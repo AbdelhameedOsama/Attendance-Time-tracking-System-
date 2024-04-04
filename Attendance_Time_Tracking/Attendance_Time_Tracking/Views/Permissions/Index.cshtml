@@ -28,7 +28,7 @@
                 <td>@Html.DisplayFor(modelItem => item.Type)</td>
                 <td>@item.Date.ToString("d")</td>
                 <td>
-                    @if (item.Status == PermissionStatus.Pendding)
+                    @if (item.Status == PermissionStatus.Pending)
                     {
                         <span class="bg-warning p-1 text-white text-center rounded-3 w-75">Pending <i class="fa fa-clock text-white"></i></span>
                     }

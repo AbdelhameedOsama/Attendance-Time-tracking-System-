@@ -34,7 +34,7 @@ namespace Attendance_Time_Tracking.Controllers
                 // Get current user ID (assuming it's stored in StdId)
                 permission.StdId = GetCurrentUserId();
                 permission.Date = DateTime.Now;
-                permission.Status = PermissionStatus.Pendding;
+                permission.Status = PermissionStatus.Pending;
 
                 // Add SupervisorId from the form submission
                 permission.SupId = permission.SupId; 
