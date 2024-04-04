@@ -20,6 +20,7 @@ namespace Attendance_Time_Tracking
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IStudentRepo, StudentRepo>();
             builder.Services.AddScoped<IInstructorRepo, InstructorRepo>();
+            builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
 			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie(options =>
 				{
