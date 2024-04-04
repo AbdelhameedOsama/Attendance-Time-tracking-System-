@@ -15,8 +15,8 @@ namespace Attendance_Time_Tracking.Models
         public int? SupId { get; set; }
         public Instructor Supervisor { get; set; }
 
-        public DateTime Start_Time { get; set; }
-        public DateTime End_Time { get; set; }
-        public DateTime Date { get; set; }
+        public TimeOnly Start_Time { get; set; }
+        public TimeOnly End_Time { get; set; }
+        public DateOnly Date { get; set; }
     }
 }

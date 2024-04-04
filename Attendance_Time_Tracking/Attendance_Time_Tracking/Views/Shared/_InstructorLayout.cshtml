@@ -40,12 +40,18 @@
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
 								<i class="fa-solid fa-scroll fs-5 m-2" style="color: #ffffff;"></i>
-								<a href="Index" class="text-white text-decoration-none fw-bold fs-5">Schedules</a>
+                                <a asp-action="Schedules" asp-controller="Instructor" class="text-white text-decoration-none fw-bold fs-5">Schedules</a>
                             </div>
                         </div>
                          @{
                             if (ViewData["Role"].ToString() =="Supervisor")
-                            { 
+                            {
+                                <div class="row mt-2 mb-2">
+                                    <div class="container-fluid col" id="leftSidebarLinks">
+                                        <i class=" fa-solid fa-pen-ruler fs-5 m-2" style="color: #ffffff;"></i>
+                                        <a asp-action="CreateSchedule" asp-controller="Instructor" class="text-white text-decoration-none fw-bold fs-5">Create Schedule</a>
+                                    </div>
+                                </div>
                                 <div class="row mt-2 mb-2">
                                     <div class="container-fluid col" id="leftSidebarLinks">
                                 <i class=" fa-solid fa-file-pen fs-5 m-2" style="color: #ffffff;"></i>
@@ -73,7 +79,7 @@
                     <div class="col-9 d-flex flex-column justify-content-evenly h-100">
                         <p class="text-white fs-5" id="dateTime">Current Date and time</p>
                         <div class="container">
-                            <p class="text-white fs-2 fw-bold m-0">Welcome back, @User.Identity.Name</p>
+                            <p class="text-white fs-2 fw-bold m-0">Welcome back, Instructor</p>
                             <p class="text-white fs-6">Always stay updated in your Instructor portal</p>
                         </div>
                     </div>
