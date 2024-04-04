@@ -75,7 +75,7 @@ namespace Attendance_Time_Tracking.Controllers
 			return View(schedule);
 		}
         //SChedule
-        public async Task<IActionResult> Schedules()
+/*        public async Task<IActionResult> Schedules()
         {
             int supId = URepo.GetUserId(User);
             var track = await IRepo.GetTrackBySupervisorId(supId);
@@ -88,7 +88,7 @@ namespace Attendance_Time_Tracking.Controllers
 
 			ViewBag.TrackName = track.Name;
             return View(schedules);
-        }
+        }*/
 		public async Task<IActionResult> AllSchedules()
 		{
 			var tracks = await IRepo.TracksInScheduels();
@@ -135,6 +135,21 @@ namespace Attendance_Time_Tracking.Controllers
 			}
 			return View(user);
 		}
+		//View Attendance
+		public ActionResult Attendance()
+		{
+            ViewData["Role"] = User.FindFirst(ClaimTypes.Role).Value;
+            return View();
+        }
+		[HttpPost]
+		public async Task<IActionResult> Attendance(DateTime FromDate)
+		{
+			ViewData["Role"] = User.FindFirst(ClaimTypes.Role).Value;
+			var attendances = await IRepo.GetAttendancesByInstructorID(URepo.GetUserId(User));
+			attendances = attendances.Where(a => a.Date >= DateOnly.FromDateTime(FromDate)).OrderBy(d=>d.Date).Take(7).ToList();
+			return View(attendances);
+		}
+
 
 	}
 }
