@@ -1,0 +1,25 @@
+﻿@{
+        ViewBag.Title = "Attendance";
+        Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Arrival Time</th>
+            <th>Departure Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var attendance in Model)
+        {
+            <tr>
+                <td>@attendance.Date.ToString("MM/dd/yyyy")</td>
+                <td>@attendance.Status</td>
+                <td>@attendance.Arrival_Time.ToString("hh:mm tt")</td>
+                <td>@attendance.Departure_Time?.ToString("hh:mm tt")</td>
+            </tr>
+        }
+    </tbody>
+</table>

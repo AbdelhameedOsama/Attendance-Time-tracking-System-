@@ -15,7 +15,7 @@ namespace Attendance_Time_Tracking.Models
         public string Status { get; set; }
 
         public DateTime Arrival_Time { get; set; }
- 
+
         public DateTime? Departure_Time { get; set; }
 
         public virtual User User { get; set; }
