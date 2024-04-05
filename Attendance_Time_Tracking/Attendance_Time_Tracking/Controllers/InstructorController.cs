@@ -96,6 +96,7 @@ namespace Attendance_Time_Tracking.Controllers
 			ViewBag.Tracks = tracks;
 			return View();
 		}
+
 		[HttpPost]
 		public async Task<IActionResult> AllSchedules(int Track, DateOnly FromDate)
 		{
@@ -111,7 +112,7 @@ namespace Attendance_Time_Tracking.Controllers
 			}
 			return View(schedules);
 
-        }
+  //      }
 		//edit profile data
 		public IActionResult EditProfile()
 		{
