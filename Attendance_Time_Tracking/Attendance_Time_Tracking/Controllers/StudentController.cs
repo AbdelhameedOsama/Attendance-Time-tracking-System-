@@ -1,5 +1,6 @@
 ﻿using Attendance_Time_Tracking.Data;
 using Attendance_Time_Tracking.Models;
+using Attendance_Time_Tracking.Repos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace Attendance_Time_Tracking.Controllers
     [Authorize(Roles = "Student")]
     public class StudentController : Controller
     {
+        private readonly IStudentRepo _studentRepo;
         private readonly AttendanceContext _context;
 
-        public StudentController(AttendanceContext context)
+        public StudentController(IStudentRepo studentRepo, AttendanceContext context)
         {
+            _studentRepo = studentRepo;
             _context = context;
         }
 
@@ -155,7 +158,7 @@ namespace Attendance_Time_Tracking.Controllers
                 // Get current user ID (assuming it's stored in StdId)
                 permission.StdId = GetCurrentUserId();
                 permission.Date = DateTime.Now;
-                permission.Status = PermissionStatus.Pendding;
+                permission.Status = PermissionStatus.Pending;
 
                 // Add SupervisorId from the form submission
                 permission.SupId = permission.SupId;
@@ -176,55 +179,18 @@ namespace Attendance_Time_Tracking.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int stdId, string date)
+        public async Task<IActionResult> Delete(int id, DateTime date)
         {
-            var parsedDate = DateTime.Parse(date);
-
-            // Check if permission belongs to current student
-            var permission = await _context.Permissions
-                .FirstOrDefaultAsync(p => p.StdId == stdId && p.Date == parsedDate);
-
+            var permission = await _studentRepo.GetPermission(id, date);
             if (permission == null)
             {
-                // Permission not found or doesn't belong to current student
                 return NotFound();
             }
 
-            // Delete permission
-            _context.Permissions.Remove(permission);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Index");
+            await _studentRepo.DeletePermission(permission);
+            return RedirectToAction(nameof(Index));
         }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int stdId, string date)
-        {
-            try
-            {
-                // Parse the date string back to DateTime
-                var parsedDate = DateTime.Parse(date);
-                var permission = await _context.Permissions
-                    .FirstOrDefaultAsync(p => p.StdId == stdId && p.Date == parsedDate);
-
-                if (permission == null)
-                {
-                    return NotFound();
-                }
-
-                _context.Permissions.Remove(permission);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                // Log or handle the exception (e.g., display error message)
-                return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-            }
-        }
 
 
         public async Task<IActionResult> Attendance()
