@@ -105,7 +105,7 @@ namespace Attendance_Time_Tracking.Controllers
             var schedules = await IRepo.GetSchedules();
 			if (Track != 0)
 			{
-				schedules = schedules.Where(s => s.Track.ID == Track && s.Date>=DateOnly.FromDateTime(FromDate)).OrderBy(s=>s.Date).Take(7).ToList();
+				schedules = schedules.Where(s => s.Track.ID == Track && s.Date >= FromDate).OrderBy(s=>s.Date).Take(7).ToList();
 				ViewBag.Schedules = schedules;
                 return View();
 			}
