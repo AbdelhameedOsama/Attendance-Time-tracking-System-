@@ -1,5 +1,7 @@
-﻿using Attendance_Time_Tracking.Repos;
+﻿using Attendance_Time_Tracking.Models;
+using Attendance_Time_Tracking.Repos;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Attendance_Time_Tracking.Controllers
 {
@@ -17,16 +19,54 @@ namespace Attendance_Time_Tracking.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ViewAttendance()
+        public async Task<IActionResult> ViewAttendance(UserRole? role = null)
         {
-            var attendance = await empRepo.ViewAllAttendance();
+            AttendanceViewModel attendance;
+            if (role == null)
+            {
+                attendance = await empRepo.ViewAllAttendance();
+                ViewBag.Role = null;
+            }
+            else
+            {
+                attendance = await empRepo.ViewAttendance(role.Value);
+                ViewBag.Role = (int)role.Value;
+            }
             return PartialView(attendance);
-            //return PartialView();
         }
 
-        public IActionResult TakeAttendance()
+        public async Task<IActionResult> RefreshAttendance(UserRole? role = null)
         {
-            return PartialView();
+            AttendanceViewModel attendance;
+            if (role == null)
+            {
+                attendance = await empRepo.ViewAllAttendance();
+                ViewBag.Role = null;
+            }
+            else
+            {
+                attendance = await empRepo.ViewAttendance(role.Value);
+                ViewBag.Role = (int)role.Value;
+            }
+            return View(attendance);
+        }
+
+        public async Task<IActionResult> TakeAttendance(int id, UserRole? role)
+        {
+            await empRepo.RecordAttendance(id);
+            return RedirectToAction("RefreshAttendance", role);
+        }
+
+        public async Task<IActionResult> AddDepartureTime(int id, UserRole? role)
+        {
+            await empRepo.AddDepartureTime(id);
+            return RedirectToAction("RefreshAttendance", role);
+        }
+
+        public async Task<IActionResult> RemoveAttendance(int id, UserRole? role)
+        {
+            await empRepo.RemoveAttendance(id);
+            return RedirectToAction("RefreshAttendance", role);
         }
     }
 }
