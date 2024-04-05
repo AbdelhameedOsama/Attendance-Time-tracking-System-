@@ -50,8 +50,8 @@ namespace Attendance_Time_Tracking.Repos
             DateTime time = DateTime.Now;
             DateOnly today = DateOnly.FromDateTime(time);
             AttendanceStatus status;
-            TimeOnly startTime = db.Schedules.Where(s => s.Date == today).Select(s => s.Start_Time).FirstOrDefault();
-            TimeOnly lateTime = startTime.AddMinutes(15);
+			TimeSpan startTime = db.Schedules.Where(s => s.Date == today).Select(s => s.Start_Time).FirstOrDefault();
+			TimeSpan lateTime = startTime.Add(TimeSpan.FromMinutes(15));
             var user = await db.Users.Include(u => u.Attendances).FirstOrDefaultAsync(u => u.ID == id);
             if (user == null)
             {
@@ -61,7 +61,7 @@ namespace Attendance_Time_Tracking.Repos
             {
                 return false;
             }
-            if (time <= DateTime.Today.Add(lateTime.ToTimeSpan()))
+            if (time <= DateTime.Today.Add(lateTime))
             {
                 status = AttendanceStatus.Present;
             }

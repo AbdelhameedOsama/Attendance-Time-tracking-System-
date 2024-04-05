@@ -97,7 +97,7 @@ namespace Attendance_Time_Tracking.Controllers
 			return View();
 		}
 		[HttpPost]
-		public async Task<IActionResult> AllSchedules(int Track, DateTime FromDate)
+		public async Task<IActionResult> AllSchedules(int Track, DateOnly FromDate)
 		{
             var tracks = await IRepo.TracksInScheduels();
             ViewData["Role"] = User.FindFirst(ClaimTypes.Role).Value;

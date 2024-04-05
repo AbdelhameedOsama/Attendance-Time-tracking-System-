@@ -121,25 +121,25 @@ namespace Attendance_Time_Tracking.Controllers
             return View("~/Views/Student/Edit.cshtml", student);
         }
 
-        public async Task<IActionResult> Schedule()
-        {
-            var userId = GetCurrentUserId();
-            var student = await _context.Users.OfType<Student>().FirstOrDefaultAsync(s => s.ID == userId);
+		public async Task<IActionResult> Schedule()
+		{
+			var userId = GetCurrentUserId();
+			var student = await _context.Users.OfType<Student>().FirstOrDefaultAsync(s => s.ID == userId);
 
-            if (student == null)
-            {
-                return NotFound();
-            }
+			if (student == null)
+			{
+				return NotFound();
+			}
 
-            var schedule = await _context.Schedules
-                .Include(s => s.Track)
-                .Include(s => s.Supervisor)
-                .Where(s => s.TrackId == student.TrackId && s.Date >= DateTime.Today)
-                .OrderBy(s => s.Date)
-                .ToListAsync();
+			var schedule = await _context.Schedules
+				.Include(s => s.Track)
+				.Include(s => s.Supervisor)
+				.Where(s => s.TrackId == student.TrackId && s.Date >= DateOnly.FromDateTime(DateTime.Today))
+				.OrderBy(s => s.Date)
+				.ToListAsync();
 
-            return View("~/Views/Student/View.cshtml", schedule);
-        }
+			return View("~/Views/Student/View.cshtml", schedule);
+		}
 
         public IActionResult Create()
         {

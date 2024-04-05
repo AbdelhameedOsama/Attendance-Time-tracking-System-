@@ -17,6 +17,6 @@ namespace Attendance_Time_Tracking.Models
 
         public TimeSpan Start_Time { get; set; }
         public TimeSpan End_Time { get; set; }
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
     }
 }
