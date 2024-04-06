@@ -1,0 +1,250 @@
+﻿@model IEnumerable<Student>
+@{
+    ViewData["Title"] = "AdminStudents";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int counter = 1;
+    var Tracks = ViewBag.Tracks;
+    Student std = new Student();
+    std.Role = UserRole.Student;
+    var tracks = Tracks as List<Track>;
+    SelectList tracksList = new SelectList(tracks, "ID", "Name");
+}
+<div class="d-flex justify-content-between">
+
+<h1>Students</h1>
+<button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#AddStudentModal"><i class="fa-solid fa-user-plus"></i></button>
+</div> <!--end of div -->
+<!--start of table -->
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover text-center">
+    <thead>
+        <tr>
+           @*<th scope="col"></th> *@
+            <th scope="col">Actions</th>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+            <th scope="col">Phone</th>
+            <th scope="col">University</th>
+            <th scope="col">Faculty</th>
+            <th scope="col">Specialization</th>
+            <th scope="col">Graduation Year</th>
+            <th scope="col">Track</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var student in Model)
+        {
+            
+        <tr>
+            @*<th scope="row">@counter</th>*@
+                    <td class="">
+                        <a class="btn border-0 text-secondary" data-bs-toggle="modal" data-bs-target="#EditModal-@student.ID"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn border-0 text-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal-@student.ID"><i class="fa-solid fa-trash-can"></i></a>
+                        <!-------------------------------------- Delete Modal ------------------------------->
+                        <div class="modal fade" id="DeleteModal-@student.ID" tabindex="-1" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5 text-danger" id="DeleteModalLabel">Delete</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h5>Are you sure you want to delete this Student?</h5>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <a asp-action="AdminDeleteStudent" asp-controller="Admin" class="btn btn-danger" asp-route-id="@student.ID">Delete @student.ID</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-------------------------------------------Edit Model------------------------------------------>
+                        <div class="modal fade" style="text-align:left;" id="EditModal-@student.ID" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form asp-action="AdminEditStudent" asp-controller="Admin" method="post">
+
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5 text-black" id="AddStudentModalLabel">Add New Student</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body row g-2">
+                                            @* <input type="text"  name="student.ID" value="@student.ID" /> *@
+                                            @* <input type="hidden" name="std.Role" value="@std.Role" /> *@
+                                            @Html.HiddenFor(model => student.ID)
+                                            <div class="col-md-6">
+                                                <label asp-for="@student.Name" class="col-form-label">Name</label>
+                                                <input asp-for="@student.Name" class="form-control" />
+                                                @* <input type="text" name="student.Name" value="@student.Name" /> *@
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@student.Password" class="col-form-label">Password</label>
+                                                <input asp-for="@student.Password" class="form-control" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@student.Email" class="col-form-label">Email</label>
+                                                <input asp-for="@student.Email" class="form-control">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@student.Phone" class="col-form-label">Phone</label>
+                                                <input asp-for="@student.Phone" class="form-control">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@student.Address" class="col-form-label">Address</label>
+                                                <input asp-for="@student.Address" class="form-control">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@student.Graduation_year" class="col-form-label">Graduation year</label>
+                                                <input asp-for="@student.Graduation_year" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label asp-for="@student.University" class="col-form-label">University</label>
+                                                <input asp-for="@student.University" class="form-control" placeholder="Ex: Cairo, Mansoura, Ain Shams">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label asp-for="@student.Faculty" class="col-form-label">Faculty</label>
+                                                <input asp-for="@student.Faculty" class="form-control" id="inputFaculty" placeholder="Ex:Engineering , Computer and Information">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label asp-for="@student.Specialization" class="col-form-label">Specialization</label>
+                                                <input asp-for="@student.Specialization" class="form-control" placeholder="Ex: AI, Bioinformatics">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@student.TrackId" class="col-form-label">Track</label>
+                                                <select asp-for="@student.TrackId" asp-items="tracksList" class="form-control">
+                                                    <option value="@student.TrackId" selected>Choose...</option>
+                                                </select>
+
+                                            </div>
+                                            <input type="hidden" name="std.Role" value="@student.Role" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success">Update</button>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-------------------------------------- Validation Modal ------------------------------->
+                        <div class="modal fade" id="ValidationModal-@student.ID" tabindex="-1" aria-labelledby="ValidationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5 text-danger" id="ValidationModalLabel">Delete</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div asp-validation-summary="All" class="alert alert-danger list-unstyled"></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+            <td>@student.ID</td>
+            <td>@student.Name</td>
+            <td>@student.Email</td>
+            <td>@student.Address</td>
+            <td>@student.Phone</td>
+            <td>@student.University</td>
+            <td>@student.Faculty</td>
+            <td>@student.Specialization</td>
+            <td>@student.Graduation_year</td>
+            <td>
+               
+                    @foreach(var track in Tracks)
+                    {
+                        @if (student.TrackId==track.ID)
+                        {
+                            @track.Name
+                            break;
+                        }
+                    }
+
+              </td>
+           
+            </tr>
+            { counter++; }  
+        }
+    </tbody>
+</table>
+</div>
+
+<!-------------------------------------- Add Modal ------------------------------------->
+<div class="modal fade" id="AddStudentModal" tabindex="-1" aria-labelledby="AddStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="AdminAddStudent" asp-controller="Admin" method="post">
+
+            <div class="modal-header">
+                <h1 class="modal-title fs-5 text-black" id="AddStudentModalLabel">Add New Student</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row g-2">
+                        <div class="col-md-6">
+                        <label asp-for="@std.Name" class="col-form-label">Name</label>
+                        <input asp-for="@std.Name" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                        <label asp-for="@std.Password" class="col-form-label">Password</label>
+                        <input asp-for="@std.Password" class="form-control" />
+                        </div>
+                        <div class="col-md-6">
+                        <label asp-for="@std.Email" class="col-form-label">Email</label>
+                        <input asp-for="@std.Email" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                        <label asp-for="@std.Phone" class="col-form-label">Phone</label>
+                        <input asp-for="@std.Phone" class="form-control">
+                        </div>
+                    <div class="col-md-6">
+                        <label asp-for="@std.Address" class="col-form-label">Address</label>
+                        <input asp-for="@std.Address" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@std.Graduation_year" class="col-form-label">Graduation year</label>
+                        <input asp-for="@std.Graduation_year" class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="@std.University" class="col-form-label">University</label>
+                        <input asp-for="@std.University" class="form-control" placeholder="Ex: Cairo, Mansoura, Ain Shams">
+                        </div>
+                    <div class="col-md-4">
+                        <label asp-for="@std.Faculty" class="col-form-label">Faculty</label>
+                        <input asp-for="@std.Faculty" class="form-control" id="inputFaculty" placeholder="Ex:Engineering , Computer and Information">
+                        </div>
+                        <div class="col-md-4">
+                        <label asp-for="@std.Specialization" class="col-form-label">Specialization</label>
+                        <input asp-for="@std.Specialization" class="form-control" placeholder="Ex: AI, Bioinformatics">
+                        </div>
+                        <div class="col-md-6">
+                        <label asp-for="@std.TrackId" class="col-form-label">Track</label>
+                        <select asp-for="@std.TrackId" asp-items="tracksList" class="form-control">
+                            <option selected disabled>Choose...</option>
+                        </select>
+                           
+                        </div>
+                    <input type="hidden" name="std.Role" value="@std.Role" />
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                 <button type="submit" class="btn btn-success">Add</button>
+            </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
