@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Attendance_Time_Tracking.Models
 {
-   public enum UserRole { Employee, Student, Instructor, Supervisor}
+    public enum UserRole { Employee, Student, Instructor, Supervisor ,Admin}
     public class User
     {
         [Key]
