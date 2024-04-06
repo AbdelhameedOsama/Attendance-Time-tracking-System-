@@ -12,7 +12,7 @@ namespace Attendance_Time_Tracking.Repos
 		int GetUserId(ClaimsPrincipal user);
 		Task<User> UpdateUser(User user);
         public void DeleteUser(int id);
-        public void UpdateUser(User user);
+        public void UpdateInst(User user);
         public void AddUser(User user);
 
 
@@ -89,7 +89,7 @@ namespace Attendance_Time_Tracking.Repos
             db.Users.Add(user);
             db.SaveChanges();
         }
-        public void UpdateUser(User user)
+        public void UpdateInst(User user)
         {
             var existingUser = db.Users.FirstOrDefault(a => a.ID == user.ID);
             if (existingUser != null)

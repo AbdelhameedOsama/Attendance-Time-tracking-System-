@@ -78,7 +78,7 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                userRepo.UpdateUser(instructor);
+                userRepo.UpdateInst(instructor);
                 return RedirectToAction("AdminInstructors");
             }
             return RedirectToAction("AdminInstructors");

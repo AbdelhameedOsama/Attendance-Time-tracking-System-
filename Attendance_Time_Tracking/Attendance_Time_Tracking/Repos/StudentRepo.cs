@@ -65,47 +65,47 @@ namespace Attendance_Time_Tracking.Repos
         }
         public List<Student> GetAll()
         {
-            return db.Students.ToList();
+            return _db.Students.ToList();
         }
         public Student GetStudentByID(int id)
         {
-            return db.Students.FirstOrDefault(a=>a.ID == id);
+            return _db.Students.FirstOrDefault(a=>a.ID == id);
         }
         public void DeleteStudent(int id)
         {
-            var stdPermission = db.Permissions.FirstOrDefault(a => a.StdId==id);
+            var stdPermission = _db.Permissions.FirstOrDefault(a => a.StdId==id);
             if (stdPermission!=null)
             {
-                db.Permissions.Remove(stdPermission);
+                _db.Permissions.Remove(stdPermission);
                
             }
-            var stdAttendance = db.Attendances.Where(a => a.User.ID == id).ToList();
+            var stdAttendance = _db.Attendances.Where(a => a.User.ID == id).ToList();
             foreach(var attendance in stdAttendance)
             {
                 if (attendance!=null)
                 {
 
-                    db.Attendances.Remove(attendance);
+                    _db.Attendances.Remove(attendance);
                 }
             }
-            var std = db.Students.FirstOrDefault(a => a.ID ==id);
-            db.Students.Remove(std);
-            db.SaveChanges();
+            var std = _db.Students.FirstOrDefault(a => a.ID ==id);
+            _db.Students.Remove(std);
+            _db.SaveChanges();
         }
 
         public void Add(Student std)
         {
-            db.Students.Add(std);
-            db.SaveChanges();
+            _db.Students.Add(std);
+            _db.SaveChanges();
         }
         public void UpdateStd(Student std)
         {
-            var existingStudent = db.Students.FirstOrDefault(a => a.ID == std.ID);
+            var existingStudent = _db.Students.FirstOrDefault(a => a.ID == std.ID);
             if (existingStudent != null)
             {
-                db.Entry(existingStudent).State = EntityState.Detached; // Detach the existing entity
-                db.Entry(std).State = EntityState.Modified; // Attach and mark as modified
-                db.SaveChanges();
+                _db.Entry(existingStudent).State = EntityState.Detached; // Detach the existing entity
+                _db.Entry(std).State = EntityState.Modified; // Attach and mark as modified
+                _db.SaveChanges();
             }
         }
 
