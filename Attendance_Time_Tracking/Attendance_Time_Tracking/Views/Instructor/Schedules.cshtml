@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Schedule>
+@{
+ViewData["Title"] = "Schedules";
+	ViewData["Role"] = "Supervisor";
+	Layout = "~/Views/Shared/_InstructorLayout.cshtml";
+	string trackName = ViewBag.TrackName;
+}
+<div class="text-center">
+	<h1 class="">Schedules</h1>
+	<p>Here you can view your Track Schedules</p>
+</div>
+<div class="">
+	<h3>Schedules</h3>
+</div>
+<hr />
+<div>
+	<div class="table-responsive">
+		<table class="table table-hover table-active ">
+			<thead class="fs-5">
+				<tr>
+					<th>Date</th>
+					<th>Day</th>
+					<th>Start Time</th>
+					<th>End Time</th>
+					<th>Track Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td class="fs-5">@item.Date.ToString("dd/MM/yyyy")</td>
+						<td class="fs-5">@item.Date.ToString("dddd")</td>
+						<td class="fs-5">@item.Start_Time</td>
+						<td class="fs-5">@item.End_Time</td>
+						<td class="fs-5">@trackName</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>

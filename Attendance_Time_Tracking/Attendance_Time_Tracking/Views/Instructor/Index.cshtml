@@ -1,5 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@model User
+@{
+	ViewData["Title"] = "Index";
+	ViewData["Name"] = Model.Name;
+	ViewData["Role"] = Model.Role.ToString(); 
     Layout = "~/Views/Shared/_InstructorLayout.cshtml";
 }
 
@@ -8,31 +11,31 @@
 	<h1 class="">Welcome to Your Profile</h1>
 	<p>Here you can view and edit your Personal information</p>
 </div>
-<div class="text-center">
-	<h3>Student Information</h3>
+<div class="">
+	<h3>Instructor Information</h3>
 </div>
 <hr />
 <div>
 	<table class="table table-active table-hover">
 		<tr>
 			<td>
-				<h5>Student Name: abdelhameed</h5>
+				<h5> ID: @Model.ID</h5>
 			</td>
 			<td>
-				<h5>Student ID: 10</h5>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<h5>Student Email: myEmail</h5>
-			</td>
-			<td>
-				<h5>Student Phone: 01100114424</h5>
+				<h5>Name: @Model.Name</h5>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<h5>Student Address: ezbetElshal</h5>
+				<h5> Email: @Model.Email</h5>
+			</td>
+			<td>
+				<h5> Phone: @Model.Phone</h5>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h5>Address: @Model.Address</h5>
 			</td>
 			<td>
 				<h5>Student Birthdate: 11/4/2001</h5>
@@ -40,4 +43,9 @@
 		</tr>
 	</table>
 </div>
+
+<div>
+	<a asp-action="EditProfile" class="btn btn-lg btn-primary float-end">EditProfile</a>
+</div>
+
 

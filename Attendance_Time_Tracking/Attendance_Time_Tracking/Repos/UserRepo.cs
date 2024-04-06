@@ -10,6 +10,7 @@ namespace Attendance_Time_Tracking.Repos
 		public List<User> GetAll();
         User GetUser(string Name, string Password);
 		int GetUserId(ClaimsPrincipal user);
+		Task<User> UpdateUser(User user);
         public void DeleteUser(int id);
         public void UpdateUser(User user);
         public void AddUser(User user);
@@ -37,6 +38,20 @@ namespace Attendance_Time_Tracking.Repos
 			var userIdClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
 
 			return Convert.ToInt32(userIdClaim.Value);
+		}
+		public async Task<User> UpdateUser(User user)
+		{
+			var existingUser = db.Users.FirstOrDefault(u => u.ID == user.ID);
+			if (existingUser != null)
+			{
+				existingUser.Email = user.Email;
+				existingUser.Password = user.Password;
+				existingUser.Name = user.Name;
+				existingUser.Phone = user.Phone;
+				
+				await db.SaveChangesAsync();
+			}
+			return user;
 		}
 
         public void DeleteUser(int id)

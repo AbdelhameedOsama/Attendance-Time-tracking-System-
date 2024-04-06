@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Permission>
+@{
+    ViewData["Title"] = "Permissions";
+    ViewData["Role"] = "Supervisor";
+
+    Layout = "~/Views/Shared/_InstructorLayout.cshtml";
+}
+<div class="text-center">
+    <h1 class="">Permissions</h1>
+    <p>Here you can view and edit your student's Permissions</p>
+</div>
+<div class="">
+    <h3>Permissions</h3>
+</div>
+<hr />
+<div>   
+    @if(Model.Count() ==0){
+        <h3 class="text-center text-danger">No Permissions Found</h3>
+    }
+    else
+    {
+    <div class="table-responsive">
+        <table class="table table-hover table-active ">
+            <thead class="fs-5">
+                <tr>
+                    <th>Student Name</th>
+                    <th>Date</th>
+                    <th>Reason</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fs-5">@item.Student.Name</td>
+                        <td class="fs-5">@item.Date.ToString("d")</td>
+                        <td>@item.Reason</td>
+                        <td>
+                            @if (item.Type.ToString() == "Absence")
+                            {
+                                <span class="text-danger fw-bold">Absence</span>
+                            }
+                            else
+                            {
+                                <span class="text-warning fw-bold">Late</span>
+                            }
+                        </td>
+                        @if (item.Status.ToString() == "Pending")
+                        {
+                            <td>
+                                <div class="bg-warning p-1 text-white text-center rounded-3">@item.Status.ToString() <i class="fa fa-clock text-white"></i></div>
+                            </td>
+                        }
+                        else if (item.Status.ToString() == "Approved")
+                        {
+                            <td>
+                                <div class="bg-success p-1 text-white text-center rounded-3">@item.Status.ToString() <i class="fa fa-check text-white"></i></div>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <div class="bg-danger p-1 text-white text-center rounded-3">@item.Status.ToString() <i class="fa fa-times text-white"></i></div>
+                            </td>
+                        }
+                        <td>
+                            @if (item.Status.ToString() =="Pending")
+                            {
+                                <a asp-controller="Instructor" asp-action="Approve" asp-route-id="@item.StdId" asp-route-date="@item.Date" class="btn btn-success">Approve</a>
+                                <a asp-controller="Instructor" asp-action="Reject" asp-route-id="@item.StdId" asp-route-date="@item.Date" class="btn btn-danger">Deny</a>
+                            }
+                            else
+                            {
+                                <p class="text-success fw-bold">No Action Needed</p>
+                            }
+                        </td>
+                        <td>
+                            <a asp-controller="Instructor" asp-action="Delete" asp-route-id="@item.StdId" asp-route-date="@item.Date" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+</div>

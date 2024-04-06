@@ -1,0 +1,50 @@
+﻿@model Schedule
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Schedule";
+    ViewData["Role"] = "Supervisor";
+    Layout = "~/Views/Shared/_InstructorLayout.cshtml";
+    int supId = ViewBag.supId;
+    int trackID = ViewBag.TrackID;
+}
+<div class="text-center">
+    <h1 class="">Schedule</h1>
+</div>
+<form method="post">
+    <input asp-for="TrackId" value="@trackID" hidden />
+    <input asp-for="SupId" value="@supId" hidden />
+
+    <table class="table table-active">
+        <tr>
+            <td>
+                <label asp-for="Start_Time"></label>
+            </td>
+            <td>
+                <input asp-for="Start_Time" type="time" class="form-control" value="09:00" />
+                <span asp-validation-for="Start_Time" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="End_Time"></label>
+            </td>
+            <td>
+                <input asp-for="End_Time" type="time" value="20:00" class="form-control" />
+                <span asp-validation-for="End_Time" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label asp-for="Date"></label>
+            </td>
+            <td>
+                <input asp-for="Date" type="date" class="form-control" required />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </td>
+        </tr>
+    </table>
+    
+    <button type="submit" class="btn btn-lg btn-primary float-end">Submit</button>
+</form>
