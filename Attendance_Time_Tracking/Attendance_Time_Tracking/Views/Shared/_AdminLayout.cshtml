@@ -17,7 +17,7 @@
     <div style="background-color: #fcfcfc;" class="container-fluid d-flex flex-column min-vh-100" id="mainContainer">
         <div class="row flex-grow-1 mt-3 mb-3 justify-content-evenly admin">
         <!-- Left Sidebar Start -->
-            <div style="background-color: #64CCC5;" class="col-2 rounded-4 d-flex flex-column" id="leftSidebar">
+            <div style="background-color: #64CCC5; height:100vh;" class="col-2 rounded-4 d-flex flex-column" id="leftSidebar">
                 <div class="row mt-4 mb-4">
                     <div class="container-fluid col-6 p-2 bg-black bg-opacity-25 rounded-5" id="leftSidebarPicture">
                         <img src="https://cdn-icons-png.flaticon.com/512/2940/2940653.png" class="col-12">
@@ -35,7 +35,7 @@
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
                                 <i class="fa-solid fa-chalkboard-user fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">Instructors</a>
+                                <a asp-action="AdminInstructors" asp-controller="Admin" class="text-white text-decoration-none fw-bold fs-5">Instructors</a>
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
@@ -48,7 +48,7 @@
                             <div class="container-fluid col" id="leftSidebarLinks">
                                 @*<i class="fa-solid fa-graduation-cap fs-5 m-2" style="color: #ffffff;"></i> *@
                                 <img src="~/assets/students.png" class="m-2" />
-                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">Students</a>
+                                <a asp-action="AdminStudents" asp-controller="Admin" class="text-white text-decoration-none fw-bold fs-5">Students</a>
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
@@ -74,14 +74,14 @@
             <div class="col-9 d-flex flex-column">
                 <div class="row h-25 rounded-4 p-3 ps-5" style="background-color: #64CCC5;" id="leftSidebar">
                     <div class="col-9 d-flex flex-column justify-content-evenly h-100">
-                        <p class="text-white fs-5" id="dateTime">Current Date and time</p>
-                        <div class="container">
+                        <p class="text-white fs-7" id="dateTime">Current Date and time</p>
+                        <div style="margin-top:-3%;">
                             <p class="text-white fs-2 fw-bold m-0">Welcome back,@*  @User.Identity.Name *@</p>
                             <p class="text-white fs-6">Always stay updated in your student portal</p>
                         </div>
                     </div>
                     <div class="col-3 h-100 d-flex justify-content-end">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-75">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-50">
                     </div>
                 </div>
                 <div style="background-color: rgba(0, 0, 0, 0.1);" class="row flex-grow-1 mt-4 rounded-4 p-4 align-content-start"
@@ -105,6 +105,9 @@
             setInterval(updateDateTime, 1000);
         }
     </script>
-
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validationunobtrusive/jquery.validate.unobtrusive.js"></script>
 </body>
 </html>

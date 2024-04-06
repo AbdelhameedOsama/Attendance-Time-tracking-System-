@@ -7,7 +7,6 @@ namespace Attendance_Time_Tracking.Models
 {
     public class Attendance
     {
-
         public int UserId { get; set; }
         public DateTime Date { get; set; }
 
