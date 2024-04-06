@@ -155,13 +155,28 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Get current user ID (assuming it's stored in StdId)
-                permission.StdId = GetCurrentUserId();
+                var userId = GetCurrentUserId();
+                var student = await _context.Users.OfType<Student>().FirstOrDefaultAsync(s => s.ID == userId);
+
+                // Check if the reason is empty
+                if (string.IsNullOrEmpty(permission.Reason))
+                {
+                    ModelState.AddModelError("Reason", "The Reason field is required.");
+                    return View("~/Views/Student/Create.cshtml", permission);
+                }
+
+                // Check if the supervisor ID exists
+                var supervisorExists = await _context.Instructors.AnyAsync(i => i.ID == permission.SupId);
+                if (!supervisorExists)
+                {
+                    ModelState.AddModelError("SupId", "Supervisor ID not found.");
+                    return View("~/Views/Student/Create.cshtml", permission);
+                }
+
+                // Create the permission
+                permission.StdId = userId;
                 permission.Date = DateTime.Now;
                 permission.Status = PermissionStatus.Pending;
-
-                // Add SupervisorId from the form submission
-                permission.SupId = permission.SupId;
 
                 _context.Add(permission);
                 await _context.SaveChangesAsync();
@@ -169,6 +184,7 @@ namespace Attendance_Time_Tracking.Controllers
             }
             return View("~/Views/Student/Create.cshtml", permission);
         }
+
 
         public async Task<IActionResult> Index()
         {
