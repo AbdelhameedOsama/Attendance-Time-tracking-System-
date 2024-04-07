@@ -24,16 +24,15 @@
 <!--start of table -->
 <div class="table-responsive">
 
-    <table class="table table-bordered table-hover text-center">
+    <table id="myTable" class="table table-bordered table-hover display">
         <thead>
             <tr>
-                @*<th scope="col"></th> *@
-                <th scope="col">Actions</th>
                 <th scope="col">ID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Address</th>
                 <th scope="col">Phone</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +40,13 @@
             {
 
                 <tr>
-                    <td class="">
+                    <td>@instructor.ID</td>
+                    <td>@instructor.Name</td>
+                    <td>@instructor.Email</td>
+                    <td>@instructor.Address</td>
+                    <td>@instructor.Phone</td>
+
+                    <td>
                         <a class="btn border-0 text-secondary" data-bs-toggle="modal" data-bs-target="#EditModal-@instructor.ID"><i class="fa-solid fa-pen-to-square"></i></a>
                         <a class="btn border-0 text-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal-@instructor.ID"><i class="fa-solid fa-trash-can"></i></a>
                         <!-------------------------------------- Delete Modal ------------------------------->
@@ -151,15 +156,8 @@
                             </div>
                         </div>
                     </td>
-                    <td>@instructor.ID</td>
-                    <td>@instructor.Name</td>
-                    <td>@instructor.Email</td>
-                    <td>@instructor.Address</td>
-                    <td>@instructor.Phone</td>
-
                 </tr>
-              
-            }
+              }
         </tbody>
     </table>
 </div>
