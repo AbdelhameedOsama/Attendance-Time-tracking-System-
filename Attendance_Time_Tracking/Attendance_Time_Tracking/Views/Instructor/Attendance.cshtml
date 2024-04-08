@@ -14,7 +14,7 @@
 			<label for="Date">From Date</label>
 		</td>
 		<td>
-			<input type="date"  class="form-control"id="Date" name="FromDate" >
+            <input type="date" class="form-control" id="Date" name="FromDate" required value="@DateTime.Now.ToString("yyyy-MM-dd")">
 		</td>
 		<td>
 			<button type="submit" class="btn btn-primary">Search</button>
