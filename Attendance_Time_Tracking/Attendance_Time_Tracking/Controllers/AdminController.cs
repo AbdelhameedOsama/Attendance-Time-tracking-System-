@@ -9,17 +9,22 @@ namespace Attendance_Time_Tracking.Controllers
         readonly IAdminRepo adminRepo;
         readonly IUserRepo userRepo;
         readonly IStudentRepo stdRepo;
-        public AdminController(IStudentRepo _studentRepo, IUserRepo _userRepo, IAdminRepo _adminRepo)
+        readonly IEmployeeRepo empRepo;
+        readonly ITrackRepo trackRepo;
+        public AdminController(IStudentRepo _studentRepo, IUserRepo _userRepo, IAdminRepo _adminRepo, IEmployeeRepo _empRepo, ITrackRepo _trackRepo)
         {
             stdRepo = _studentRepo;
             userRepo = _userRepo;
             adminRepo=_adminRepo;
+            empRepo=_empRepo;
+            trackRepo=_trackRepo;
         }
         public IActionResult Index()
         {
             return View();
         }
-        //Student
+
+        //================Student==============
         public IActionResult AdminStudents()
         {
             var model = stdRepo.GetAll();
@@ -51,7 +56,7 @@ namespace Attendance_Time_Tracking.Controllers
             return RedirectToAction("AdminStudents");
         }
 
-        //Instructor
+        //================Instructor==============
         public IActionResult AdminInstructors()
         {
             var model = userRepo.GetAll();
@@ -83,6 +88,21 @@ namespace Attendance_Time_Tracking.Controllers
             }
             return RedirectToAction("AdminInstructors");
         }
+
+        //================Employee==========
+        public IActionResult AdminEmployees()
+        {
+            var model = empRepo.GetAllEmployees();
+            return View(model);
+        }
+
+        //================Tracks==========
+        public IActionResult AdminTracks()
+        {
+            var model = trackRepo.GetAllTracks();
+            return View(model);
+        }
+
 
     }
 }

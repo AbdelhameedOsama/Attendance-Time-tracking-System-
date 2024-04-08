@@ -44,7 +44,7 @@
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
                                 <i class="fa-solid fa-users fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">Employees</a>
+                                <a asp-action="AdminEmployees" asp-controller="Admin" class="text-white text-decoration-none fw-bold fs-5">Employees</a>
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
@@ -58,7 +58,7 @@
                             <div class="container-fluid col" id="leftSidebarLinks">
                                 <!--<i class="fa-solid fa-square-poll-horizontal fs-5 m-2" style="color: #ffffff;"></i>-->
                                 <img src="~/assets/education.png" class="m-2" />
-                                <a  class="text-white text-decoration-none fw-bold fs-5">Tracks</a>
+                                <a asp-action="AdminTracks" asp-controller="Admin" class="text-white text-decoration-none fw-bold fs-5">Tracks</a>
                             </div>
                         </div>
 

@@ -13,6 +13,7 @@ namespace Attendance_Time_Tracking.Repos
         public Task<bool> RecordAttendance(int id);
         public Task<bool> AddDepartureTime(int id);
         public Task<bool> RemoveAttendance(int id);
+        public List<Employee> GetAllEmployees();
 
     }
 
@@ -110,6 +111,12 @@ namespace Attendance_Time_Tracking.Repos
             db.Attendances.Remove(attendance);
             await db.SaveChangesAsync();
             return true;
+        }
+        public List<Employee> GetAllEmployees()
+        {
+            var employees =db.Employees.ToList();
+            return employees;
+
         }
     }
 }
