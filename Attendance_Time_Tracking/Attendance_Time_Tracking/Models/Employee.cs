@@ -11,6 +11,5 @@ namespace Attendance_Time_Tracking.Models
 
         public Emp_Types Type { get; set; }
 
-        public virtual User User { get; set; }
     }
 }
