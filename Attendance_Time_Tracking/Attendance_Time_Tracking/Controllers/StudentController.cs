@@ -84,7 +84,12 @@ namespace Attendance_Time_Tracking.Controllers
                     {
                         return NotFound();
                     }
-
+                    var emailExists = await _context.Users.AnyAsync(u => u.Email == student.Email && u.ID != student.ID);
+                    if (emailExists)
+                    {
+                        ModelState.AddModelError("Email", "The email is already in use.");
+                        return View("~/Views/Student/Edit.cshtml", student);
+                    }
                     // Update the properties of the studentInDb object
                     studentInDb.Email = student.Email;
                     studentInDb.Password = student.Password;
