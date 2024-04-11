@@ -1,0 +1,181 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Examination_System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Employee.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Examination_System.styles.css" asp-append-version="true" />
+    @* <script src="~/lib/jquery/dist/jquery.js"></script> *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+
+</head>
+<body>
+    <div style="background-color: #fcfcfc;" class="container-fluid d-flex flex-column min-vh-100" id="mainContainer">
+        <!-- Left Sidebar Start -->
+        <div class="row flex-grow-1 mt-3 mb-3 justify-content-evenly">
+            <div style="background-color: #B4B4B8;" class="col-2 rounded-4 d-flex flex-column" id="leftSidebar">
+                <div class="row mt-4 mb-4">
+                    <div class="container-fluid col-6 p-2 bg-black bg-opacity-25 rounded-5" id="leftSidebarPicture">
+                        <img src="https://cdn-icons-png.flaticon.com/512/9576/9576233.png" class="col-12">
+                    </div>
+                </div>
+                <div class="row h-100 ps-2">
+                    <div class="col d-flex flex-column">
+
+                        <div class="row mt-4 mb-2">
+                            <div class="container-fluid col" id="leftSidebarLinks">
+
+                                @* <a href="#" id="ViewAttendance" class="text-white text-decoration-none fw-bold fs-5">View Attendance</a> *@
+
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle text-white text-decoration-none fw-bold fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-book-open-reader fs-5 m-2" style="color: #ffffff;"></i>View<br />Attendance
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                        <li><a asp-action="ViewAttendance" id="ViewAttendance" class="dropdown-item">All</a></li>
+                                        <li><a asp-action="ViewAttendance" asp-route-role="@UserRole.Student" id="ViewStudentAttendance" class="dropdown-item">Students</a></li>
+                                        <li><a asp-action="ViewAttendance" asp-route-role="@UserRole.Instructor" id="ViewInstractorAttendance" class="dropdown-item">Instractors</a></li>
+                                        <li><a asp-action="ViewAttendance" asp-route-role="@UserRole.Supervisor" id="ViewSupervisorAttendance" class="dropdown-item">Supervisors</a></li>
+                                        <li><a asp-action="ViewAttendance" asp-route-role="@UserRole.Employee" id="ViewEmployeeAttendance" class="dropdown-item">Employees</a></li>
+                                    </ul>
+                                </div>
+
+                                <div class="dropdown">
+                                <a class="dropdown-toggle text-white text-decoration-none fw-bold fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa-solid fa-person-military-pointing" style="color: #ffffff;"></i>View<br />Permissions
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+                                    @* <li><a asp-action="ViewAttendance" id="ViewAttendance" class="dropdown-item">All</a></li> *@
+                                    <li><a asp-action="ViewPermissions" asp-route-role="@UserRole.Student" id="ViewStudentPermissions" class="dropdown-item">Students</a></li>
+                                    @* <li><a asp-action="ViewAttendance" asp-route-role="@UserRole.Instructor" id="ViewInstractorAttendance" class="dropdown-item">Instractors</a></li>
+                                    <li><a asp-action="ViewAttendance" asp-route-role="@UserRole.Supervisor" id="ViewSupervisorAttendance" class="dropdown-item">Supervisors</a></li>
+                                    <li><a asp-action="ViewAttendance" asp-route-role="@UserRole.Employee" id="ViewEmployeeAttendance" class="dropdown-item">Employees</a></li> *@
+                                </ul>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4 mb-4 mt-auto">
+                            <div class="container-fluid col text-center" id="leftSidebarLinks">
+                                <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+                                <a asp-action="Logout" asp-controller="Account" class="text-white text-decoration-none fw-bold fs-5">Signout</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Left Sidebar End -->
+            <!-- Right Main Container Start -->
+            <div class="col-9 d-flex flex-column">
+                <div class="row h-25 rounded-4 p-3 ps-5" style="background-color: #B4B4B8;" id="leftSidebar">
+                    <div class="col-9 d-flex flex-column justify-content-evenly h-100">
+                        <p class="text-white fs-5" id="dateTime">Current Date and time</p>
+                        <div class="container">
+                            <p class="text-white fs-2 fw-bold m-0">Welcome back, @* @User.Identity.Name *@</p>
+                            <p class="text-white fs-6">Always stay updated in your employee portal</p>
+                        </div>
+                    </div>
+                    <div class="col-3 h-100 d-flex justify-content-end">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-75">
+                    </div>
+                </div>
+                <div style="background-color: rgba(0, 0, 0, 0.1);" class="row flex-grow-1 mt-4 rounded-4 p-4 align-content-start"
+                     id="mainContent">
+                    @RenderBody()
+
+
+                </div>
+            </div>
+            <!-- Right Main Container End -->
+        </div>
+    </div>
+
+    <script>
+        function updateDateTime() 
+        {
+            let date = new Date();
+            document.getElementById("dateTime").innerText = date.toLocaleString();
+        }
+
+        function ArrangeTable() 
+        {
+
+            $('.ArrangedTable').DataTable({
+                language: {
+                    //customize pagination prev and next buttons: use arrows instead of words
+                    'paginate': {
+                        'previous': '<span class="fa fa-chevron-left"></span>',
+                        'next': '<span class="fa fa-chevron-right"></span>'
+                    },
+                    //customize number of elements to be displayed
+                    "lengthMenu": 'Display <select class="form-control input-sm">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">All</option>' +
+                        '</select> results'
+                }
+            })
+        }
+
+        function reloadPageWithDate() {
+            let date = $("#date").val();
+            let currentURL = window.location.href.split("?")[0];
+            window.location.href = currentURL + "?date=" + date;
+        }
+
+        window.onload = function () {
+            updateDateTime();
+
+            setInterval(updateDateTime, 1000);
+        }
+
+        $(document).ready(function () {
+
+            $(document).on("click", ".changeStatus", function () {
+                $(this).parent().parent().find(".status").removeClass("hidden");
+                $(this).parent().parent().find(".currentStatus").addClass("hidden");
+                $(this).siblings(".saveButton").removeClass("hidden");
+                $(this).siblings(".cancelButton").removeClass("hidden");
+                $(this).addClass("hidden");
+            })
+
+            $(document).on("click", ".cancelButton", function () {
+                $(this).parent().parent().find(".status").addClass("hidden");
+                $(this).parent().parent().find(".currentStatus").removeClass("hidden");
+                $(this).siblings(".changeStatus").removeClass("hidden");
+                $(this).siblings(".saveButton").addClass("hidden");
+                $(this).addClass("hidden");
+            })
+
+            $("#date").change(function () {
+                reloadPageWithDate()
+            })
+
+            ArrangeTable();
+
+        });
+    </script>
+
+
+    <!-- Data Table JS -->
+    <script src='https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js'></script>
+    <script src='https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js'></script>
+    <script src='https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js'></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
