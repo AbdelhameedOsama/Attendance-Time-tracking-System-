@@ -15,9 +15,9 @@ namespace Attendance_Time_Tracking.Controllers
         {
             stdRepo = _studentRepo;
             userRepo = _userRepo;
-            adminRepo=_adminRepo;
-            empRepo=_empRepo;
-            trackRepo=_trackRepo;
+            adminRepo = _adminRepo;
+            empRepo = _empRepo;
+            trackRepo = _trackRepo;
         }
         public IActionResult Index()
         {
@@ -89,17 +89,25 @@ namespace Attendance_Time_Tracking.Controllers
             return RedirectToAction("AdminInstructors");
         }
 
-        //================Employee==========
+        //================Employee============
         public IActionResult AdminEmployees()
         {
             var model = empRepo.GetAllEmployees();
             return View(model);
         }
 
-        //================Tracks==========
+        //================Tracks============
         public IActionResult AdminTracks()
         {
             var model = trackRepo.GetAllTracks();
+            var user=userRepo.GetAll();
+            foreach (var usr in user)
+            {
+                if (usr.Role==UserRole.Supervisor)
+                {
+                    break;
+                }
+            }
             return View(model);
         }
 

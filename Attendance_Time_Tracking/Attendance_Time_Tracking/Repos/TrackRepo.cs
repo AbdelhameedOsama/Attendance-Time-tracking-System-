@@ -1,5 +1,6 @@
 ﻿using Attendance_Time_Tracking.Data;
 using Attendance_Time_Tracking.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Attendance_Time_Tracking.Repos
 {
@@ -16,7 +17,7 @@ namespace Attendance_Time_Tracking.Repos
         }
         public List<Track> GetAllTracks()
         {
-            return db.Tracks.ToList();
+            return db.Tracks.Include(a => a.Intake).ToList();
         }
     }
 

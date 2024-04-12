@@ -12,7 +12,7 @@
 <!--start of table -->
 <div class="table-responsive">
 
-    <table id="myTable" class="table table-bordered table-hover display">
+    <table id="myTable" class="table table-bordered table-hover display ">
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -23,16 +23,26 @@
                 <th scope="col">Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody >
             @foreach (var track in Model)
             {
 
                 <tr>
                     <td>@track.ID</td>
                     <td>@track.Name</td>
-                    <td>@track.Status</td>
-                    <td>@track.IntakeId</td>
-                    <td>@track.SupID</td>
+                    @if (@track.Status)
+                    {
+                        <td>Active</td>
+                    }
+                    else
+                    {
+                        <td class="bg-warning fw-bold">Not Active </td>
+                    }
+                   
+                    <td>@track.Intake.Name</td>
+                    <td>
+                       @track.Supervisor.Name
+                    </td>
 
                     <td>
                         <a class="btn border-0 text-secondary" data-bs-toggle="modal" data-bs-target="#EditModal-@track.ID"><i class="fa-solid fa-pen-to-square"></i></a>
