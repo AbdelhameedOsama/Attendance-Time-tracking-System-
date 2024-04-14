@@ -1,16 +1,22 @@
 ﻿using Attendance_Time_Tracking.Data;
 using Attendance_Time_Tracking.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Attendance_Time_Tracking.Repos
 {
 	public interface IUserRepo
 	{
-		User GetUser(string Name, string Password);
+		public List<User> GetAll();
+        User GetUser(string Name, string Password);
 		int GetUserId(ClaimsPrincipal user);
 		Task<User> UpdateUser(User user);
+        public void DeleteUser(int id);
+        public void UpdateInst(User user);
+        public void AddUser(User user);
 
-	}
+
+    }
 	public class UserRepo : IUserRepo
 	{
 		readonly AttendanceContext db;
@@ -18,7 +24,11 @@ namespace Attendance_Time_Tracking.Repos
 		{
 			this.db = db;
 		}
-		public User GetUser(string Email, string Password)
+        public List<User> GetAll()
+        {
+            return db.Users.ToList();
+        }
+        public User GetUser(string Email, string Password)
 		{
 			return db.Users.FirstOrDefault(u => u.Email == Email && u.Password == Password);
 		}
@@ -43,5 +53,58 @@ namespace Attendance_Time_Tracking.Repos
 			}
 			return user;
 		}
-	}
+
+        public void DeleteUser(int id)
+        {
+            // if this instructor is supervisor so you must put another instructor instead of him
+           /* var instTrack = db.Tracks.FirstOrDefault(a => a.SupID==id);
+            if (instTrack != null)
+            {
+                instTrack.SupID=NewSupervisorId??0;
+                db.Tracks.Update(instTrack);
+            }
+            var InstPermission = db.Permissions.FirstOrDefault(a => a.SupId==id);
+            if (InstPermission!=null)
+            {
+                InstPermission.SupId=NewSupervisorId;
+                db.Permissions.Update(InstPermission);
+
+            }*/
+            var InstAttendance = db.Attendances.Where(a => a.User.ID == id).ToList();
+            foreach (var attendance in InstAttendance)
+            {
+                if (attendance!=null)
+                {
+                    db.Attendances.Remove(attendance);
+                }
+            }
+            
+            var inst = db.Users.FirstOrDefault(a => a.ID ==id);
+            db.Users.Remove(inst);
+            db.SaveChanges();
+        }
+
+        public void AddUser(User user)
+        {
+            db.Users.Add(user);
+            db.SaveChanges();
+        }
+        public void UpdateInst(User user)
+        {
+            var existingUser = db.Users.FirstOrDefault(a => a.ID == user.ID);
+            if (existingUser != null)
+            {
+                existingUser.Email = user.Email;
+                existingUser.Password = user.Password;
+                existingUser.Address= user.Address;
+                existingUser.Phone= user.Phone;
+                existingUser.Name= user.Name;
+               /* db.Entry(existingUser).State = EntityState.Detached;
+                db.Entry(user).State = EntityState.Modified; */
+
+                db.SaveChanges();
+            }
+        }
+
+    }
 }

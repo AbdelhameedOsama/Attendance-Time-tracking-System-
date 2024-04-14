@@ -11,7 +11,7 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -24,12 +24,7 @@
                 <select asp-for="Type" class="form-control" asp-items="Html.GetEnumSelectList<PermissionTypes>()"></select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="SupId" class="control-label">Supervisor ID</label>
-                <input asp-for="SupId" type="number" class="form-control" />
-                <span asp-validation-for="SupId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <div class="form-group mt-4">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>

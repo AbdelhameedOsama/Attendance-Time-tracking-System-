@@ -17,10 +17,12 @@ namespace Attendance_Time_Tracking
             builder.Services.AddDbContext<AttendanceContext>(options =>
                            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped<IAdminRepo, AdminRepo>();
             builder.Services.AddScoped<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IStudentRepo, StudentRepo>();
             builder.Services.AddScoped<IInstructorRepo, InstructorRepo>();
             builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
+            builder.Services.AddScoped<ISARepo, SARepo>();
 			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie(options =>
 				{

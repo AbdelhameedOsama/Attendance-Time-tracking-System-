@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace Attendance_Time_Tracking.Controllers
 {
@@ -90,6 +91,21 @@ namespace Attendance_Time_Tracking.Controllers
                         ModelState.AddModelError("Email", "The email is already in use.");
                         return View("~/Views/Student/Edit.cshtml", student);
                     }
+
+                    // Validate name (only letters and spaces)
+                    if (!Regex.IsMatch(student.Name, "^[a-zA-Z\\s]+$"))
+                    {
+                        ModelState.AddModelError("Name", "Name must contain only letters and spaces.");
+                        return View("~/Views/Student/Edit.cshtml", student);
+                    }
+                    // Validate phone number (Egyptian format)
+                    var phoneString = student.Phone.ToString();
+                    if (!Regex.IsMatch(phoneString, @"^01[0125]\d{8}$"))
+                    {
+                        ModelState.AddModelError("Phone", "Invalid Egyptian phone number format.");
+                        return View("~/Views/Student/Edit.cshtml", student);
+                    }
+
                     // Update the properties of the studentInDb object
                     studentInDb.Email = student.Email;
                     studentInDb.Password = student.Password;
@@ -129,25 +145,37 @@ namespace Attendance_Time_Tracking.Controllers
             return View("~/Views/Student/Edit.cshtml", student);
         }
 
-		public async Task<IActionResult> Schedule()
-		{
-			var userId = GetCurrentUserId();
-			var student = await _context.Users.OfType<Student>().FirstOrDefaultAsync(s => s.ID == userId);
+        public async Task<IActionResult> Schedule(DateTime? FromDate)
+        {
+            var userId = GetCurrentUserId();
+            var student = await _context.Users.OfType<Student>().FirstOrDefaultAsync(s => s.ID == userId);
 
-			if (student == null)
-			{
-				return NotFound();
-			}
+            if (student == null)
+            {
+                return NotFound();
+            }
 
-			var schedule = await _context.Schedules
-				.Include(s => s.Track)
-				.Include(s => s.Supervisor)
-				.Where(s => s.TrackId == student.TrackId && s.Date >= DateOnly.FromDateTime(DateTime.Today))
-				.OrderBy(s => s.Date)
-				.ToListAsync();
+            IQueryable<Schedule> schedulesQuery = _context.Schedules
+                .Include(s => s.Track)
+                .Include(s => s.Supervisor)
+                .Where(s => s.TrackId == student.TrackId);
 
-			return View("~/Views/Student/View.cshtml", schedule);
-		}
+            var startDate = FromDate.HasValue ? DateOnly.FromDateTime(FromDate.Value) : DateOnly.FromDateTime(DateTime.Today);
+            var endDate = startDate.AddDays(7);
+
+            schedulesQuery = schedulesQuery.Where(s => s.Date >= startDate && s.Date < endDate);
+
+            var schedules = await schedulesQuery.OrderBy(s => s.Date).ToListAsync();
+
+            return View("~/Views/Student/View.cshtml", schedules);
+        }
+
+
+
+
+
+
+
 
         public IActionResult Create()
         {

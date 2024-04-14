@@ -4,6 +4,7 @@ using Attendance_Time_Tracking.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Attendance_Time_Tracking.Migrations
 {
     [DbContext(typeof(AttendanceContext))]
-    partial class AttendanceContextModelSnapshot : ModelSnapshot
+    [Migration("20240406073701_addingAdmin")]
+    partial class addingAdmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -215,6 +218,11 @@ namespace Attendance_Time_Tracking.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasIndex("UserID");
+
                     b.ToTable("Employees");
                 });
 
@@ -333,6 +341,12 @@ namespace Attendance_Time_Tracking.Migrations
                         .HasForeignKey("Attendance_Time_Tracking.Models.Employee", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Attendance_Time_Tracking.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Attendance_Time_Tracking.Models.Instructor", b =>

@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Attendance_Time_Tracking.Models;
+using Microsoft.EntityFrameworkCore;
+using NuGet.Versioning;
 
 namespace Attendance_Time_Tracking.Repos
 {
@@ -14,6 +17,12 @@ namespace Attendance_Time_Tracking.Repos
         Task<List<Permission>> GetPermissionsByStudentID(int id);
         Task<Permission> DeletePermission(Permission p);
         Task<Permission> GetPermission(int id, DateTime date);
+        public List<Student> GetAll();
+        public Student GetStudentByID(int id);
+        public void DeleteStudent(int id);
+        public void Add(Student std);
+        public void UpdateStd(Student std);
+
     }
 
     public class StudentRepo : IStudentRepo
@@ -54,5 +63,52 @@ namespace Attendance_Time_Tracking.Repos
             }
             return null;
         }
+        public List<Student> GetAll()
+        {
+            return _db.Students.ToList();
+        }
+        public Student GetStudentByID(int id)
+        {
+            return _db.Students.FirstOrDefault(a=>a.ID == id);
+        }
+        public void DeleteStudent(int id)
+        {
+            var stdPermission = _db.Permissions.FirstOrDefault(a => a.StdId==id);
+            if (stdPermission!=null)
+            {
+                _db.Permissions.Remove(stdPermission);
+               
+            }
+            var stdAttendance = _db.Attendances.Where(a => a.User.ID == id).ToList();
+            foreach(var attendance in stdAttendance)
+            {
+                if (attendance!=null)
+                {
+
+                    _db.Attendances.Remove(attendance);
+                }
+            }
+            var std = _db.Students.FirstOrDefault(a => a.ID ==id);
+            _db.Students.Remove(std);
+            _db.SaveChanges();
+        }
+
+        public void Add(Student std)
+        {
+            _db.Students.Add(std);
+            _db.SaveChanges();
+        }
+        public void UpdateStd(Student std)
+        {
+            var existingStudent = _db.Students.FirstOrDefault(a => a.ID == std.ID);
+            if (existingStudent != null)
+            {
+                _db.Entry(existingStudent).State = EntityState.Detached; // Detach the existing entity
+                _db.Entry(std).State = EntityState.Modified; // Attach and mark as modified
+                _db.SaveChanges();
+            }
+        }
+
+
     }
 }

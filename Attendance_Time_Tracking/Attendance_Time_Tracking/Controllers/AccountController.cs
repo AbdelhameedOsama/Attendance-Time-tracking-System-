@@ -47,11 +47,16 @@ namespace Attendance_Time_Tracking.Controllers
 						else if (user.Role.ToString() == "Supervisor")
 						{	
 							return RedirectToAction("Index", "Instructor");
-						}else if (user.Role.ToString() == "Employee")
+						}
+						else if (user.Role.ToString() == "Employee")
 						{
 							return RedirectToAction("Index", "Employee");
 						}
-						else
+						else if(user.Role.ToString() == "Admin")
+					{
+                            return RedirectToAction("Index", "Admin");
+                        }
+                        else
 						{
 							return RedirectToAction("Login");
 						}

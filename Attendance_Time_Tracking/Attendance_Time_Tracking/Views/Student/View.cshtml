@@ -1,4 +1,4 @@
-﻿@model List<Attendance_Time_Tracking.Models.Schedule>
+﻿@* @model List<Attendance_Time_Tracking.Models.Schedule>
 @{
     ViewBag.Title = "Schedule";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
@@ -29,3 +29,68 @@
         }
     </tbody>
 </table>
+
+
+ *@
+
+
+
+@model List<Attendance_Time_Tracking.Models.Schedule>
+@{
+    ViewBag.Title = "Schedule";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="">Schedule</h1>
+    <p>Here you can view your Schedule</p>
+</div>
+
+<form method="get" action="@Url.Action("Schedule", "Student")" class="mb-3">
+    <div class="input-group">
+        <input type="date" class="form-control" name="FromDate" required>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
+<hr />
+
+@if (Model != null)
+{
+    if (Model.Count() > 0)
+    {
+        <div class="table-responsive">
+            <table class="table table-hover table-active ">
+                <thead class="fs-5">
+                    <tr>
+                        <th>Date</th>
+                        <th>Day</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Track</th>
+                        <th>Supervisor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var schedule in Model)
+                    {
+                        <tr>
+                            <td class="fs-5">@schedule.Date.ToString("dd/MM/yyyy")</td>
+                            <td class="fs-5">@schedule.Date.ToString("dddd")</td>
+                            <td class="fs-5">@String.Format("{0:D2}:{1:D2}", (int)schedule.Start_Time.TotalHours, schedule.Start_Time.Minutes)</td>
+                            <td class="fs-5">@String.Format("{0:D2}:{1:D2}", (int)schedule.End_Time.TotalHours, schedule.End_Time.Minutes)</td>
+                            <td class="fs-5">@schedule.Track.Name</td>
+                            <td class="fs-5">@schedule.Supervisor.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <h3 class="text-danger">No Schedule Found</h3>
+        </div>
+    }
+}

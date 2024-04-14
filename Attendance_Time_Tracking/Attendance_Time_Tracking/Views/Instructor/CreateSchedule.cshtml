@@ -40,10 +40,11 @@
                 <label asp-for="Date"></label>
             </td>
             <td>
-                <input asp-for="Date" type="date" class="form-control" />
+                <input asp-for="Date" type="date" class="form-control" required />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </td>
         </tr>
     </table>
+    
     <button type="submit" class="btn btn-lg btn-primary float-end">Submit</button>
 </form>

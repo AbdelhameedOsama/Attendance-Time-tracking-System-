@@ -67,12 +67,15 @@ namespace Attendance_Time_Tracking.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateSchedule(Schedule schedule)
 		{
+
+	
 			if (ModelState.IsValid)
 			{
 				await IRepo.CreateSchedule(schedule);
 				return RedirectToAction("Index");
 			}
-			return View(schedule);
+
+			return View();
 		}
         //SChedule
 /*        public async Task<IActionResult> Schedules()
@@ -112,7 +115,7 @@ namespace Attendance_Time_Tracking.Controllers
 			}
 			return View(schedules);
 
-  //      }
+        }
 		//edit profile data
 		public IActionResult EditProfile()
 		{
