@@ -18,6 +18,7 @@ namespace Attendance_Time_Tracking.Repos
         Task<List<Schedule>> GetSchedules();
         Task<List<Track>> TracksInScheduels();
         Task<List<Attendance>> GetAttendancesByInstructorID(int id);
+        public void ChangeInstructorToSupervisor(int id);
     }
     public class InstructorRepo : IInstructorRepo
     {
@@ -109,6 +110,15 @@ namespace Attendance_Time_Tracking.Repos
                 .Where(a => a.User.ID == id)
                 .ToListAsync();
             return attendances;
+        }
+        public void ChangeInstructorToSupervisor(int id)
+        {
+            var user = db.Users.FirstOrDefault(a => a.ID== id);
+            if (user != null)
+            {
+                user.Role=UserRole.Supervisor;
+            }
+            db.SaveChanges();
         }
     }
 }

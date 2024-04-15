@@ -1,6 +1,7 @@
 ﻿using Attendance_Time_Tracking.Models;
 using Attendance_Time_Tracking.Repos;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace Attendance_Time_Tracking.Controllers
 {
@@ -11,13 +12,18 @@ namespace Attendance_Time_Tracking.Controllers
         readonly IStudentRepo stdRepo;
         readonly IEmployeeRepo empRepo;
         readonly ITrackRepo trackRepo;
-        public AdminController(IStudentRepo _studentRepo, IUserRepo _userRepo, IAdminRepo _adminRepo, IEmployeeRepo _empRepo, ITrackRepo _trackRepo)
+        readonly IIntakeRepo intakeRepo;
+        readonly IInstructorRepo instructorRepo;
+
+        public AdminController(IStudentRepo _studentRepo, IUserRepo _userRepo, IAdminRepo _adminRepo, IEmployeeRepo _empRepo, ITrackRepo _trackRepo, IIntakeRepo _intakeRepo, IInstructorRepo _instructorRepo)
         {
             stdRepo = _studentRepo;
             userRepo = _userRepo;
             adminRepo = _adminRepo;
             empRepo = _empRepo;
             trackRepo = _trackRepo;
+            intakeRepo=_intakeRepo;
+            instructorRepo=_instructorRepo;
         }
         public IActionResult Index()
         {
@@ -66,7 +72,6 @@ namespace Attendance_Time_Tracking.Controllers
 
         public IActionResult AdminDeleteInstructor(int id)
         {
-            
             userRepo.DeleteUser(id);
             return RedirectToAction("AdminInstructors");
         }
@@ -95,22 +100,77 @@ namespace Attendance_Time_Tracking.Controllers
             var model = empRepo.GetAllEmployees();
             return View(model);
         }
-
-        //================Tracks============
+        public IActionResult AdminDeleteEmployee(int id)
+        {
+            empRepo.DeleteEmployee(id);
+            return RedirectToAction("AdminEmployees");
+        }
+        public IActionResult AdminAddEmployee(Employee emp)
+        {
+            if (ModelState.IsValid)
+            {
+                empRepo.AddEmpployee(emp);
+                return RedirectToAction("AdminEmployees");
+            }
+            return RedirectToAction("AdminEmployees");
+        }
+        public IActionResult AdminEditEmployee(Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                empRepo.UpdateEmp(employee);
+                return RedirectToAction("AdminEmployees");
+            }
+            return RedirectToAction("AdminEmployees");
+        }
+        //================Tracks================
         public IActionResult AdminTracks()
         {
             var model = trackRepo.GetAllTracks();
-            var user=userRepo.GetAll();
+            /*var user=userRepo.GetAll().Where(a=>a.Role==UserRole.Instructor).Take(10).ToList();*/
+            var user = userRepo.GetAll().Where(a => a.Role==UserRole.Instructor).ToList();
+
+            var allInstructor = userRepo.GetAll().Where(a=>a.Role==UserRole.Instructor || a.Role==UserRole.Supervisor).Distinct().ToList();
+            ViewBag.AllInstructors=allInstructor;
+          /*  List<User> Instructors = new List<User>();
             foreach (var usr in user)
             {
-                if (usr.Role==UserRole.Supervisor)
+                if (usr.Role==UserRole.Instructor)
                 {
-                    break;
+                    Instructors.Add(usr);
                 }
-            }
+            }*/
+            /*ViewBag.Instructors=Instructors.ToList();*/
+            ViewBag.Intakes=intakeRepo.GetIntakeList();
+            ViewBag.Instructors=user;
             return View(model);
         }
+        public IActionResult AdminDeleteTrack(int id)
+        {
+            trackRepo.DeleteTrack(id);
+            return RedirectToAction("AdminTracks");
+        }
+        public IActionResult AdminAddTrack(Track track1)
+        {
+            if (ModelState.IsValid)
+            {
+                instructorRepo.ChangeInstructorToSupervisor(track1.SupID);
+                trackRepo.AddTrack(track1);
 
+                return RedirectToAction("AdminTracks");
+            }
+            return RedirectToAction("AdminTracks");
+        }
+        public IActionResult AdminEditTrack(Track track)
+        {
+            if (ModelState.IsValid)
+            {
+                instructorRepo.ChangeInstructorToSupervisor(track.SupID);
+                trackRepo.UpdateTrack(track);
+                return RedirectToAction("AdminTracks");
+            }
+            return RedirectToAction("AdminTracks");
+        }
 
+        }
     }
-}

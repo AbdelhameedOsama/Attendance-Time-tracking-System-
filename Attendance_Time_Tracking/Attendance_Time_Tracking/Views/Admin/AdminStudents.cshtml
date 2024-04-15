@@ -51,6 +51,9 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+                                        <div class="text-center">
+                                            <img src="~/assets/undraw_swipe_options_2e4v.svg" width="150px" />
+                                        </div>
                                         <h5>Are you sure you want to delete this Student?</h5>
                                     </div>
                                     <div class="modal-footer">
@@ -72,6 +75,9 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body row g-2">
+                                            <div class="text-center">
+                                                <img src="~/assets/editorial-commision-animate.svg" width="150px" />
+                                            </div>
                                             @* <input type="text"  name="student.ID" value="@student.ID" /> *@
                                             @* <input type="hidden" name="std.Role" value="@std.Role" /> *@
                                             @Html.HiddenFor(model => student.ID)
@@ -205,6 +211,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body row g-2">
+                    <div class="text-center">
+                        <img src="~/assets/Add tasks-rafiki.svg" width="150px" />
+                    </div>
                         <div class="col-md-6">
                         <label asp-for="@std.Name" class="col-form-label">Name</label>
                         <input asp-for="@std.Name" class="form-control" />
