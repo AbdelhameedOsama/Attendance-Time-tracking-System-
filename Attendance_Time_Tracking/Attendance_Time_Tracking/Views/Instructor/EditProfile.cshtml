@@ -21,7 +21,7 @@
 					<label asp-for="Name"></label>
 				</td>
 				<td>
-					<input asp-for="Name" class="form-control" value="@Model.Name" />
+					<input asp-for="Name" class="form-control" value="@Model.Name" pattern="[A-Za-z]{3,}" />
 					<span asp-validation-for="Name" class="text-danger"></span>
 				</td>
 			</tr>
@@ -30,19 +30,19 @@
 					<label asp-for="Email"></label>
 				</td>
 				<td>
-					<input asp-for="Email" class="form-control" value="@Model.Email" />
+					<input asp-for="Email" class="form-control" value="@Model.Email"/>
 					<span asp-validation-for="Email" class="text-danger"></span>
 				</td>
 			</tr>
-<tr>
+			<tr>
 				<td>
 					<label asp-for="Phone"></label>
 				</td>
 				<td>
-					<input asp-for="Phone" class="form-control" value="@Model.Phone" />
+					<input asp-for="Phone" class="form-control" value="@Model.Phone" pattern="^01(0|1|2|5)[0-9]{8}$" />
 					<span asp-validation-for="Phone" class="text-danger"></span>
 				</td>
-</tr>
+			</tr>
 			<tr>
 				<td>
 					<label asp-for="Address"></label>
@@ -56,11 +56,11 @@
 				<td>
 					<label asp-for="Password"></label>
 				</td>
-<td>
-					<input asp-for="Password" class="form-control" value="@Model.Password" />
+				<td>
+					<input asp-for="Password" class="form-control" value="@Model.Password" pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$" />
 					<span asp-validation-for="Password" class="text-danger"></span>
+				</td>
 			</tr>
-			
 		</table>
 		<button type="submit" class="btn btn-lg btn-primary float-end">Save</button>
 	</form>
