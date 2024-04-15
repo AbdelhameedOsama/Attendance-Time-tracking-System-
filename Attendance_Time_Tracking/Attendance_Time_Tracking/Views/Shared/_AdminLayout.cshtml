@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
           integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.min.css" />
+    <link rel="stylesheet" href="~/css/AdminStyle.css" />
+
 </head>
 <body>
     <div style="background-color: #fcfcfc;" class="container-fluid d-flex flex-column min-vh-100" id="mainContainer">
@@ -41,7 +44,7 @@
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
                                 <i class="fa-solid fa-users fs-5 m-2" style="color: #ffffff;"></i>
-                                <a href="Index" class="text-white text-decoration-none fw-bold fs-5">Employees</a>
+                                <a asp-action="AdminEmployees" asp-controller="Admin" class="text-white text-decoration-none fw-bold fs-5">Employees</a>
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
@@ -55,7 +58,7 @@
                             <div class="container-fluid col" id="leftSidebarLinks">
                                 <!--<i class="fa-solid fa-square-poll-horizontal fs-5 m-2" style="color: #ffffff;"></i>-->
                                 <img src="~/assets/education.png" class="m-2" />
-                                <a  class="text-white text-decoration-none fw-bold fs-5">Tracks</a>
+                                <a asp-action="AdminTracks" asp-controller="Admin" class="text-white text-decoration-none fw-bold fs-5">Tracks</a>
                             </div>
                         </div>
 
@@ -72,19 +75,19 @@
             <!-- Left Sidebar End -->
             <!-- Right Main Container Start -->
             <div class="col-9 d-flex flex-column">
-                <div class="row h-25 rounded-4 p-3 ps-5" style="background-color: #64CCC5;" id="leftSidebar">
+                <div class="row rounded-4 p-3 ps-5" style="background-color: #64CCC5;" id="leftSidebar">
                     <div class="col-9 d-flex flex-column justify-content-evenly h-100">
                         <p class="text-white fs-7" id="dateTime">Current Date and time</p>
                         <div style="margin-top:-3%;">
                             <p class="text-white fs-2 fw-bold m-0">Welcome back,@*  @User.Identity.Name *@</p>
-                            <p class="text-white fs-6">Always stay updated in your student portal</p>
+                            <p class="text-white fs-6">Always stay updated in your portal</p>
                         </div>
                     </div>
                     <div class="col-3 h-100 d-flex justify-content-end">
                         <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-50">
                     </div>
                 </div>
-                <div style="background-color: rgba(0, 0, 0, 0.1);" class="row flex-grow-1 mt-4 rounded-4 p-4 align-content-start"
+                <div style="background-color: rgba(0, 0, 0, 0);" class="row flex-grow-1 mt-4 rounded-4 p-4 align-content-start"
                      id="mainContent">
                     @RenderBody()
                 </div>
@@ -93,7 +96,14 @@
         </div>
     </div>
 
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validationunobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+
     <script>
+
         function updateDateTime() {
             let date = new Date();
             document.getElementById("dateTime").innerText = date.toLocaleString();
@@ -104,10 +114,12 @@
 
             setInterval(updateDateTime, 1000);
         }
+       
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "pageLength": 5  // Set the number of rows per page to 5
+            });
+        });
     </script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validationunobtrusive/jquery.validate.unobtrusive.js"></script>
 </body>
 </html>
