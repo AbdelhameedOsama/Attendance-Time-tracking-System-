@@ -27,14 +27,21 @@ namespace Attendance_Time_Tracking.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.NoStudents=stdRepo.GetAll().Count();
+            ViewBag.NoInstructors=userRepo.GetAll().Where(a => a.Role==UserRole.Instructor || a.Role==UserRole.Supervisor).Count();
+            ViewBag.NoEmployees=empRepo.GetAllEmployees().Count();
+            ViewBag.NoTracks=trackRepo.GetAllTracks().Count();
             return View();
         }
+
+        #region Student
+       
 
         //================Student==============
         public IActionResult AdminStudents()
         {
             var model = stdRepo.GetAll();
-            ViewBag.Tracks=adminRepo.GetAllTracks();    
+            ViewBag.Tracks=adminRepo.GetAllTracks().Where(a=>a.Status==true).ToList();    
             return View(model);
         }
         public IActionResult AdminDeleteStudent(int id)
@@ -61,7 +68,9 @@ namespace Attendance_Time_Tracking.Controllers
             }
             return RedirectToAction("AdminStudents");
         }
+        #endregion
 
+        #region Instructor
         //================Instructor==============
         public IActionResult AdminInstructors()
         {
@@ -93,6 +102,9 @@ namespace Attendance_Time_Tracking.Controllers
             }
             return RedirectToAction("AdminInstructors");
         }
+        #endregion
+
+        #region Employee
 
         //================Employee============
         public IActionResult AdminEmployees()
@@ -123,6 +135,9 @@ namespace Attendance_Time_Tracking.Controllers
             }
             return RedirectToAction("AdminEmployees");
         }
+        #endregion
+
+        #region Tracks
         //================Tracks================
         public IActionResult AdminTracks()
         {
@@ -152,6 +167,7 @@ namespace Attendance_Time_Tracking.Controllers
         }
         public IActionResult AdminAddTrack(Track track1)
         {
+            
             if (ModelState.IsValid)
             {
                 instructorRepo.ChangeInstructorToSupervisor(track1.SupID);
@@ -163,6 +179,7 @@ namespace Attendance_Time_Tracking.Controllers
         }
         public IActionResult AdminEditTrack(Track track)
         {
+           
             if (ModelState.IsValid)
             {
                 instructorRepo.ChangeInstructorToSupervisor(track.SupID);
@@ -171,6 +188,7 @@ namespace Attendance_Time_Tracking.Controllers
             }
             return RedirectToAction("AdminTracks");
         }
+        #endregion
 
-        }
     }
+}

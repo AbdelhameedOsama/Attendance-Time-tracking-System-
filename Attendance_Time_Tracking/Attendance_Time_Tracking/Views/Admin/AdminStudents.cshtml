@@ -3,9 +3,9 @@
     ViewData["Title"] = "AdminStudents";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     int counter = 1;
-    var Tracks = ViewBag.Tracks;
     Student std = new Student();
     std.Role = UserRole.Student;
+    var Tracks = ViewBag.Tracks;
     var tracks = Tracks as List<Track>;
     SelectList tracksList = new SelectList(tracks, "ID", "Name");
 }

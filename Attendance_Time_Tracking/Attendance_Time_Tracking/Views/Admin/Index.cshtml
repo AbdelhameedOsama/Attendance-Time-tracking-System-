@@ -4,43 +4,52 @@
     Layout = "_AdminLayout";
 }
 
-<h1 class="text-center">Admin Dashboard</h1>
-<h3 class="text-center"> I will create here some cards or charts</h3>
- <div class="row row-cols-1 row-cols-md-3 g-4">
+ <div class="container ">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-2 text-center">
+
     <div class="col">
-        <div class="card h-100">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <div class="text-center">
+                <img src="~/assets/social-dashboard-animate (1).svg" width="350px" />
             </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card h-100">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a short card.</p>
+    </div> <!--End of left hand side-->
+
+        <div class="col cards-info">
+            <div class="row row-cols-1 row-cols-md-2 g-2 mt-auto pt-auto">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                                <i class="fa-solid fa-chalkboard-user fs-1 m-4 card-title" style="color: #64CCC5;"></i>
+                                <h5 class="card-text">No. Instructors: @ViewBag.NoInstructors</h5>
+                            </div>
+                    </div>
+                </div> <!--End of Card 1-->
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                                <i class="fa-solid fa-users fs-1 m-4 card-title" style="color: #64CCC5;"></i>
+                                <h5 class="card-text">No. Employees: @ViewBag.NoEmployees</h5>
+                        </div>
+                    </div>
+                </div> <!--End of Card 2-->
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="~/assets/education (1)-colord.png" class="card-title  m-3" alt="..." width="50px">
+                                <h5 class="card-text">No. Students: @ViewBag.NoStudents</h5>
+                            </div>
+                    </div>
+                </div> <!--End of Card 3-->
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="~/assets/education (2)-colord.png" class="card-title  m-3" alt="..." width="50px">
+                            <h5 class="card-text">No. Tracks: @ViewBag.NoTracks</h5>
+                        </div>
+                    </div>
+                </div> <!--End of Card 4-->
             </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card h-100">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card h-100">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            </div>
-        </div>
-    </div>
-</div> 
+        </div> <!--End of right hand side--> 
+
+</div> <!--End of Row-->
+
+</div> <!--End of container-->
