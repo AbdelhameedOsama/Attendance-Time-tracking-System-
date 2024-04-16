@@ -4,3 +4,24 @@ table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date
 {
      text-align: left !important;
 }
+
+
+.table {
+     --bs-table-bg:green !important;
+}
+.cards-info div.card {
+    color: #706E6E;
+   /* //align-self: center;
+    height: 300px;
+    width: 300px;*/
+    box-shadow: 2px 3px 5px #F5F7FC;
+   /* //border-radius: 20px;*/
+    transition: 1s;
+    transform: scale(1);
+}
+.cards-info div.card:hover {
+    cursor: pointer !important;
+   /* height: 280px;
+    width: 280px;*/
+    transform: scale(1.15);
+}

@@ -31,7 +31,7 @@
     <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#AddTrackModal"><i class="fa-solid fa-user-plus"></i></button>
 </div> <!--end of div -->
 <!--start of table -->
-    <table id="myTable" class="table table-bordered table-hover display ">
+    <table id="myTable" class=" table-hover display ">
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -46,7 +46,7 @@
             @foreach (var track in Model)
             {
 
-                <tr>
+                <tr >
                     <td>@track.ID</td>
                     <td>@track.Name</td>
                     @if (@track.Status)
@@ -171,6 +171,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body row g-2">
+                    <div class="text-center">
+                        <img src="~/assets/Add tasks-rafiki.svg" width="150px" />
+                    </div>
                     <div class="col-md-6">
                         <label asp-for="@track1.Name" class="col-form-label">Name</label>
                         <input asp-for="@track1.Name" class="form-control" />
@@ -200,6 +203,3 @@
         </div>
     </div>
 </div>
-
-
-
