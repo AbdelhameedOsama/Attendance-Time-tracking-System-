@@ -1,5 +1,6 @@
 ﻿using Attendance_Time_Tracking.Models;
 using Attendance_Time_Tracking.Repos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.IO;
@@ -11,7 +12,8 @@ using Attendance_Time_Tracking.Migrations;
 
 namespace Attendance_Time_Tracking.Controllers
 {
-    public class AdminController : Controller
+	[Authorize(Roles = "Admin")]
+	public class AdminController : Controller
     {
         readonly IAdminRepo adminRepo;
         readonly IUserRepo userRepo;

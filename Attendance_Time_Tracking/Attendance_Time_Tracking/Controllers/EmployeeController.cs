@@ -1,11 +1,13 @@
 ﻿using Attendance_Time_Tracking.Models;
 using Attendance_Time_Tracking.Repos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
 namespace Attendance_Time_Tracking.Controllers
 {
-    public class EmployeeController : Controller
+	[Authorize(Roles = "Employee")]
+	public class EmployeeController : Controller
     {
         readonly IEmployeeRepo empRepo;
         
@@ -13,7 +15,7 @@ namespace Attendance_Time_Tracking.Controllers
         {
             empRepo = _empRepo;
         }
-
+        
         public IActionResult Index()
         {
             return View();
