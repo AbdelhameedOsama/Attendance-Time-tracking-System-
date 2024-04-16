@@ -1,10 +1,13 @@
 ﻿using Attendance_Time_Tracking.Models;
 using Attendance_Time_Tracking.Repos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace Attendance_Time_Tracking.Controllers
 {
+	[Authorize(Roles = "Instructor,Supervisor" )]
+
 	public class InstructorController : Controller
 	{
 		readonly IInstructorRepo IRepo;
