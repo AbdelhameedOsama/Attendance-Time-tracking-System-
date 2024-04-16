@@ -15,6 +15,8 @@ namespace Attendance_Time_Tracking.Repos
         public void UpdateInst(User user);
         public void AddUser(User user);
 
+        public Task<Emp_Types> GetEmployeeType(int id);
+
 
     }
 	public class UserRepo : IUserRepo
@@ -111,7 +113,14 @@ namespace Attendance_Time_Tracking.Repos
 
                 db.SaveChanges();
             }
-        }
 
-    }
+		}
+
+
+		public async Task<Emp_Types> GetEmployeeType(int id)
+		{
+            return await db.Employees.Where(e => e.ID == id).Select(e => e.Type).FirstOrDefaultAsync();
+		}
+
+	}
 }

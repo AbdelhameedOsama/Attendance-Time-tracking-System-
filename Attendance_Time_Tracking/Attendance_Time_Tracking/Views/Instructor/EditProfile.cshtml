@@ -21,7 +21,7 @@
 					<label asp-for="Name"></label>
 				</td>
 				<td>
-					<input asp-for="Name" class="form-control" value="@Model.Name" pattern="[A-Za-z]{3,}" />
+					<input asp-for="Name" class="form-control" value="@Model.Name" pattern="[A-Za-z]{3,}\s[A-Za-z]{3,}" />
 					<span asp-validation-for="Name" class="text-danger"></span>
 				</td>
 			</tr>

@@ -1,16 +1,18 @@
 ﻿using Attendance_Time_Tracking.Models;
 using Attendance_Time_Tracking.Repos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
 namespace Attendance_Time_Tracking.Controllers
 {
-    public class StudentAfairsController : Controller
+	[Authorize(Roles = "Employee")]
+	public class StudentAffairsController : Controller
     {
         readonly ISARepo SARepo;
         readonly IEmployeeRepo empRepo;
 
-        public StudentAfairsController(ISARepo _SARepo, IEmployeeRepo _empRepo)
+        public StudentAffairsController(ISARepo _SARepo, IEmployeeRepo _empRepo)
         {
             SARepo = _SARepo;
             empRepo = _empRepo;
