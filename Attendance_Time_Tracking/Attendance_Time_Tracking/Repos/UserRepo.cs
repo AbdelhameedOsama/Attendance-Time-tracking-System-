@@ -18,6 +18,8 @@ namespace Attendance_Time_Tracking.Repos
 
         public Task<Emp_Types> GetEmployeeType(int id);
 
+        public Task<Emp_Types> GetEmployeeType(int id);
+
 
     }
 	public class UserRepo : IUserRepo

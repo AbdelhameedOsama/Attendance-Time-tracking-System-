@@ -35,6 +35,11 @@ namespace Attendance_Time_Tracking.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.NoStudents=stdRepo.GetAll().Count();
+            ViewBag.NoInstructors=userRepo.GetAll().Where(a => a.Role==UserRole.Instructor || a.Role==UserRole.Supervisor).Count();
+            ViewBag.NoEmployees=empRepo.GetAllEmployees().Count();
+            ViewBag.NoTracks=trackRepo.GetAllTracks().Count();
+
             ViewBag.NoStudents=stdRepo.GetAll().ToList();
             ViewBag.NoInstructors=instructorRepo.GetAll().ToList();
             ViewBag.NoEmployees=empRepo.GetAllEmployees().ToList();
@@ -94,6 +99,8 @@ namespace Attendance_Time_Tracking.Controllers
             }
             return RedirectToAction("AdminStudents");
         }
+        #endregion
+
 
         [HttpPost]
         public IActionResult ImportExcel(IFormFile excelFile)
@@ -129,6 +136,7 @@ namespace Attendance_Time_Tracking.Controllers
         }
         
         #endregion
+
 
         #region Instructor
         //================Instructor==============
@@ -186,6 +194,8 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
+                empRepo.AddEmpployee(emp);
+                return RedirectToAction("AdminEmployees");
                 if (userRepo.IsUnqiue(emp.Email))
                 {
                     empRepo.AddEmpployee(emp);
@@ -197,6 +207,8 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
+                empRepo.UpdateEmp(employee);
+                return RedirectToAction("AdminEmployees");
                 if (userRepo.IsUnqiue(employee.Email))
                 {
                     empRepo.UpdateEmp(employee);
@@ -211,10 +223,21 @@ namespace Attendance_Time_Tracking.Controllers
         public IActionResult AdminTracks()
         {
             var model = trackRepo.GetAllTracks();
+            /*var user=userRepo.GetAll().Where(a=>a.Role==UserRole.Instructor).Take(10).ToList();*/
             var user = userRepo.GetAll().Where(a => a.Role==UserRole.Instructor).ToList();
 
             var allInstructor = userRepo.GetAll().Where(a=>a.Role==UserRole.Instructor || a.Role==UserRole.Supervisor).Distinct().ToList();
             ViewBag.AllInstructors=allInstructor;
+          /*  List<User> Instructors = new List<User>();
+            foreach (var usr in user)
+            {
+                if (usr.Role==UserRole.Instructor)
+                {
+                    Instructors.Add(usr);
+                }
+            }*/
+            /*ViewBag.Instructors=Instructors.ToList();*/
+
             ViewBag.Intakes=intakeRepo.GetIntakeList();
             ViewBag.Instructors=user;
             return View(model);
@@ -231,6 +254,8 @@ namespace Attendance_Time_Tracking.Controllers
             {
                 instructorRepo.ChangeInstructorToSupervisor(track1.SupID);
                 trackRepo.AddTrack(track1);
+
+                return RedirectToAction("AdminTracks");
             }
             return RedirectToAction("AdminTracks");
         }
@@ -241,6 +266,7 @@ namespace Attendance_Time_Tracking.Controllers
             {
                 instructorRepo.ChangeInstructorToSupervisor(track.SupID);
                 trackRepo.UpdateTrack(track);
+                return RedirectToAction("AdminTracks");
             }
             return RedirectToAction("AdminTracks");
         }

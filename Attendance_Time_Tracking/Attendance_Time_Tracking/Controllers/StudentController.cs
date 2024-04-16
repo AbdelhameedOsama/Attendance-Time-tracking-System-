@@ -198,17 +198,8 @@ namespace Attendance_Time_Tracking.Controllers
                     return View("~/Views/Student/Create.cshtml", permission);
                 }
 
-                // Check if the supervisor ID exists
-                var supervisorExists = await _context.Instructors.AnyAsync(i => i.ID == permission.SupId);
-                if (!supervisorExists)
-                {
-                    ModelState.AddModelError("SupId", "Supervisor ID not found.");
-                    return View("~/Views/Student/Create.cshtml", permission);
-                }
-
                 // Create the permission
                 permission.StdId = userId;
-                permission.Date = DateTime.Now;
                 permission.Status = PermissionStatus.Pending;
 
                 _context.Add(permission);
@@ -217,6 +208,7 @@ namespace Attendance_Time_Tracking.Controllers
             }
             return View("~/Views/Student/Create.cshtml", permission);
         }
+
 
 
         public async Task<IActionResult> Index()
