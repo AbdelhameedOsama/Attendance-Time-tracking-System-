@@ -3,6 +3,12 @@ using Attendance_Time_Tracking.Repos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.IO;
+using OfficeOpenXml;
+using OfficeOpenXml.Core.ExcelPackage;
+using Ganss.Excel;
+using NPOI.SS.Formula.Functions;
+using Attendance_Time_Tracking.Migrations;
 
 namespace Attendance_Time_Tracking.Controllers
 {
@@ -33,6 +39,25 @@ namespace Attendance_Time_Tracking.Controllers
             ViewBag.NoInstructors=userRepo.GetAll().Where(a => a.Role==UserRole.Instructor || a.Role==UserRole.Supervisor).Count();
             ViewBag.NoEmployees=empRepo.GetAllEmployees().Count();
             ViewBag.NoTracks=trackRepo.GetAllTracks().Count();
+
+            ViewBag.NoStudents=stdRepo.GetAll().ToList();
+            ViewBag.NoInstructors=instructorRepo.GetAll().ToList();
+            ViewBag.NoEmployees=empRepo.GetAllEmployees().ToList();
+            ViewBag.NoTracks=trackRepo.GetAllTracks().ToList();
+           /* var trackStudentCounts = new Dictionary<string, int>();
+            foreach (var track in ViewBag.NoTracks)
+            {
+                int studentCount = 0;
+                foreach (var student in ViewBag.NoStudents)
+                {
+                    if (student.TrackId == track.Id)
+                    {
+                        studentCount++;
+                    }
+                }
+                trackStudentCounts.Add(track.Name, studentCount);
+            }
+            ViewBag.TrackStudentCounts = trackStudentCounts;*/
             return View();
         }
 
@@ -56,8 +81,10 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                stdRepo.Add(std);
-                return RedirectToAction("AdminStudents");
+                if (userRepo.IsUnqiue(std.Email))
+                {
+                    stdRepo.Add(std);
+                }
             }
             return RedirectToAction("AdminStudents");
         }
@@ -65,12 +92,51 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                stdRepo.UpdateStd(student);
-                return RedirectToAction("AdminStudents");
+                if (userRepo.IsUnqiue(student.Email))
+                {
+                    stdRepo.UpdateStd(student);
+                }
             }
             return RedirectToAction("AdminStudents");
         }
         #endregion
+
+
+        [HttpPost]
+        public IActionResult ImportExcel(IFormFile excelFile)
+        {
+            try
+            {
+                using (var fs=new FileStream("wwwroot//ExcelFiles//"+excelFile.FileName,FileMode.OpenOrCreate))
+                {
+                    excelFile.CopyTo(fs);
+                }
+                var students = new ExcelMapper("wwwroot//ExcelFiles//"+excelFile.FileName).Fetch().Select(s => new Student
+                {
+          
+                    Name= s.Name,
+                    Phone=Convert.ToInt32(s.Phone),
+                    Password=s.Password,
+                    Email=s.Email,
+                    Specialization=s.Specialization,
+                    Address=s.Address,
+                    Graduation_year=DateOnly.FromDateTime(s.Graduation_year),
+                    Faculty=s.Faculty,
+                    TrackId=Convert.ToInt32(s.TrackId),
+                    University=s.University,
+                }).ToList();
+                stdRepo.AddStudents(students);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("Invalid Data",ex.ToString());
+            }
+            return RedirectToAction("AdminStudents");
+
+        }
+        
+        #endregion
+
 
         #region Instructor
         //================Instructor==============
@@ -86,21 +152,26 @@ namespace Attendance_Time_Tracking.Controllers
             userRepo.DeleteUser(id);
             return RedirectToAction("AdminInstructors");
         }
-        public IActionResult AdminAddInstructor(User inst)
+        public IActionResult AdminAddInstructor(Instructor inst)
         {
             if (ModelState.IsValid)
             {
-                userRepo.AddUser(inst);
-                return RedirectToAction("AdminInstructors");
+                if (userRepo.IsUnqiue(inst.Email))
+                {
+                    instructorRepo.AddInst(inst);
+                    ModelState.AddModelError("Duplicate Email", "Duplicate Email, this Email is already EXISTED");
+                }
             }
             return RedirectToAction("AdminInstructors");
         }
-        public IActionResult AdminEditInstructor(User instructor)
+        public IActionResult AdminEditInstructor(Instructor instructor)
         {
             if (ModelState.IsValid)
             {
-                userRepo.UpdateInst(instructor);
-                return RedirectToAction("AdminInstructors");
+                if (userRepo.IsUnqiue(instructor.Email))
+                {
+                    instructorRepo.UpdateInst(instructor);
+                }
             }
             return RedirectToAction("AdminInstructors");
         }
@@ -125,6 +196,10 @@ namespace Attendance_Time_Tracking.Controllers
             {
                 empRepo.AddEmpployee(emp);
                 return RedirectToAction("AdminEmployees");
+                if (userRepo.IsUnqiue(emp.Email))
+                {
+                    empRepo.AddEmpployee(emp);
+                }
             }
             return RedirectToAction("AdminEmployees");
         }
@@ -134,6 +209,10 @@ namespace Attendance_Time_Tracking.Controllers
             {
                 empRepo.UpdateEmp(employee);
                 return RedirectToAction("AdminEmployees");
+                if (userRepo.IsUnqiue(employee.Email))
+                {
+                    empRepo.UpdateEmp(employee);
+                }
             }
             return RedirectToAction("AdminEmployees");
         }
@@ -158,6 +237,7 @@ namespace Attendance_Time_Tracking.Controllers
                 }
             }*/
             /*ViewBag.Instructors=Instructors.ToList();*/
+
             ViewBag.Intakes=intakeRepo.GetIntakeList();
             ViewBag.Instructors=user;
             return View(model);

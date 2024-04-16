@@ -6,6 +6,7 @@ table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date
 }
 
 
+
 .table {
      --bs-table-bg:green !important;
 }
@@ -16,6 +17,9 @@ table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date
     width: 300px;*/
     box-shadow: 2px 3px 5px #F5F7FC;
    /* //border-radius: 20px;*/
+.cards-info div.card {
+    color: #706E6E;
+    box-shadow: 2px 3px 5px #F5F7FC;
     transition: 1s;
     transform: scale(1);
 }

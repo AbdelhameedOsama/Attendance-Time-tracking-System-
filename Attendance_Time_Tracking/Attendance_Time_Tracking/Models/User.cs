@@ -13,7 +13,7 @@ namespace Attendance_Time_Tracking.Models
         [Required(ErrorMessage ="Name is required")]
         [MinLength(3,ErrorMessage ="Name Must be 3 letters or more")]
         public string Name { get; set; }
-
+        
         [Required(ErrorMessage = "Email is required")]
         [RegularExpression(@"^([\w-\.]{3,20})+@([\w-]+\.)+[\w-]{2,4}$",ErrorMessage ="invalid email")]
         public string Email { get; set; }
