@@ -22,6 +22,7 @@ namespace Attendance_Time_Tracking.Repos
         public void DeleteStudent(int id);
         public void Add(Student std);
         public void UpdateStd(Student std);
+        public void AddStudents(List<Student> students);
 
     }
 
@@ -73,11 +74,15 @@ namespace Attendance_Time_Tracking.Repos
         }
         public void DeleteStudent(int id)
         {
-            var stdPermission = _db.Permissions.FirstOrDefault(a => a.StdId==id);
-            if (stdPermission!=null)
+            var stdPermission = _db.Permissions.Where(a => a.StdId==id).ToList();
+            foreach (var permission in stdPermission)
             {
-                _db.Permissions.Remove(stdPermission);
+
+            if (permission!=null)
+            {
+                _db.Permissions.Remove(permission);
                
+            }
             }
             var stdAttendance = _db.Attendances.Where(a => a.User.ID == id).ToList();
             foreach(var attendance in stdAttendance)
@@ -107,6 +112,11 @@ namespace Attendance_Time_Tracking.Repos
                 _db.Entry(std).State = EntityState.Modified; // Attach and mark as modified
                 _db.SaveChanges();
             }
+        }
+        public void AddStudents(List<Student> students)
+        {
+            _db.Students.AddRange(students);
+            _db.SaveChanges();
         }
 
 

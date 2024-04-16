@@ -14,6 +14,7 @@ namespace Attendance_Time_Tracking.Repos
         public void DeleteUser(int id);
         public void UpdateInst(User user);
         public void AddUser(User user);
+        public bool IsUnqiue(string email);
 
 
     }
@@ -111,6 +112,15 @@ namespace Attendance_Time_Tracking.Repos
 
                 db.SaveChanges();
             }
+        }
+        public bool IsUnqiue(string email)
+        {
+            var existedEmail = db.Users.FirstOrDefault(a => a.Email == email);
+            if (existedEmail !=null)
+            {
+                return false;
+            }
+            return true;
         }
 
     }
