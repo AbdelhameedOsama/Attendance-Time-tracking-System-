@@ -1,0 +1,184 @@
+﻿@model IEnumerable<Employee>
+@{
+    ViewData["Title"] = "AdminEmployees";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Employee emp = new Employee();
+    emp.Role = UserRole.Employee;
+    SelectList TypesList = new SelectList(Enum.GetValues(typeof(Emp_Types)));
+
+}
+
+<div class="d-flex justify-content-between">
+
+    <h3>Employees</h3>
+    <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#AddEmployeeModal"><i class="fa-solid fa-user-plus"></i></button>
+</div> <!--end of div -->
+<!--start of table -->
+<div class="table-responsive">
+
+    <table id="myTable" class="table table-bordered table-hover display">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Type</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+
+                <tr>
+                    <td>@employee.ID</td>
+                    <td>@employee.Name</td>
+                    <td>@employee.Email</td>
+                    <td>@employee.Address</td>
+                    <td>@employee.Phone</td>
+                    <td>@employee.Type</td>
+
+
+                    <td>
+                        <a class="btn border-0 text-secondary" data-bs-toggle="modal" data-bs-target="#EditModal-@employee.ID"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn border-0 text-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal-@employee.ID"><i class="fa-solid fa-trash-can"></i></a>
+                        <!-------------------------------------- Delete Modal ------------------------------->
+                        <div class="modal fade" id="DeleteModal-@employee.ID" tabindex="-1" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5 text-danger" id="DeleteModalLabel">Delete</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                        <div class="modal-body">
+                                        <div class="text-center">
+                                            <img src="~/assets/undraw_dev_focus_re_6iwt.svg" width="100px" />
+                                        </div>
+                                            <h5>Are you sure you want to delete this Employee?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <a asp-action="AdminDeleteEmployee" asp-controller="Admin" class="btn btn-danger" asp-route-id="@employee.ID">Delete @employee.ID</a>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-------------------------------------------Edit Model------------------------------------------>
+                        <div class="modal fade" style="text-align:left;" id="EditModal-@employee.ID" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form asp-action="AdminEditEmployee" asp-controller="Admin" method="post">
+
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5 text-black" id="AddStudentModalLabel">Add New Student</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body row g-2">
+                                            <div class="text-center">
+                                                <img src="~/assets/editorial-commision-animate.svg" width="150px" />
+                                            </div>
+                                            @Html.HiddenFor(model => employee.ID)
+                                            <div class="col-md-6">
+                                                <label asp-for="@employee.Name" class="col-form-label">Name</label>
+                                                <input asp-for="@employee.Name" class="form-control" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@employee.Password" class="col-form-label">Password</label>
+                                                <input asp-for="@employee.Password" class="form-control" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@employee.Email" class="col-form-label">Email</label>
+                                                <input asp-for="@employee.Email" class="form-control">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@employee.Phone" class="col-form-label">Phone</label>
+                                                <input asp-for="@employee.Phone" class="form-control">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label asp-for="@employee.Address" class="col-form-label">Address</label>
+                                                <input asp-for="@employee.Address" class="form-control">
+                                            </div>
+                                           @*  <div class="col-md-6">
+                                                <label asp-for="@employee.Type" class="col-form-label">Type</label>
+                                                <select asp-for="@employee.Type" asp-items="TypesList" class="form-control">
+                                                    <option selected disabled>Choose....</option>
+                                                </select>
+                                            </div> *@
+                                            <input type="hidden" name="std.Role" value="@employee.Role" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success">Update</button>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                      
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-------------------------------------- Add Modal ------------------------------------->
+<div class="modal fade" id="AddEmployeeModal" tabindex="-1" aria-labelledby="AddEmployeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="AdminAddEmployee" asp-controller="Admin" method="post">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-black" id="AddEmployeeModalLabel">Add New Employee</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row g-2">
+                    <div class="text-center">
+                        <img src="~/assets/Add tasks-rafiki.svg" width="150px" />
+                    </div>
+					 <div class="col-md-6">
+                        <label asp-for="@emp.Name" class="col-form-label">Name</label>
+                        <input asp-for="@emp.Name" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@emp.Password" class="col-form-label">Password</label>
+                        <input asp-for="@emp.Password" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@emp.Email" class="col-form-label">Email</label>
+                        <input asp-for="@emp.Email" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@emp.Phone" class="col-form-label">Phone</label>
+                        <input asp-for="@emp.Phone" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@emp.Address" class="col-form-label">Address</label>
+                        <input asp-for="@emp.Address" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@emp.Type" class="col-form-label">Type</label>
+                        <select asp-for="@emp.Type" asp-items="TypesList" class="form-control">
+                    <option selected disabled>Choose....</option>
+                    </select>
+                    </div>
+
+                    <input type="hidden" name="emp.Role" value="@emp.Role" />
+                </div> 
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+

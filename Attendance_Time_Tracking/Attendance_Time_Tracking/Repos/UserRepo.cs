@@ -10,10 +10,12 @@ namespace Attendance_Time_Tracking.Repos
 		public List<User> GetAll();
         User GetUser(string Name, string Password);
 		int GetUserId(ClaimsPrincipal user);
-		Task<User> UpdateUser(User user);
+		Task<string> UpdateUser(User user);
         public void DeleteUser(int id);
         public void UpdateInst(User user);
         public void AddUser(User user);
+
+        public Task<Emp_Types> GetEmployeeType(int id);
 
 
     }
@@ -39,19 +41,26 @@ namespace Attendance_Time_Tracking.Repos
 
 			return Convert.ToInt32(userIdClaim.Value);
 		}
-		public async Task<User> UpdateUser(User user)
+		public async Task<string> UpdateUser(User user)
 		{
 			var existingUser = db.Users.FirstOrDefault(u => u.ID == user.ID);
 			if (existingUser != null)
 			{
+                var existingEmail= await db.Users.AnyAsync(u => u.Email == user.Email && user.ID==existingUser.ID);
+                if (existingEmail)
+                {
+                    return "Email already exists";
+				}
 				existingUser.Email = user.Email;
+
 				existingUser.Password = user.Password;
 				existingUser.Name = user.Name;
+                existingUser.Address = user.Address;
 				existingUser.Phone = user.Phone;
 				
 				await db.SaveChangesAsync();
 			}
-			return user;
+			return "done";
 		}
 
         public void DeleteUser(int id)
@@ -104,7 +113,14 @@ namespace Attendance_Time_Tracking.Repos
 
                 db.SaveChanges();
             }
-        }
 
-    }
+		}
+
+
+		public async Task<Emp_Types> GetEmployeeType(int id)
+		{
+            return await db.Employees.Where(e => e.ID == id).Select(e => e.Type).FirstOrDefaultAsync();
+		}
+
+	}
 }

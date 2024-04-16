@@ -13,6 +13,10 @@ namespace Attendance_Time_Tracking.Repos
         public Task<bool> RecordAttendance(int id);
         public Task<bool> AddDepartureTime(int id);
         public Task<bool> RemoveAttendance(int id);
+        public List<Employee> GetAllEmployees();
+        public void AddEmpployee(Employee emp);
+        public void DeleteEmployee(int id);
+        public void UpdateEmp(Employee employee);
 
     }
 
@@ -110,6 +114,38 @@ namespace Attendance_Time_Tracking.Repos
             db.Attendances.Remove(attendance);
             await db.SaveChangesAsync();
             return true;
+        }
+        public List<Employee> GetAllEmployees()
+        {
+            return db.Employees.ToList();
+        }
+        public void DeleteEmployee(int id)
+        {
+            var emp = db.Employees.FirstOrDefault(a => a.ID == id);
+            db.Users.Remove(emp);
+            db.SaveChanges();
+        }
+
+        public void AddEmpployee(Employee emp)
+        {
+            db.Employees.Add(emp);
+            db.SaveChanges();
+        }
+        public void UpdateEmp(Employee employee)
+        {
+            var existingUser = db.Users.FirstOrDefault(a => a.ID == employee.ID);
+            if (existingUser != null)
+            {
+                existingUser.Email = employee.Email;
+                existingUser.Password = employee.Password;
+                existingUser.Address= employee.Address;
+                existingUser.Phone= employee.Phone;
+                existingUser.Name= employee.Name;
+                /* db.Entry(existingUser).State = EntityState.Detached;
+                 db.Entry(user).State = EntityState.Modified; */
+
+                db.SaveChanges();
+            }
         }
     }
 }

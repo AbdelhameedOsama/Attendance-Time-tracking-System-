@@ -24,8 +24,8 @@ namespace Attendance_Time_Tracking.Models
 
         [Required]
         [ForeignKey("IntakeId")]
-        public Intake Intake { get; set; }
         public int IntakeId { get; set; }
+        public Intake Intake { get; set; }
 
 
         [ForeignKey("Supervisor")]

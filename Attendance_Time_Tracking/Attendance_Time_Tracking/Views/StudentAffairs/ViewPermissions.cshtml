@@ -1,0 +1,47 @@
+﻿@model List<Permission>
+
+@{
+    ViewData["Title"] = "Permissions";
+    Layout = "~/Views/Shared/_StudentAfairsLayout.cshtml";
+}
+
+<h1 id="title">View Permissions</h1>
+
+<div class="mt-3">
+    <input type="date" id="date" class="form-control" value="@ViewBag.Date.ToString("yyyy-MM-dd")" />
+    @if (ViewBag.Date != DateOnly.FromDateTime(DateTime.Now))
+    {
+        <h2>Permissions for @ViewBag.Date</h2>
+    }
+    else
+    {
+        <h2>Today's Permissions</h2>
+    }
+    <table class="table table-striped table-hover text-center ArrangedTable" id="permissionsTable">
+        <thead>
+            <tr>
+                <th scope="col">Student ID</th>
+                <th scope="col">Reason</th>
+                <th scope="col">Type</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            }
+            @if (Model.Count != 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.StdId</td>
+                        <td>@item.Reason</td>
+                        <td>@item.Type</td>
+                        <td>@item.Status</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

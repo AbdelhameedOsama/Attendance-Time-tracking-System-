@@ -1,10 +1,13 @@
 ﻿using Attendance_Time_Tracking.Models;
 using Attendance_Time_Tracking.Repos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace Attendance_Time_Tracking.Controllers
 {
+	[Authorize(Roles = "Instructor,Supervisor" )]
+
 	public class InstructorController : Controller
 	{
 		readonly IInstructorRepo IRepo;
@@ -123,17 +126,16 @@ namespace Attendance_Time_Tracking.Controllers
 			return View(user);
 		}
 		[HttpPost]
-		public async Task<IActionResult> EditProfile(User user)
+		public IActionResult EditProfile(User user)
 		{
 			if (ModelState.IsValid)
 			{
-				await URepo.UpdateUser(user);
-				//Update the User name value in the session
-				var identity = (ClaimsIdentity)User.Identity;
-				var claim = identity.FindFirst(ClaimTypes.Name);
-				identity.RemoveClaim(claim);
-				identity.AddClaim(new Claim(ClaimTypes.Name, user.Name));
-
+				 var returns =URepo.UpdateUser(user);
+				if (returns.Result == "Email already exists")
+				{
+					ModelState.AddModelError("Email", "Email already exists");
+					return View(user);
+				}
 
 				return RedirectToAction("Index");
 			}

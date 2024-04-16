@@ -1,0 +1,205 @@
+﻿@using Attendance_Time_Tracking.Models;
+@model IEnumerable<Track>
+@{
+    ViewData["Title"] = "AdminTracks";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Track track1 = new Track();
+    //var Allinstructors = ViewBag.AllInstructors as List<User>;
+    var Allinstructors = (ViewBag.AllInstructors as List<User>).Distinct().ToList();
+
+
+    string GetDisplayName(User user)
+    {
+        return $"{user.Name} ({user.Role})";
+    }
+
+    // Constructing SelectList with concatenated display text
+    SelectList AllinstsList = new SelectList(Allinstructors.Select(u => new
+    {
+        Value = u.ID,
+        Text = GetDisplayName(u)
+    }), "Value", "Text");
+    var intakes = ViewBag.Intakes as List<Intake>;
+    SelectList intakesList = new SelectList(intakes, "ID", "Name");
+    var instructors = ViewBag.Instructors as List<User>;
+    SelectList instsList = new SelectList(instructors, "ID", "Name");
+}
+
+<div class="d-flex justify-content-between">
+
+    <h3>Tracks</h3>
+    <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#AddTrackModal"><i class="fa-solid fa-user-plus"></i></button>
+</div> <!--end of div -->
+<!--start of table -->
+    <table id="myTable" class=" table-hover display ">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Intack</th>
+                <th scope="col">Supervisor</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody >
+            @foreach (var track in Model)
+            {
+
+                <tr >
+                    <td>@track.ID</td>
+                    <td>@track.Name</td>
+                    @if (@track.Status)
+                    {
+                        <td>Active</td>
+                    }
+                    else
+                    {
+                        <td class="bg-warning fw-bold">Not Active </td>
+                    }
+                   
+                    <td>@track.Intake.Name</td>
+                    <td>
+                       @track.Supervisor.Name
+                    </td>
+
+                    <td>
+                        <a class="btn border-0 text-secondary" data-bs-toggle="modal" data-bs-target="#EditModal-@track.ID"><i class="fa-solid fa-pen-to-square"></i></a>
+                        @* <a class="btn border-0 text-danger" data-bs-toggle="modal" data-bs-target="#DeleteModal-@track.ID"><i class="fa-solid fa-trash-can"></i></a> *@
+                        <!-------------------------------------- Delete Modal ------------------------------->
+                        <div class="modal fade" id="DeleteModal-@track.ID" tabindex="-1" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5 text-danger" id="DeleteModalLabel">Delete</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>                                    
+                                        <div class="modal-body">
+                                            <h5>Are you sure you want to delete this Track?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <a asp-action="AdminDeleteTrack" asp-controller="Admin" class="btn btn-danger" asp-route-id="@track.ID">Delete @track.ID</a> @* ID for testing *@
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-------------------------------------------Edit Model------------------------------------------>
+                        <div class="modal fade" style="text-align:left;" id="EditModal-@track.ID" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form asp-action="AdminEditTrack" asp-controller="Admin" method="post">
+
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5 text-black" id="AddStudentModalLabel">Update Track</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body row g-2">
+                                        <div class="text-center">
+                                            <img src="~/assets/editorial-commision-animate.svg" width="150px" />
+                                        </div>
+                                            @Html.HiddenFor(model => track.ID)
+                                            <div class="col-md-6">
+                                                <label asp-for="@track.Name" class="col-form-label">Name</label>
+                                                <input asp-for="@track.Name" class="form-control" />
+                                              
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                            <label name="track.Status" class="col-form-label">Status</label>
+                                            <select name="track.Status" class="form-control">
+                                            
+                                            @if (@track.Status)
+                                            {
+                                                <option selected value="true">Active</option>
+                                                <option value="false">Not Active</option>
+                                            }
+                                            else
+                                            {
+                                                    <option value="true">Active</option>
+                                                    <option selected value="false">Not Active</option>
+										    }
+                                               </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                 <label asp-for="@track.SupID" class="col-form-label">Supervisor</label>
+                                                <select asp-for="@track.SupID" asp-items="AllinstsList" class="form-control">
+                                                 @foreach (var item in AllinstsList)
+                                                 {
+                                                     bool isSupervisor = item.Text.Contains("(Supervisor)");
+                                                    if (isSupervisor==true)
+                                                    {
+                                                        <option value="@item.Value" disabled>@item.Text </option>
+
+                                                    }
+                                                    @* else
+                                                    {
+                                                    <option value="@item.Value">@item.Text </option>
+                                                        
+                                                    } *@
+                                                 }
+                                            </select> 
+                                            </div>
+                                          
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-success">Update</button>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+<!-------------------------------------- Add Modal ------------------------------------->
+<div class="modal fade" id="AddTrackModal" tabindex="-1" aria-labelledby="AddTrackModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="AdminAddTrack" asp-controller="Admin" method="post">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-black" id="AddTrackModalLabel">Add New Track</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row g-2">
+                    <div class="text-center">
+                        <img src="~/assets/Add tasks-rafiki.svg" width="150px" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@track1.Name" class="col-form-label">Name</label>
+                        <input asp-for="@track1.Name" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@track1.IntakeId" class="col-form-label">Intake</label>
+                        <select asp-for="@track1.IntakeId" asp-items="intakesList" class="form-control">
+                        <option selected disabled>Choose....</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="@track1.SupID" class="col-form-label">Supervisor</label>
+                        <select asp-for="@track1.SupID" asp-items="instsList" class="form-control">
+                            <option selected disabled>Choose....</option>
+                        </select>
+                    </div>
+                    
+                    <input type="hidden" name="track1.Status" value="true" />
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

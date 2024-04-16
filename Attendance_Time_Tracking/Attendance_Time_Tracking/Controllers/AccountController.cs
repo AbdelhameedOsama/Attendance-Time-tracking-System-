@@ -50,7 +50,15 @@ namespace Attendance_Time_Tracking.Controllers
 						}
 						else if (user.Role.ToString() == "Employee")
 						{
-							return RedirectToAction("Index", "Employee");
+							if(userRepo.GetEmployeeType(user.ID).Result == Emp_Types.Security)
+							{
+								return RedirectToAction("Index", "Employee");
+							}
+							else
+							{
+								return RedirectToAction("Index", "StudentAffairs");
+							}
+							
 						}
 						else if(user.Role.ToString() == "Admin")
 					{

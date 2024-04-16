@@ -1,13 +1,11 @@
 ﻿@model Attendance_Time_Tracking.Models.Permission
-
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_StudentLayout.cshtml";
 }
 
-<h1>Create</h1>
+<h3>Create Permission</h3>
 
-<h4>Permission</h4>
 <hr />
 
 <div class="row">
@@ -24,15 +22,18 @@
                 <select asp-for="Type" class="form-control" asp-items="Html.GetEnumSelectList<PermissionTypes>()"></select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" type="date" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
             <div class="form-group mt-4">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-danger" />    <a class="btn btn-danger" asp-action="Index">Back to List</a>
+
             </div>
         </form>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
