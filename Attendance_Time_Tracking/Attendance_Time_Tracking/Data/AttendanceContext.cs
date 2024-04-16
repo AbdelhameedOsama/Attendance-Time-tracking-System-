@@ -35,6 +35,8 @@ namespace Attendance_Time_Tracking.Data
             {
                 user.UseTptMappingStrategy();
             });
+                        
+           
 
             modelBuilder.Entity<Track>()
                 .HasOne(t => t.Intake)
