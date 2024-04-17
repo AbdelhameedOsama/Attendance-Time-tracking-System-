@@ -88,7 +88,13 @@ namespace Attendance_Time_Tracking.Repos
                 {
                     if (permissions.Any(p => p.StdId == student.ID))
                     {
-                        await RecordAttendance(student.ID, AttendanceStatus.Present, date);
+                        AttendanceStatus status = permissions.First(p => p.StdId == student.ID).Type switch
+                        {
+                            PermissionTypes.Absence => AttendanceStatus.Absent,
+                            PermissionTypes.Late_Arrival => AttendanceStatus.Late,
+                            _ => AttendanceStatus.Present
+                        };
+                        await RecordAttendance(student.ID, status, date);
                     }
                     else
                     {
