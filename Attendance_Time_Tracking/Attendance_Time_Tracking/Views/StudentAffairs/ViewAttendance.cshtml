@@ -23,7 +23,12 @@
     {
         <h2>Today's Attendance</h2>
     }
-    <h2>Present</h2>
+    <div class="container d-flex justify-content-between">
+        <h2 class="col-4">Present</h2>
+        <div class="col-4 text-end">
+            <a asp-action="AutoFinishAttendance" asp-route-date="@ViewBag.Date" class="btn btn-success">Auto Finish Attendance</a>
+        </div>
+    </div>
     <table class="table table-striped table-hover text-center ArrangedTable" id="presentTable">
       <thead>
         <tr>
@@ -53,21 +58,22 @@
                         <form method="post" action="SaveChangeStatus">
                             <td>@item.ID</td>
                             <td>@item.Name</td>
-                            <td>@item.Attendances.Where(a => a.Date == today).FirstOrDefault().Arrival_Time?.ToString("HH:mm")
-                                @if (item.Attendances.Where(a => a.Date == today).FirstOrDefault().Departure_Time == null)
+                        <td>
+                                @item.Attendances.Where(a => a.Date == ViewBag.Date).FirstOrDefault().Arrival_Time?.ToString("HH:mm")
+                                @if (item.Attendances.Where(a => a.Date == ViewBag.Date).FirstOrDefault().Arrival_Time == null)
                                 {
                                     @:No Arrival Recorded
                                 }
                             </td>
                             <td>
-                                @item.Attendances.Where(a => a.Date == today).FirstOrDefault().Departure_Time?.ToString("HH:mm")
-                                @if (item.Attendances.Where(a => a.Date == today).FirstOrDefault().Departure_Time == null)
+                                @item.Attendances.Where(a => a.Date == ViewBag.Date).FirstOrDefault().Departure_Time?.ToString("HH:mm")
+                                @if (item.Attendances.Where(a => a.Date == ViewBag.Date).FirstOrDefault().Departure_Time == null)
                                 {
                                     @:No Departed Recorded
                                 }
                             </td>
                             <td>
-                                <p class="currentStatus">@item.Attendances.Where(a => a.Date == today).FirstOrDefault().Status</p>
+                            <p class="currentStatus">@item.Attendances.Where(a => a.Date == ViewBag.Date).FirstOrDefault().Status</p>
                                 <select name="status" class="hidden status">
                                     <option value="@AttendanceStatus.Present">Present</option>
                                     <option value="@AttendanceStatus.Absent">Absent</option>
