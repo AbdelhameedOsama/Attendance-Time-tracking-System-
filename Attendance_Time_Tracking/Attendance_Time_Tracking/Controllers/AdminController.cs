@@ -134,9 +134,6 @@ namespace Attendance_Time_Tracking.Controllers
             return RedirectToAction("AdminStudents");
 
         }
-        
-        #endregion
-
 
         #region Instructor
         //================Instructor==============
