@@ -1,0 +1,26 @@
+﻿@model Dictionary<string, int>
+@{
+    ViewBag.Title = "Degree";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h1>Degree Information</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            @foreach (var item in Model)
+            {
+                <th>@item.Key</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var item in Model)
+            {
+                <td>@item.Value</td>
+            }
+        </tr>
+    </tbody>
+</table>

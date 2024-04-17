@@ -17,11 +17,14 @@ namespace Attendance_Time_Tracking.Controllers
     {
         private readonly IStudentRepo _studentRepo;
         private readonly AttendanceContext _context;
+        private readonly ISARepo _saRepo;
 
-        public StudentController(IStudentRepo studentRepo, AttendanceContext context)
+        public StudentController(IStudentRepo studentRepo, AttendanceContext context, ISARepo saRepo)
         {
             _studentRepo = studentRepo;
             _context = context;
+            _saRepo = saRepo;
+
         }
 
         private int GetCurrentUserId()
@@ -202,12 +205,39 @@ namespace Attendance_Time_Tracking.Controllers
                 permission.StdId = userId;
                 permission.Status = PermissionStatus.Pending;
 
+                // Get the track for the student
+                var track = await _context.Tracks.FirstOrDefaultAsync(t => t.Instructors.Any(i => i.ID == userId));
+                if (track != null)
+                {
+                    permission.SupId = track.SupID;
+                }
+                else
+                {
+                    permission.SupId = 0;
+                }
+
                 _context.Add(permission);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View("~/Views/Student/Create.cshtml", permission);
         }
+
+        public async Task<IActionResult> GetDegree()
+        {
+            var userId = GetCurrentUserId();
+            var degree = await _saRepo.GetDegree(userId);
+            if (degree == null)
+            {
+                return NotFound();
+            }
+
+            return View("~/Views/Student/Degree.cshtml", degree);
+        }
+
+
+
+
 
 
 
@@ -217,6 +247,16 @@ namespace Attendance_Time_Tracking.Controllers
             var permissions = await _context.Permissions.Where(p => p.StdId == userId).ToListAsync();
             return View("~/Views/Student/Index.cshtml", permissions);
         }
+
+        //public async Task<IActionResult> Index()
+        //{
+        //    var userId = GetCurrentUserId();
+        //    IEnumerable<Permission> permissions = await _context.Permissions.Where(p => p.StdId == userId).ToListAsync();
+        //    var degree = await _saRepo.GetDegree(userId);
+        //    return View("~/Views/Student/Index.cshtml", Tuple.Create(permissions, degree));
+        //}
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -231,6 +271,14 @@ namespace Attendance_Time_Tracking.Controllers
             await _studentRepo.DeletePermission(permission);
             return RedirectToAction(nameof(Index));
         }
+
+
+
+
+
+
+
+
 
 
 
@@ -256,7 +304,6 @@ namespace Attendance_Time_Tracking.Controllers
 
             return View("~/Views/Student/Attendance.cshtml", attendances);
         }
-
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.ID == id);
