@@ -113,7 +113,7 @@ namespace Attendance_Time_Tracking.Repos
                 return null;
             }
             List<Attendance> absentDays = await db.Attendances.Where(a => a.UserId == studentId && a.Status != AttendanceStatus.Present).ToListAsync();
-            List<Permission> permissions = await db.Permissions.Where(p => p.StdId == studentId && p.Status == PermissionStatus.Approved).ToListAsync();
+            List<Permission> permissions = await db.Permissions.Where(p => p.StdId == studentId && p.Status == PermissionStatus.Approved ).ToListAsync();
 
             Degree -= (absentDays.Count - permissions.Count) * 25;
 
