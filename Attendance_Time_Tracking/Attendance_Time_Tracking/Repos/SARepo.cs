@@ -14,7 +14,7 @@ namespace Attendance_Time_Tracking.Repos
         public Task ChangeAttendanceStatus(int id, AttendanceStatus status, DateOnly date);
         public Task<List<Permission>> GetPermissions(DateOnly date,UserRole role);
         public Task AutoFinishAttendance(DateOnly date);
-        public Task<int> GetDegree(int studentId);
+        public Task<Dictionary<string, int>> GetDegree(int studentId);
     }
     public class SARepo : ISARepo
     {
@@ -88,7 +88,13 @@ namespace Attendance_Time_Tracking.Repos
                 {
                     if (permissions.Any(p => p.StdId == student.ID))
                     {
-                        await RecordAttendance(student.ID, AttendanceStatus.Present, date);
+                        AttendanceStatus status = permissions.First(p => p.StdId == student.ID).Type switch
+                        {
+                            PermissionTypes.Absence => AttendanceStatus.Absent,
+                            PermissionTypes.Late_Arrival => AttendanceStatus.Late,
+                            _ => AttendanceStatus.Present
+                        };
+                        await RecordAttendance(student.ID, status, date);
                     }
                     else
                     {
@@ -98,66 +104,62 @@ namespace Attendance_Time_Tracking.Repos
             }
         }
 
-        public async Task<int> GetDegree(int studentId)
+        public async Task<Dictionary<string, int>> GetDegree(int studentId)
         {
             int Degree = 250;
             var student = await db.Students.FirstOrDefaultAsync(s => s.ID == studentId);
-            int counter = 0;
-            int counter5 = 0;
-            int counter10 = 0;
-            int counter15 = 0;
-            int counter20 = 0;
-            int counter25 = 0;
             if (student == null)
             {
-                return -1;
+                return null;
             }
             List<Attendance> absentDays = await db.Attendances.Where(a => a.UserId == studentId && a.Status != AttendanceStatus.Present).ToListAsync();
             List<Permission> permissions = await db.Permissions.Where(p => p.StdId == studentId && p.Status == PermissionStatus.Approved).ToListAsync();
 
-            foreach (var day in absentDays)
+            Degree -= (absentDays.Count - permissions.Count) * 25;
+
+            Dictionary<string, int> result = new Dictionary<string, int>();
+            result.Add("Degree", Degree);
+            result.Add("AbsentDays", absentDays.Count);
+            result.Add("5", 0);
+            result.Add("10", 0);
+            result.Add("15", 0);
+            result.Add("20", 0);
+            result.Add("25", (absentDays.Count - permissions.Count));
+
+            for (int i = 0; i < permissions.Count; i++)
             {
-                if (counter == 0)
+                if (i == 0)
                 {
-                    counter++;
                     continue;
                 }
-
-                if (permissions.Any(p => DateOnly.FromDateTime(p.Date) == day.Date))
+                else if (i <= 3)
                 {
-                    if (counter5 <= 3)
-                    {
-                        counter5++;
-                        Degree -= 5;
-                    }
-                    else if (counter10 <= 3)
-                    {
-                        counter10++;
-                        Degree -= 10;
-                    }
-                    else if (counter15 <= 3)
-                    {
-                        counter15++;
-                        Degree -= 15;
-                    }
-                    else if (counter20 <= 3)
-                    {
-                        counter20++;
-                        Degree -= 20;
-                    }
-                    else
-                    {
-                        counter25++;
-                        Degree -= 25;
-                    }
+                    result["5"]++;
+                    result["Degree"] -= 5;
+                }
+                else if (i <= 6)
+                {
+                    result["10"]++;
+                    result["Degree"] -= 10;
+                }
+                else if (i <= 9)
+                {
+                    result["15"]++;
+                    result["Degree"] -= 15;
+                }
+                else if (i <= 12)
+                {
+                    result["20"]++;
+                    result["Degree"] -= 20;
                 }
                 else
                 {
-                    counter25++;
-                    Degree -= 25;
+                    result["25"]++;
+                    result["Degree"] -= 25;
                 }
             }
-            return Degree;
+
+            return result;
         }
     }
 }
