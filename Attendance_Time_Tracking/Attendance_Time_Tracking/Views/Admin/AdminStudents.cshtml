@@ -12,12 +12,13 @@
 <div class="d-flex justify-content-between">
 
 <h1>Students</h1>
-<button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#AddStudentModal"><i class="fa-solid fa-user-plus"></i></button>
+    <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#AddModal"><i class="fa-solid fa-plus"></i></button>
 </div> <!--end of div -->
 <!--start of table -->
 <div class="">
 
-    <table id="myTable" class="table table-bordered display">
+
+    <table id="myTable" class="table-bordered display">
     <thead>
             <tr>
             <th scope="col">ID</th>
@@ -138,6 +139,8 @@
                             </div>
                         </div>
 
+
+                        <!-------------------------------------------View Model------------------------------------------>
                         <div class="modal fade" style="text-align:left;" id="ViewModal-@student.ID" tabindex="-1" aria-labelledby="ViewModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
@@ -199,8 +202,59 @@
     </tbody>
 </table>
 </div>
+<!-------------------------------------------Add Modal------------------------------------------------->
+<div class="modal fade" id="AddModal" tabindex="-1" aria-labelledby="AddModallLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="AddModallLabel">Add</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center border-1">
+                    <img src="~/assets/add-tasks-animate.svg" width="150px" />
+                </div>
+            </div>
+            <div class="d-flex justify-content-between m-3">
+                <p>
+                    Add One By One:
+                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#AddStudentModal"><i class="fa-solid fa-user-plus"></i></button>
+                </p>
+                <p>
 
-<!-------------------------------------- Add Modal ------------------------------------->
+                    Add One or More Student :
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AddStudentsModal"><i class="fa-regular fa-file-excel"></i></button>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------add studentsssssssssssssssssssssssssssssssssssssssss----------------------->
+<div class="modal fade" id="AddStudentsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("ImportExcel", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <input type="file" name="excelFile" class="col-form-label" />
+                    <button type="submit" class="btn btn-success">Upload</button>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-------------------------------------- Add  Student Modal ------------------------------------->
 <div class="modal fade" id="AddStudentModal" tabindex="-1" aria-labelledby="AddStudentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

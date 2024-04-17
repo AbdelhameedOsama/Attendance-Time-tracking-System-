@@ -41,6 +41,7 @@ namespace Attendance_Time_Tracking.Controllers
                 ViewBag.Role = (int)role.Value;
             }
             ViewBag.Date = date;
+            ViewBag.degree = await SARepo.GetDegree(17);
             return View(attendance);
         }
 
@@ -79,6 +80,12 @@ namespace Attendance_Time_Tracking.Controllers
             ViewBag.Date = date;
             ViewBag.Role = role;
             return View(permissions);
+        }
+
+        public async Task<IActionResult> AutoFinishAttendance(DateOnly date)
+        {
+            await SARepo.AutoFinishAttendance(date);
+            return RedirectToAction("ViewAttendance", new { date });
         }
     }
 }

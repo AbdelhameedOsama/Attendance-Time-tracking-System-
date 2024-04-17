@@ -2,6 +2,12 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "_AdminLayout";
+    List<Instructor> Instructors=ViewBag.NoInstructors as List<Instructor>;
+    int NoInt = Instructors.Count();
+    List<Employee> Employees = ViewBag.NoEmployees as List<Employee>;
+    List<Student> Students = ViewBag.NoStudents as List<Student>;
+    List<Track> Tracks = ViewBag.NoTracks as List<Track>;
+
 }
 
  <div class="container ">
@@ -19,7 +25,7 @@
                     <div class="card">
                         <div class="card-body">
                                 <i class="fa-solid fa-chalkboard-user fs-1 m-4 card-title" style="color: #64CCC5;"></i>
-                                <h5 class="card-text">No. Instructors: @ViewBag.NoInstructors</h5>
+                            <h5 class="card-text">No. Instructors: @NoInt</h5>
                             </div>
                     </div>
                 </div> <!--End of Card 1-->
@@ -27,7 +33,7 @@
                     <div class="card">
                         <div class="card-body">
                                 <i class="fa-solid fa-users fs-1 m-4 card-title" style="color: #64CCC5;"></i>
-                                <h5 class="card-text">No. Employees: @ViewBag.NoEmployees</h5>
+                            <h5 class="card-text">No. Employees: @Employees.Count()</h5>
                         </div>
                     </div>
                 </div> <!--End of Card 2-->
@@ -35,7 +41,7 @@
                     <div class="card">
                         <div class="card-body">
                             <img src="~/assets/education (1)-colord.png" class="card-title  m-3" alt="..." width="50px">
-                                <h5 class="card-text">No. Students: @ViewBag.NoStudents</h5>
+                            <h5 class="card-text">No. Students: @Students.Count()</h5>
                             </div>
                     </div>
                 </div> <!--End of Card 3-->
@@ -43,7 +49,7 @@
                     <div class="card">
                         <div class="card-body">
                             <img src="~/assets/education (2)-colord.png" class="card-title  m-3" alt="..." width="50px">
-                            <h5 class="card-text">No. Tracks: @ViewBag.NoTracks</h5>
+                            <h5 class="card-text">No. Tracks: @Tracks.Count()</h5>
                         </div>
                     </div>
                 </div> <!--End of Card 4-->
@@ -51,5 +57,66 @@
         </div> <!--End of right hand side--> 
 
 </div> <!--End of Row-->
+    <div class="charts row row-cols-1 row-cols-md-2 row-cols-lg-2 g-2 text-center">
+        <div class="col">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="col">
+            <canvas id="myPie"></canvas>
+
+        </div>
+</div>
 
 </div> <!--End of container-->
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+               const ctxPie = document.getElementById('myPie');
+               const data = {
+                    labels: ['Red', 'Blue', 'Yellow'],
+                    datasets: [{
+                    label: 'My First Dataset',
+                    data: [300, 50, 100], 
+                    backgroundColor: [
+                                    'rgb(255, 99, 132)',
+                                    'rgb(54, 162, 235)',
+                                    'rgb(255, 205, 86)'
+                                     ],
+                            hoverOffset: 4 
+                        }]
+                    };
+
+               const config = {
+                    type: 'pie',
+                    data: data,
+                    };
+
+                   var labels = ['PD', 'OS', 'AI', 'UI&Front', 'BackEnd', 'Full Stack']; // Example track names
+
+                    new Chart(ctxPie, config);
+
+                    const ctxBar = document.getElementById('myChart');
+                    new Chart(ctxBar, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                        label: '# of Tracks',
+                        data: [10, 20, 15, 30, 25, 35], // Example numerical data for each track
+                        backgroundColor: 'rgb(75, 192, 192)', // Background color for bars
+                        borderColor: 'rgb(75, 192, 192)', // Border color for bars
+                        borderWidth: 1
+                            }]
+                        },
+                    options: {
+                        scales: {
+                        y: {
+                 beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+    </script>
+
+}

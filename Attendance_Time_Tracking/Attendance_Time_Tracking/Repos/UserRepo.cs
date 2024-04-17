@@ -14,9 +14,9 @@ namespace Attendance_Time_Tracking.Repos
         public void DeleteUser(int id);
         public void UpdateInst(User user);
         public void AddUser(User user);
+        public bool IsUnqiue(string email);
 
         public Task<Emp_Types> GetEmployeeType(int id);
-
 
     }
 	public class UserRepo : IUserRepo
@@ -113,14 +113,23 @@ namespace Attendance_Time_Tracking.Repos
 
                 db.SaveChanges();
             }
+        }
+        public bool IsUnqiue(string email)
+        {
+            var existedEmail = db.Users.FirstOrDefault(a => a.Email == email);
+            if (existedEmail !=null)
+            {
+                return false;
+            }
+            return true;
+        }
 
-		}
-
-
-		public async Task<Emp_Types> GetEmployeeType(int id)
-		{
+        public async Task<Emp_Types> GetEmployeeType(int id)
+        {
             return await db.Employees.Where(e => e.ID == id).Select(e => e.Type).FirstOrDefaultAsync();
-		}
+        }
 
-	}
+    }
+
 }
+

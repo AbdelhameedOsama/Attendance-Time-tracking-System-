@@ -19,6 +19,11 @@ namespace Attendance_Time_Tracking.Repos
         Task<List<Track>> TracksInScheduels();
         Task<List<Attendance>> GetAttendancesByInstructorID(int id);
         public void ChangeInstructorToSupervisor(int id);
+
+        public List<Instructor> GetAll();
+        public void AddInst(Instructor instructor);
+        public void UpdateInst(Instructor inst);
+
     }
     public class InstructorRepo : IInstructorRepo
     {
@@ -119,6 +124,29 @@ namespace Attendance_Time_Tracking.Repos
                 user.Role=UserRole.Supervisor;
             }
             db.SaveChanges();
+        }
+
+        public List<Instructor> GetAll()
+        {
+           return db.Instructors.ToList();
+        }
+        public void AddInst(Instructor instructor)
+        {
+            db.Instructors.Add(instructor);
+            db.SaveChanges();
+        }
+        public void UpdateInst(Instructor inst)
+        {
+            var existingUser = db.Users.FirstOrDefault(a => a.ID == inst.ID);
+            if (existingUser != null)
+            {
+                existingUser.Email = inst.Email;
+                existingUser.Password = inst.Password;
+                existingUser.Address= inst.Address;
+                existingUser.Phone= inst.Phone;
+                existingUser.Name= inst.Name;
+                db.SaveChanges();
+            }
         }
     }
 }

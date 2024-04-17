@@ -25,7 +25,7 @@
             <div style="background-color: #64CCC5; height:100vh;" class="col-2 rounded-4 d-flex flex-column" id="leftSidebar">
                 <div class="row mt-4 mb-4">
                     <div class="container-fluid col-6 p-2 bg-black bg-opacity-25 rounded-5" id="leftSidebarPicture">
-                        <img src="https://cdn-icons-png.flaticon.com/512/2940/2940653.png" class="col-12">
+                        <img src="~/assets/immigration.png" class="col-12">
                     </div>
                 </div>
                 <div class="row h-100 ps-2">
@@ -108,6 +108,10 @@
         //document.querySelectorAll()
         //document.querySelectorAll("tr .bg-warning").parentElement.classList.add("bg-warning");
         document.querySelectorAll("tr .bg-warning").forEach(item => item.parentElement.classList.add("bg-warning"))
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @RenderSection("Scripts",false);
+    <script>
+         document.querySelectorAll("tr .bg-warning").forEach(item => item.parentElement.classList.add("bg-warning"))
         function updateDateTime() {
             let date = new Date();
             document.getElementById("dateTime").innerText = date.toLocaleString();
@@ -115,15 +119,15 @@
 
         window.onload = function () {
             updateDateTime();
-
             setInterval(updateDateTime, 1000);
         }
        
         $(document).ready(function () {
             $('#myTable').DataTable({
-                "pageLength": 5  // Set the number of rows per page to 5
+                "pageLength": 5
             });
         });
+
     </script>
 </body>
 </html>

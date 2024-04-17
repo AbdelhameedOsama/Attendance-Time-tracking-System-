@@ -52,3 +52,39 @@
         }
     </tbody>
 </table>
+
+@* <h1>Degree Information</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            @foreach (var item in Model.Item2)
+            {
+                <th>@item.Key</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            @foreach (var item in Model.Item2)
+            {
+                <td>@item.Value</td>
+            }
+        </tr>
+    </tbody>
+</table> *@
+
+
+
+
+
+
+
+
+
+
+
+
+@*                @model Tuple<IEnumerable<Attendance_Time_Tracking.Models.Permission>, Dictionary<string, int>>
+
+ *@
