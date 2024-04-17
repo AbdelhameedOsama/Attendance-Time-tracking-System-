@@ -80,5 +80,11 @@ namespace Attendance_Time_Tracking.Controllers
             ViewBag.Role = role;
             return View(permissions);
         }
+
+        public async Task<IActionResult> AutoFinishAttendance(DateOnly date)
+        {
+            await SARepo.AutoFinishAttendance(date);
+            return RedirectToAction("ViewAttendance", new { date });
+        }
     }
 }
