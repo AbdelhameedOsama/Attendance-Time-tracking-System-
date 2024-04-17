@@ -25,6 +25,10 @@
     }
     <div class="container d-flex justify-content-between">
         <h2 class="col-4">Present</h2>
+        <h6>Dgree: @ViewBag.Degree["Degree"]</h6>
+        <h6>AbsentDays: @ViewBag.Degree["AbsentDays"]</h6>
+        <h6>5: @ViewBag.Degree["5"]</h6>
+        <h6>25: @ViewBag.Degree["25"]</h6>
         <div class="col-4 text-end">
             <a asp-action="AutoFinishAttendance" asp-route-date="@ViewBag.Date" class="btn btn-success">Auto Finish Attendance</a>
         </div>
