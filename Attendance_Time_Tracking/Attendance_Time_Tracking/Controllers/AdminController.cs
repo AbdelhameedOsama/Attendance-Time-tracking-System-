@@ -81,7 +81,7 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (userRepo.IsUnqiue(std.Email))
+                if (userRepo.IsUnqiue(std))
                 {
                     stdRepo.Add(std);
                 }
@@ -92,7 +92,7 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (userRepo.IsUnqiue(student.Email))
+                if (userRepo.IsUnqiue(student))
                 {
                     stdRepo.UpdateStd(student);
                 }
@@ -153,7 +153,7 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (userRepo.IsUnqiue(inst.Email))
+                if (userRepo.IsUnqiue(inst))
                 {
                     instructorRepo.AddInst(inst);
                     ModelState.AddModelError("Duplicate Email", "Duplicate Email, this Email is already EXISTED");
@@ -165,7 +165,7 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (userRepo.IsUnqiue(instructor.Email))
+                if (userRepo.IsUnqiue(instructor))
                 {
                     instructorRepo.UpdateInst(instructor);
                 }
@@ -191,12 +191,11 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                empRepo.AddEmpployee(emp);
-                return RedirectToAction("AdminEmployees");
-                if (userRepo.IsUnqiue(emp.Email))
+                if (userRepo.IsUnqiue(emp))
                 {
                     empRepo.AddEmpployee(emp);
                 }
+                return RedirectToAction("AdminEmployees");
             }
             return RedirectToAction("AdminEmployees");
         }
@@ -204,12 +203,12 @@ namespace Attendance_Time_Tracking.Controllers
         {
             if (ModelState.IsValid)
             {
-                empRepo.UpdateEmp(employee);
-                return RedirectToAction("AdminEmployees");
-                if (userRepo.IsUnqiue(employee.Email))
+              
+                if (userRepo.IsUnqiue(employee))
                 {
                     empRepo.UpdateEmp(employee);
                 }
+                return RedirectToAction("AdminEmployees");
             }
             return RedirectToAction("AdminEmployees");
         }
