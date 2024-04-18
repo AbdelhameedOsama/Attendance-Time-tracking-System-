@@ -46,7 +46,7 @@ namespace Attendance_Time_Tracking.Repos
 			var existingUser = db.Users.FirstOrDefault(u => u.ID == user.ID);
 			if (existingUser != null)
 			{
-                var existingEmail= await db.Users.AnyAsync(u => u.Email == user.Email && user.ID==existingUser.ID);
+                var existingEmail= await db.Users.AnyAsync(u => u.Email == user.Email && user.ID!=existingUser.ID);
                 if (existingEmail)
                 {
                     return "Email already exists";

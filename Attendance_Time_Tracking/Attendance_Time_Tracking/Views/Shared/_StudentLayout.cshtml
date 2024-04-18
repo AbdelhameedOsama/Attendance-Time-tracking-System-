@@ -28,11 +28,17 @@
                     <div class="col d-flex flex-column">
                         <div class="row mt-4 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
-                                <i class="fa-solid fa-calendar fs-5 m-2" style="color: #ffffff;"></i>
-                                <a asp-action="Schedule" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Schedule</a>
+                                <i class="fa-solid fa-chalkboard-user fs-5 m-2" style="color: #ffffff;"></i>
+                                <a asp-action="Details" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Profile</a>
                             </div>
                         </div>
 
+                        <div class="row mt-2 mb-2">
+                            <div class="container-fluid col" id="leftSidebarLinks">
+                                <i class="fa-solid fa-calendar fs-5 m-2" style="color: #ffffff;"></i>
+                                <a asp-action="Schedule" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Schedule</a>
+                            </div>
+                        </div>  
 
 
                         <div class="row mt-2 mb-2">
@@ -53,12 +59,7 @@
 
 
 
-                        <div class="row mt-2 mb-2">
-                            <div class="container-fluid col" id="leftSidebarLinks">
-                                <i class="fa-solid fa-chalkboard-user fs-5 m-2" style="color: #ffffff;"></i>
-                                <a asp-action="Details" asp-controller="Student" class="text-white text-decoration-none fw-bold fs-5">Profile</a>
-                            </div>
-                        </div>
+                        
 
                         <div class="row mt-2 mb-2">
                             <div class="container-fluid col" id="leftSidebarLinks">
@@ -86,7 +87,7 @@
                     <div class="col-9 d-flex flex-column justify-content-evenly h-100">
                         <p class="text-white fs-5" id="dateTime">Current Date and time</p>
                         <div class="container">
-                            <p class="text-white fs-2 fw-bold m-0">Welcome back, @* @User.Identity.Name *@</p>
+                            <p class="text-white fs-2 fw-bold m-0">Welcome back, @User.Identity.Name </p>
                             <p class="text-white fs-6">Always stay updated in your student portal</p>
                         </div>
                     </div>
