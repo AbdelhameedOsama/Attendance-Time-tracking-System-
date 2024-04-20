@@ -57,7 +57,7 @@
         </div> <!--End of right hand side--> 
 
 </div> <!--End of Row-->
-    <div class="charts row row-cols-1 row-cols-md-2 row-cols-lg-2 g-2 text-center">
+    <div class="charts row row-cols-1 row-cols-md-2 row-cols-lg-2 g-2 text-center d-flex justify-content-around align-items-center">
         <div class="col">
             <canvas id="myChart"></canvas>
         </div>
@@ -71,51 +71,95 @@
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-               const ctxPie = document.getElementById('myPie');
-               const data = {
-                    labels: ['Red', 'Blue', 'Yellow'],
-                    datasets: [{
-                    label: 'My First Dataset',
-                    data: [300, 50, 100], 
-                    backgroundColor: [
-                                    'rgb(255, 99, 132)',
-                                    'rgb(54, 162, 235)',
-                                    'rgb(255, 205, 86)'
-                                     ],
-                            hoverOffset: 4 
-                        }]
-                    };
+        /**Pie chart and its about the percentage of attendance for all Students, all Employees, all Instructors */
 
-               const config = {
-                    type: 'pie',
-                    data: data,
-                    };
-
-                   var labels = ['PD', 'OS', 'AI', 'UI&Front', 'BackEnd', 'Full Stack']; // Example track names
-
-                    new Chart(ctxPie, config);
-
-                    const ctxBar = document.getElementById('myChart');
-                    new Chart(ctxBar, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                        label: '# of Tracks',
-                        data: [10, 20, 15, 30, 25, 35], // Example numerical data for each track
-                        backgroundColor: 'rgb(75, 192, 192)', // Background color for bars
-                        borderColor: 'rgb(75, 192, 192)', // Border color for bars
-                        borderWidth: 1
-                            }]
-                        },
-                    options: {
-                        scales: {
-                        y: {
-                 beginAtZero: true
+        const ctxPie = document.getElementById('myPie');
+        const dataPie = {
+            labels: ['Students', 'Instructors', 'Employees'],
+            datasets: [{
+                label: 'Attendance Percentage',
+                data: [@ViewBag.StudentPercentage, @ViewBag.InstructorPercentage, @ViewBag.EmployeePercentage],
+                backgroundColor: [
+                    '#9D282F',      
+                    '#03045e',
+                    '#B4B4B8'
+                ],
+                hoverOffset: 10
+            }]
+        };
+        const configPie = {
+            type: 'pie',
+            data: dataPie,
+            options: {
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: '% of attendance for Students, Instructors,and Employees',
+                        font: {
+                            size: 20
                         }
                     }
-                }
-            });
+                },
+                radius: 150, 
+            }
+        };
+
+        var myPieChart = new Chart(ctxPie, configPie);
+
+        /** Bar Chart here and its about number of students in each track*/
+        const ctxBar = document.getElementById('myChart');
+        const dataBar = {
+            labels: @Html.Raw(Json.Serialize(ViewBag.TrackNames)),
+            datasets: [{
+                label: '# of Students',
+                data: @Html.Raw(Json.Serialize(ViewBag.TrackCounts)),
+                backgroundColor: '#64CCC5',
+                borderColor: '#64CCC5',
+                borderWidth: 1
+            }]
+        };
+        const configBar = {
+            type: 'bar',
+            data: dataBar,
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '# of Students in each Track',
+                        font: {
+                            size: 20 
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tracks',
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: '# of Students',
+                            font: {
+                                size: 14
+                            }
+                        },
+                        beginAtZero: true
+                    }
+                },
+                barThickness: 30
+            }
+        };
+
+        var myBarChart = new Chart(ctxBar, configBar);
 
     </script>
 
