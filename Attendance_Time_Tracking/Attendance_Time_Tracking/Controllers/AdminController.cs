@@ -35,29 +35,35 @@ namespace Attendance_Time_Tracking.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.NoStudents=stdRepo.GetAll().Count();
-            ViewBag.NoInstructors=userRepo.GetAll().Where(a => a.Role==UserRole.Instructor || a.Role==UserRole.Supervisor).Count();
-            ViewBag.NoEmployees=empRepo.GetAllEmployees().Count();
-            ViewBag.NoTracks=trackRepo.GetAllTracks().Count();
-
             ViewBag.NoStudents=stdRepo.GetAll().ToList();
             ViewBag.NoInstructors=instructorRepo.GetAll().ToList();
             ViewBag.NoEmployees=empRepo.GetAllEmployees().ToList();
             ViewBag.NoTracks=trackRepo.GetAllTracks().ToList();
-           /* var trackStudentCounts = new Dictionary<string, int>();
+            var trackNames = trackRepo.GetAllTracks().Select(t => t.Name).ToList();
+            var trackCounts = new List<int>();
+
             foreach (var track in ViewBag.NoTracks)
             {
-                int studentCount = 0;
-                foreach (var student in ViewBag.NoStudents)
-                {
-                    if (student.TrackId == track.Id)
-                    {
-                        studentCount++;
-                    }
-                }
-                trackStudentCounts.Add(track.Name, studentCount);
+                int count = stdRepo.GetAll().Count(s => s.TrackId == track.ID);
+                trackCounts.Add(count);
             }
-            ViewBag.TrackStudentCounts = trackStudentCounts;*/
+
+            ViewBag.TrackNames = trackNames;
+            ViewBag.TrackCounts = trackCounts;
+
+            var totalUsers = userRepo.GetAll().Count();
+            var studentAttendance = stdRepo.GetAll().Count(); 
+            var instructorAttendance = userRepo.GetAll().Count(a => a.Role == UserRole.Instructor || a.Role == UserRole.Supervisor);
+            var employeeAttendance = empRepo.GetAllEmployees().Count();
+
+            var studentPercentage = (double)studentAttendance / totalUsers * 100;
+            var instructorPercentage = (double)instructorAttendance / totalUsers * 100;
+            var employeePercentage = (double)employeeAttendance / totalUsers * 100;
+
+            ViewBag.StudentPercentage = studentPercentage;
+            ViewBag.InstructorPercentage = instructorPercentage;
+            ViewBag.EmployeePercentage = employeePercentage;
+
             return View();
         }
 
@@ -99,7 +105,7 @@ namespace Attendance_Time_Tracking.Controllers
             }
             return RedirectToAction("AdminStudents");
         }
-        #endregion
+        
 
 
         [HttpPost]
@@ -134,6 +140,7 @@ namespace Attendance_Time_Tracking.Controllers
             return RedirectToAction("AdminStudents");
 
         }
+        #endregion
 
         #region Instructor
         //================Instructor==============
